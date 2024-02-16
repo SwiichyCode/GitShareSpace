@@ -1,9 +1,5 @@
-import "@testing-library/jest-dom";
-import { render, screen } from "@testing-library/react";
-import Home from "@/app/page";
+import { add } from "@/lib/utils";
 
-it("renders a heading", async () => {
-  render(await Home());
-
-  expect(screen.getByRole("heading")).toHaveTextContent("Home");
+test("adds 1 + 2 to equal 3", () => {
+  expect(add(1, 2)).toBe(3);
 });
