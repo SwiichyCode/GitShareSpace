@@ -8,17 +8,21 @@ class OctokitService {
     this.octokit = octokit;
   }
 
-  async getRepo(owner: string, repo: string) {
-    return await this.octokit.request("GET /repos/{owner}/{repo}", {
-      owner,
-      repo,
-    });
-  }
+  async getRepository(url: string) {
+    try {
+      const [owner, repo] = url.split("/").slice(-2);
 
-  async getUserRepos(username: string) {
-    return await this.octokit.request("GET /users/{username}/repos", {
-      username,
-    });
+      if (!owner || !repo) {
+        throw new Error("Invalid repository URL");
+      }
+
+      return await this.octokit.request("GET /repos/{owner}/{repo}", {
+        owner,
+        repo,
+      });
+    } catch (error) {
+      if (error instanceof Error) return console.log(error.message);
+    }
   }
 }
 

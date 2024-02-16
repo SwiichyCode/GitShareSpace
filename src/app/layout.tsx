@@ -1,5 +1,5 @@
 import "@/styles/globals.css";
-
+import { Toaster } from "@/components/atoms/toaster";
 import { Inter } from "next/font/google";
 import TanstackProvider from "@/providers/TanstackProvider";
 
@@ -23,6 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`font-sans ${inter.variable}`}>
         <TanstackProvider>{children}</TanstackProvider>
+        <Toaster />
       </body>
     </html>
   );
