@@ -2,6 +2,7 @@ import "@/styles/globals.css";
 import { Toaster } from "@/components/atoms/toaster";
 import { Inter } from "next/font/google";
 import TanstackProvider from "@/providers/TanstackProvider";
+import { Header } from "@/components/organisms/_forms/Header";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -21,8 +22,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`font-sans ${inter.variable}`}>
-        <TanstackProvider>{children}</TanstackProvider>
+      <body className={`font-sans ${inter.variable} bg-default text-default`}>
+        <TanstackProvider>
+          <Header />
+          {children}
+        </TanstackProvider>
         <Toaster />
       </body>
     </html>
