@@ -29,6 +29,7 @@ export const RepositoryGrid = async () => {
               <Link
                 href={repository.url}
                 className="w-48 truncate text-sm font-semibold hover:text-[#2F81F7] hover:underline"
+                target="_blank"
               >
                 {repository.ownerUsername}/{repository.repositoryName}
               </Link>
