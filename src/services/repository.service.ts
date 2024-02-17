@@ -1,6 +1,7 @@
 import { db } from "@/server/db";
 import octokitService from "./octokit.service";
 import { ERROR_MESSAGE } from "@/constants";
+import { Account } from "next-auth";
 
 type postRepositoryData = {
   url: string;
@@ -85,6 +86,42 @@ class RepositoryService {
         topics: true,
       },
     });
+  }
+
+  async updateRepositoryAlreadyStarred(
+    userId: string,
+    repositoryUrl: string[],
+  ) {
+    await db.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        repositoryAlreadyStarred: {
+          set: repositoryUrl,
+        },
+      },
+    });
+  }
+
+  async syncStarredRepositories(userId: string, account: Account | null) {
+    const githubUser = await octokitService.getUser(account?.providerAccountId);
+
+    if (!githubUser) {
+      throw new Error(ERROR_MESSAGE.GITHUB_USER_NOT_FOUND);
+    }
+
+    const starredRepositories =
+      //eslint-disable-next-line
+      await octokitService.getStaredRepositoriesByUser(githubUser.data.login);
+
+    if (starredRepositories) {
+      await this.updateRepositoryAlreadyStarred(
+        userId,
+        //eslint-disable-next-line
+        starredRepositories.data.map((repo: any) => repo.html_url),
+      );
+    }
   }
 }
 
