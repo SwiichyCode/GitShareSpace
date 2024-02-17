@@ -45,11 +45,11 @@ export const RepositoryGrid = async () => {
             <div className="flex items-center space-x-1">
               <div
                 className={cn("h-3 w-3 rounded-full")}
-                style={{
-                  backgroundColor: handleColorByLanguage(
-                    formatLanguageToLowerCase(repository.language.name),
-                  ),
-                }}
+                // style={{
+                //   backgroundColor: handleColorByLanguage(
+                //     formatLanguageToLowerCase(repository.language.name),
+                //   ),
+                // }}
               />
               <span>{repository.language.name}</span>
             </div>
