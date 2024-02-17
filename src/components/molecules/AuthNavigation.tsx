@@ -1,10 +1,13 @@
 import { getServerAuthSession } from "@/server/auth";
 import { LoginButton } from "@/components/molecules/LoginButton";
 import { ProfileAvatar } from "@/components/molecules/Avatar";
+import { Session } from "next-auth";
 
-export const AuthNavigation = async () => {
-  const session = await getServerAuthSession();
+type Props = {
+  session: Session | null;
+};
 
+export const AuthNavigation = async ({ session }: Props) => {
   return (
     <div className="flex items-center space-x-2">
       {!session && <LoginButton />}

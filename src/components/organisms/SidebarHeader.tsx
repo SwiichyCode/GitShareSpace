@@ -15,8 +15,10 @@ export const SidebarHeader = async ({ session }: Props) => {
         />
       )}
       <div className="flex flex-col">
-        <span className="text-base font-bold">{session?.user.name}</span>
-        <span className="text-sm">{session?.user.email}</span>
+        <span className="w-36 truncate text-base font-bold">
+          {session?.user.name}
+        </span>
+        <span className="w-36 truncate text-sm">{session?.user.email}</span>
       </div>
     </div>
   );

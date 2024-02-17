@@ -36,6 +36,8 @@ export const AddRepositoryForm = () => {
           title: "Repository added",
           description: "The repository has been added successfully",
         });
+
+        setOpen(false);
       }
 
       if (response.data?.error) {

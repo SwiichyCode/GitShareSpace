@@ -43,14 +43,14 @@ export const RepositoryGrid = async () => {
           {/* Footer Card */}
           <div className="flex space-x-4 text-xs text-[#848D97]">
             <div className="flex items-center space-x-1">
-              <div
+              {/* <div
                 className={cn("h-3 w-3 rounded-full")}
-                // style={{
-                //   backgroundColor: handleColorByLanguage(
-                //     formatLanguageToLowerCase(repository.language.name),
-                //   ),
-                // }}
-              />
+                style={{
+                  backgroundColor: handleColorByLanguage(
+                    formatLanguageToLowerCase(repository.language.name),
+                  ),
+                }}
+              /> */}
               <span>{repository.language.name}</span>
             </div>
             <div className="flex space-x-1">
