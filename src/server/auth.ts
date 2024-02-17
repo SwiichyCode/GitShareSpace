@@ -8,6 +8,8 @@ import GithubProvider from "next-auth/providers/github";
 
 import { env } from "@/env";
 import { db } from "@/server/db";
+import octokitService from "@/services/octokit.service";
+import userService from "@/services/user.service";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -37,13 +39,43 @@ declare module "next-auth" {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
-    }),
+    async session({ session, user }) {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: user.id,
+        },
+      };
+    },
+
+    async signIn({ user, account }) {
+      const githubUser = await octokitService.getUser(
+        account?.providerAccountId,
+      );
+
+      if (!githubUser) {
+        console.log("User not found");
+        return false;
+      }
+
+      const starredRepositories =
+        //eslint-disable-next-line
+        await octokitService.getStaredRepositoriesByUser(githubUser.data.login);
+
+      if (!starredRepositories) {
+        console.log("Starred repositories not found");
+        return false;
+      }
+
+      await userService.updateRepositoryAlreadyStarred(
+        user.id,
+        //eslint-disable-next-line
+        starredRepositories.data.map((repo: any) => repo.html_url),
+      );
+
+      return true;
+    },
   },
   adapter: PrismaAdapter(db),
   providers: [

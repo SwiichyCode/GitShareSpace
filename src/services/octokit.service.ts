@@ -34,6 +34,16 @@ class OctokitService {
       if (error instanceof Error) return console.log(error.message);
     }
   }
+
+  async getStaredRepositoriesByUser(username: string) {
+    try {
+      return await this.octokit.request("GET /users/{username}/starred", {
+        username,
+      });
+    } catch (error) {
+      if (error instanceof Error) return console.log(error.message);
+    }
+  }
 }
 
 const octokitService = new OctokitService(octokit);

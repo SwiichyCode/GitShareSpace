@@ -55,15 +55,16 @@ model Session {
 }
 
 model User {
-    id            String       @id @default(cuid())
-    name          String?
-    email         String?      @unique
-    emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
-    posts         Post[]
-    repositories  Repository[]
+    id                       String       @id @default(cuid())
+    name                     String?
+    email                    String?      @unique
+    emailVerified            DateTime?
+    repositoryAlreadyStarred String[]
+    image                    String?
+    accounts                 Account[]
+    sessions                 Session[]
+    posts                    Post[]
+    repositories             Repository[]
 }
 
 model VerificationToken {

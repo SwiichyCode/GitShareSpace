@@ -1,5 +1,6 @@
 import { db } from "@/server/db";
 import octokitService from "./octokit.service";
+import { ERROR_MESSAGE } from "@/constants";
 
 type postRepositoryData = {
   url: string;
@@ -12,13 +13,13 @@ class RepositoryService {
     const octokitResponse = await octokitService.getRepository(data.url);
 
     if (!octokitResponse) {
-      throw new Error("Repository does not exist");
+      throw new Error(ERROR_MESSAGE.REPOSITORY_NOT_EXIST);
     }
 
-    const repositoryResponse = await this.getRepository(data.url);
+    const repositoryExist = await this.getRepository(data.url);
 
-    if (repositoryResponse) {
-      throw new Error("Repository already exists");
+    if (repositoryExist) {
+      throw new Error(ERROR_MESSAGE.REPOSITORY_ALREADY_EXIST);
     }
 
     return await db.repository.create({
@@ -72,6 +73,16 @@ class RepositoryService {
     return await db.repository.findFirst({
       where: {
         url,
+      },
+    });
+  }
+
+  async getRepositories() {
+    return await db.repository.findMany({
+      include: {
+        createdBy: true,
+        language: true,
+        topics: true,
       },
     });
   }
