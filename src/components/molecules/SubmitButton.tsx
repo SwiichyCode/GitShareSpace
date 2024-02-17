@@ -6,5 +6,9 @@ type Props = {
 };
 
 export const SubmitButton = ({ isPending, children }: Props) => {
-  return <Button type="submit">{isPending ? "Loading..." : children}</Button>;
+  return (
+    <Button type="submit" variant={"success"}>
+      {isPending ? "Loading..." : children}
+    </Button>
+  );
 };

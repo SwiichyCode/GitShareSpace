@@ -3,6 +3,7 @@ import octokitService from "./octokit.service";
 
 type postRepositoryData = {
   url: string;
+  description?: string;
   createdBy: string;
 };
 
@@ -23,6 +24,7 @@ class RepositoryService {
     return await db.repository.create({
       data: {
         url: data.url,
+        description: data.description,
         repositoryId: octokitResponse.data.id,
         repositoryName: octokitResponse.data.name,
         repositoryDescription: octokitResponse.data.description,

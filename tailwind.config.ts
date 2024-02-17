@@ -44,6 +44,9 @@ const config = {
       boxShadow: {
         overlay: "0 0 0 1px #30363d, 0 16px 32px rgba(1,4,9,0.85)",
       },
+      borderColor: {
+        default: "#21262D",
+      },
 
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",

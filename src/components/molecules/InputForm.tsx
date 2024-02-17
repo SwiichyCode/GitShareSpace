@@ -6,6 +6,7 @@ import {
   FormLabel,
   FormMessage,
   FormControl,
+  FormDescription,
 } from "@/components/atoms/form";
 
 export interface InputProps
@@ -13,10 +14,11 @@ export interface InputProps
   control: any;
   name: string;
   label: string;
+  description?: string;
 }
 
 const InputForm = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, control, name, label, ...props }, ref) => {
+  ({ className, type, control, name, label, description, ...props }, ref) => {
     return (
       <FormField
         control={control}
@@ -27,6 +29,8 @@ const InputForm = React.forwardRef<HTMLInputElement, InputProps>(
             <FormControl>
               <Input {...field} ref={ref} type={type} {...props} />
             </FormControl>
+
+            {description && <FormDescription>{description}</FormDescription>}
 
             <FormMessage className=" text-red-500" />
           </FormItem>
