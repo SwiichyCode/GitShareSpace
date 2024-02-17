@@ -75,14 +75,46 @@ model VerificationToken {
 }
 
 model Repository {
-    id        Int      @id @default(autoincrement())
-    url       String
-    likes     Int      @default(0)
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    createdBy   User   @relation(fields: [createdById], references: [id])
-    createdById String
+    id                    Int      @id @default(autoincrement())
+    url                   String
+    repositoryId          Int
+    repositoryName        String
+    repositoryDescription String?
+    repositoryStargazers  Int
+    repositoryCreatedAt   DateTime
+    repositoryUpdatedAt   DateTime
+    likes                 Int      @default(0)
+    is_template           Boolean  @default(false)
+    ownerId               Int
+    ownerUsername         String
+    ownerAvatarUrl        String
+    createdAt             DateTime @default(now())
+    updatedAt             DateTime @updatedAt
+    createdBy             User     @relation(fields: [createdById], references: [id])
+    createdById           String
+    languageId            Int
+    language              Language @relation(fields: [languageId], references: [id])
+    // topicId               Int
+    // topics                Topic?   @relation(fields: [topicId], references: [id])
+    topics                Topic[]
 
     @@index([url])
+}
+
+model Language {
+    id           Int          @id @default(autoincrement())
+    name         String       @unique
+    createdAt    DateTime     @default(now())
+    updatedAt    DateTime     @updatedAt
+    repositories Repository[]
+}
+
+model Topic {
+    id           Int        @id @default(autoincrement())
+    name         String     @unique
+    createdAt    DateTime   @default(now())
+    updatedAt    DateTime   @updatedAt
+    // Repository Repository[]
+    repositoryId Int // This creates a foreign key to Repository
+    repository   Repository @relation(fields: [repositoryId], references: [id]) // This creates a one-to-one relation with Repository
 }
