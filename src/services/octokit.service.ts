@@ -8,6 +8,16 @@ class OctokitService {
     this.octokit = octokit;
   }
 
+  async getUser(userId: string | undefined) {
+    try {
+      return await this.octokit.request("GET /user/{userId}", {
+        userId,
+      });
+    } catch (error) {
+      if (error instanceof Error) return console.log(error.message);
+    }
+  }
+
   async getRepository(url: string) {
     try {
       const [owner, repo] = url.split("/").slice(-2);

@@ -32,11 +32,17 @@ const config = {
         default: "#0D1117",
         overlay: "#161B22",
         inset: "#010409",
+        subtle: "#6E7781",
+        subtleHover: "#292F36",
         success: "#238636",
         successHover: "#2EA043",
       },
       textColor: {
         default: "#E6EDF3",
+        subtle: "#6E7781",
+      },
+      boxShadow: {
+        overlay: "0 0 0 1px #30363d, 0 16px 32px rgba(1,4,9,0.85)",
       },
 
       animation: {

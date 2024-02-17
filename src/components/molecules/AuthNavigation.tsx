@@ -1,7 +1,7 @@
-import { LoginButton } from "./LoginButton";
 import { getServerAuthSession } from "@/server/auth";
-import { LogoutButton } from "./LogoutButton";
-import { Avatar, AvatarFallback, AvatarImage } from "../atoms/avatar";
+import { LoginButton } from "@/components/molecules/LoginButton";
+import { LogoutButton } from "@/components/molecules/LogoutButton";
+import { ProfileAvatar } from "@/components/molecules/Avatar";
 
 export const AuthNavigation = async () => {
   const session = await getServerAuthSession();
@@ -9,13 +9,7 @@ export const AuthNavigation = async () => {
   return (
     <div className="flex items-center space-x-2">
       {!session && <LoginButton />} {session && <LogoutButton />}
-      <Avatar className="cursor-pointer">
-        <AvatarImage
-          src={session?.user.image ?? ""}
-          alt={session?.user.name ?? ""}
-        />
-        <AvatarFallback></AvatarFallback>
-      </Avatar>
+      <ProfileAvatar session={session} />
     </div>
   );
 };
