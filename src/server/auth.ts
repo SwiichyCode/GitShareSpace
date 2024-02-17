@@ -50,7 +50,9 @@ export const authOptions: NextAuthOptions = {
     },
 
     async signIn({ user, account }) {
-      await repositoryService.syncStarredRepositories(user.id, account);
+      if (account) {
+        await repositoryService.syncStarredRepositories(user.id, account);
+      }
 
       return true;
     },
