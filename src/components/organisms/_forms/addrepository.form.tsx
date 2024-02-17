@@ -56,6 +56,7 @@ export const AddRepositoryForm = () => {
               control={form.control}
               name="url"
               label="Repository URL"
+              placeholder="https://github.com/username/repository"
               description="You cannot add a private repository."
             />
             <TextAreaForm

@@ -4,21 +4,17 @@ import { useSidebar } from "@/stores/useSidebar";
 import type { Session } from "next-auth";
 
 type Props = {
-  session: Session | null;
+  pictureUrl?: string;
+  alt?: string;
 };
 
-export const ProfileAvatar = ({ session }: Props) => {
+export const ProfileAvatar = ({ pictureUrl, alt }: Props) => {
   const { setOpen } = useSidebar();
 
   return (
-    session && (
-      <Avatar className="cursor-pointer" onClick={() => setOpen(true)}>
-        <AvatarImage
-          src={session?.user.image ?? ""}
-          alt={session?.user.name ?? ""}
-        />
-        <AvatarFallback></AvatarFallback>
-      </Avatar>
-    )
+    <Avatar className="cursor-pointer" onClick={() => setOpen(true)}>
+      <AvatarImage src={pictureUrl} alt={alt} />
+      <AvatarFallback></AvatarFallback>
+    </Avatar>
   );
 };

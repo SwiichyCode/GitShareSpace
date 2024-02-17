@@ -8,7 +8,12 @@ type Props = {
 export const SidebarHeader = async ({ session }: Props) => {
   return (
     <div className="flex items-center gap-2">
-      <ProfileAvatar session={session} />
+      {session && (
+        <ProfileAvatar
+          pictureUrl={session.user.image ?? ""}
+          alt={session.user.name ?? ""}
+        />
+      )}
       <div className="flex flex-col">
         <span className="text-base font-bold">{session?.user.name}</span>
         <span className="text-sm">{session?.user.email}</span>

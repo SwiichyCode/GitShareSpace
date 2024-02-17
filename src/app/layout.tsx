@@ -23,7 +23,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`font-sans ${inter.variable} bg-default text-default`}>
+      <body className={`font-sans ${inter.variable} bg-inset text-default`}>
         <TanstackProvider>
           <Header />
           <Sidebar />

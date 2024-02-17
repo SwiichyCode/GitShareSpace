@@ -46,6 +46,7 @@ const config = {
       },
       borderColor: {
         default: "#21262D",
+        card: "#30363D",
       },
 
       animation: {

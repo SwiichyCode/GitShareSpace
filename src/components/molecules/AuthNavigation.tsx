@@ -8,7 +8,12 @@ export const AuthNavigation = async () => {
   return (
     <div className="flex items-center space-x-2">
       {!session && <LoginButton />}
-      <ProfileAvatar session={session} />
+      {session && (
+        <ProfileAvatar
+          pictureUrl={session?.user.image ?? ""}
+          alt={session?.user.name ?? ""}
+        />
+      )}
     </div>
   );
 };
