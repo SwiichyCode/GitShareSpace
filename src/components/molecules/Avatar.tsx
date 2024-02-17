@@ -1,7 +1,7 @@
 "use client";
+import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/atoms/avatar";
 import { useSidebar } from "@/stores/useSidebar";
-import type { Session } from "next-auth";
 
 type Props = {
   pictureUrl?: string;
@@ -13,7 +13,13 @@ export const ProfileAvatar = ({ pictureUrl, alt }: Props) => {
 
   return (
     <Avatar className="cursor-pointer" onClick={() => setOpen(true)}>
-      <AvatarImage src={pictureUrl} alt={alt} />
+      <Image
+        src={pictureUrl ?? ""}
+        width={40}
+        height={40}
+        alt={alt ?? ""}
+        className="relative flex aspect-square h-10 w-10 shrink-0 overflow-hidden rounded-full"
+      />
       <AvatarFallback></AvatarFallback>
     </Avatar>
   );

@@ -1,6 +1,7 @@
 import { Logo } from "@/components/atoms/logo";
 import { AuthNavigation } from "@/components/molecules/AuthNavigation";
-import { ShareButton } from "../molecules/ShareButton";
+import { ShareButton } from "@/components/molecules/ShareButton";
+import { GithubLink } from "@/components/molecules/GithubLink";
 import { getServerAuthSession } from "@/server/auth";
 
 export const Header = async () => {
@@ -11,8 +12,8 @@ export const Header = async () => {
       <Logo />
 
       <div className="flex items-center space-x-4">
+        <GithubLink />
         <ShareButton session={session} />
-
         <AuthNavigation session={session} />
       </div>
     </header>

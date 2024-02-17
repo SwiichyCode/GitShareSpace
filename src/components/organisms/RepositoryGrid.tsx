@@ -14,15 +14,13 @@ export const RepositoryGrid = async () => {
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
       {repositories.map((repository) => (
-        // Card
         <div
           key={repository.id}
           className="border-card overflow-hidden rounded-md border bg-default p-2 shadow"
         >
-          {/* Header Card */}
           <div className="flex items-center gap-2">
             <ProfileAvatar
-              pictureUrl={repository.ownerAvatarUrl}
+              pictureUrl={`${repository.ownerAvatarUrl}?size=40`}
               alt={repository.ownerUsername}
             />
             <div className="flex flex-col">
@@ -36,8 +34,6 @@ export const RepositoryGrid = async () => {
               <span className="text-xs">
                 Published by {repository.createdBy.name}
               </span>
-              {/* <span className="text-base font-bold">{session?.user.name}</span>
-        <span className="text-sm">{session?.user.email}</span> */}
             </div>
           </div>
 

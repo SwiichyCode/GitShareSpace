@@ -3,6 +3,7 @@ export const URL = {
   PROFILE: "/profile",
   SHARE: "/share",
   STARS: "/stars",
+  REPO: "https://github.com/SwiichyCode/GitShareSpace",
 };
 
 export const ERROR_MESSAGE = {
