@@ -1,6 +1,8 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { type LanguageType, languageTypeSchema } from "./types";
+import { User } from "@prisma/client";
+import { Repository } from "@/types/prisma.type";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -36,4 +38,22 @@ export function handleColorByLanguage(language: LanguageType) {
     default:
       return "bg-gray-500";
   }
+}
+
+export function getRepositoryAlreadyStarred(
+  repositories: Repository[],
+  user: User | null,
+) {
+  const repositoriesFromDatabase = repositories.map(
+    (repository) => repository.url,
+  );
+  const repositoriesFromUser = user?.repositoryAlreadyStarred.map(
+    (repository) => repository,
+  );
+  const alreadyStarred = repositoriesFromUser?.filter(
+    (repositoryAlreadyStarred) =>
+      repositoriesFromDatabase.includes(repositoryAlreadyStarred),
+  );
+
+  return alreadyStarred;
 }

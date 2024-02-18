@@ -10,7 +10,7 @@ export const Home = async () => {
 
   return (
     <div className="p-8">
-      <RepositoryGrid />
+      <RepositoryGrid user={user} />
 
       {user && <DataSharingAgreementForm user={user} />}
       <AddRepositoryForm />
