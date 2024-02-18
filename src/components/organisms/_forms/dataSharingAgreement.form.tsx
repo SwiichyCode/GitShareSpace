@@ -20,7 +20,7 @@ import type { User } from "@prisma/client";
 import type { z } from "zod";
 
 type Props = {
-  user: User | null;
+  user: User;
 };
 
 export const DataSharingAgreementForm = ({ user }: Props) => {
