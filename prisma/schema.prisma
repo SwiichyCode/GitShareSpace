@@ -61,6 +61,8 @@ model User {
     emailVerified            DateTime?
     repositoryAlreadyStarred String[]
     image                    String?
+    firstConnection          Boolean      @default(true)
+    dataSharingAgreement     Boolean      @default(false)
     accounts                 Account[]
     sessions                 Session[]
     posts                    Post[]

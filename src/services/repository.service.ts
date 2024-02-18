@@ -1,7 +1,7 @@
 import { db } from "@/server/db";
 import octokitService from "./octokit.service";
 import { ERROR_MESSAGE } from "@/constants";
-import { Account } from "next-auth";
+import type { Account } from "next-auth";
 
 type postRepositoryData = {
   url: string;

@@ -1,13 +1,21 @@
+import { type VariantProps } from "class-variance-authority";
 import { Button } from "@/components/atoms/button";
+import type { buttonVariants } from "@/components/atoms/button";
 
-type Props = {
-  isPending: boolean;
-  children: React.ReactNode;
-};
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
+  isPending?: boolean;
+  asChild?: boolean;
+}
 
-export const SubmitButton = ({ isPending, children }: Props) => {
+export const SubmitButton = ({
+  isPending,
+  children,
+  ...props
+}: ButtonProps) => {
   return (
-    <Button type="submit" variant={"success"}>
+    <Button type="submit" variant={"success"} {...props}>
       {isPending ? "Loading..." : children}
     </Button>
   );

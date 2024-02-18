@@ -8,7 +8,6 @@ import GithubProvider from "next-auth/providers/github";
 
 import { env } from "@/env";
 import { db } from "@/server/db";
-import octokitService from "@/services/octokit.service";
 import repositoryService from "@/services/repository.service";
 
 /**

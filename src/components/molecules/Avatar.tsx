@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/atoms/avatar";
+import { Avatar, AvatarFallback } from "@/components/atoms/avatar";
 import { useSidebar } from "@/stores/useSidebar";
 
 type Props = {

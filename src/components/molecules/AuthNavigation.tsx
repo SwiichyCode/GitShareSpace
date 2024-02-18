@@ -1,7 +1,6 @@
-import { getServerAuthSession } from "@/server/auth";
 import { LoginButton } from "@/components/molecules/LoginButton";
 import { ProfileAvatar } from "@/components/molecules/Avatar";
-import { Session } from "next-auth";
+import type { Session } from "next-auth";
 
 type Props = {
   session: Session | null;
