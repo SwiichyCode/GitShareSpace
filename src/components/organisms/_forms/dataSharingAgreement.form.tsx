@@ -29,7 +29,7 @@ export const DataSharingAgreementForm = ({ user }: Props) => {
   const [checked, setChecked] = useState(false);
 
   useEffect(() => {
-    setOpen(!user?.dataSharingAgreement);
+    setOpen(user?.firstConnection);
   }, [user?.dataSharingAgreement]);
 
   const form = useForm<z.infer<typeof dataSharingAgreementSchema>>({
