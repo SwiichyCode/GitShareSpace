@@ -8,7 +8,7 @@ export const RepositoryCardDescription = ({ repository }: Props) => {
   return (
     <>
       <p className="w-full truncate text-sm">
-        <span>Github descriptionn:</span>{" "}
+        <span>Github description:</span>{" "}
         {repository.repositoryDescription ?? "No description provided"}
       </p>
       <p className="w-full truncate text-sm">

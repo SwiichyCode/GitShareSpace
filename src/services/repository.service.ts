@@ -85,9 +85,8 @@ class RepositoryService {
         language: true,
         topics: true,
       },
-
       orderBy: {
-        repositoryStargazers: "asc",
+        id: "desc",
       },
     });
   }
