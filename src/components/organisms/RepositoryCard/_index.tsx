@@ -1,14 +1,20 @@
 import { RepositoryCardHeader } from "./RepositoryCardHeader";
 import { RepositoryCardDescription } from "./RepositoryCardDescription";
 import { RepositoryCardFooter } from "./RepositoryCardFooter";
+import type { User } from "@/types/prisma.type";
 import type { Repository } from "@/types/prisma.type";
+import { Like } from "@prisma/client";
 
 type Props = {
+  user: User | null;
+  likes: Like[];
   repository: Repository;
   repositoriesAlreadyStarred?: string[];
 };
 
 export const RepositoryCard = ({
+  user,
+  likes,
   repository,
   repositoriesAlreadyStarred,
 }: Props) => {
@@ -19,6 +25,8 @@ export const RepositoryCard = ({
         <RepositoryCardDescription repository={repository} />
 
         <RepositoryCardFooter
+          user={user}
+          likes={likes}
           repository={repository}
           repositoriesAlreadyStarred={repositoriesAlreadyStarred}
         />

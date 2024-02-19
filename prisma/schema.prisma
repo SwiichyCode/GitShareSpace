@@ -67,6 +67,7 @@ model User {
     sessions                 Session[]
     posts                    Post[]
     repositories             Repository[]
+    likes                    Like[]
 }
 
 model VerificationToken {
@@ -87,7 +88,6 @@ model Repository {
     repositoryStargazers  Int
     repositoryCreatedAt   DateTime
     repositoryUpdatedAt   DateTime
-    likes                 Int      @default(0)
     is_template           Boolean  @default(false)
     ownerId               Int
     ownerUsername         String
@@ -99,8 +99,19 @@ model Repository {
     languageId            Int
     language              Language @relation(fields: [languageId], references: [id])
     topics                Topic[]
+    likes                 Like[]
 
     @@index([url])
+}
+
+model Like {
+    id           Int        @id @default(autoincrement())
+    createdAt    DateTime   @default(now())
+    updatedAt    DateTime   @updatedAt
+    repositoryId Int
+    repository   Repository @relation(fields: [repositoryId], references: [id])
+    userId       String
+    user         User       @relation(fields: [userId], references: [id])
 }
 
 model Language {

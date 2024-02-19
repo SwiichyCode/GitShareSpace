@@ -6,6 +6,9 @@ class UserService {
       where: {
         id: userId,
       },
+      include: {
+        likes: true,
+      },
     });
   }
 

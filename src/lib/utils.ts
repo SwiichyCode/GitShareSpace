@@ -1,8 +1,9 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { type LanguageType, languageTypeSchema } from "./types";
-import { User } from "@prisma/client";
-import { Repository } from "@/types/prisma.type";
+import type { User } from "@/types/prisma.type";
+import type { Repository } from "@/types/prisma.type";
+import type { Like } from "@prisma/client";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -57,3 +58,43 @@ export function getRepositoryAlreadyStarred(
 
   return alreadyStarred;
 }
+
+export const handleAlreadyStarredColor = (
+  repositoriesAlreadyStarred: string[] | undefined,
+  repository: Repository,
+) => {
+  if (repositoriesAlreadyStarred) {
+    return repositoriesAlreadyStarred.map((r) => {
+      if (r === repository.url) return "text-[#E3B341]";
+    });
+  }
+};
+
+export const handleColorByLike = (
+  user: User | null,
+  repository: Repository,
+) => {
+  const liked = user?.likes.map((like) => {
+    if (like.repositoryId === repository.id) {
+      return like;
+    }
+  });
+
+  const filterLiked = liked?.filter((like) => like !== undefined);
+
+  if (filterLiked?.length) {
+    return "text-[#FF3E6C]";
+  }
+};
+
+export const handleLikeCount = (likes: Like[], repository: Repository) => {
+  const liked = likes.map((like) => {
+    if (like.repositoryId === repository.id) {
+      return like;
+    }
+  });
+
+  const filterLiked = liked.filter((like) => like !== undefined);
+
+  return filterLiked.length;
+};
