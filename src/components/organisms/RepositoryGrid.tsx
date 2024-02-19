@@ -16,8 +16,6 @@ export const RepositoryGrid = async ({ user }: Props) => {
     user,
   );
 
-  console.log(repositories.map((repository) => repository.id));
-
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
       {repositories.map((repository) => (
