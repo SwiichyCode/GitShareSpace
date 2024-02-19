@@ -8,6 +8,7 @@ import {
 import { handleAlreadyStarredColor } from "@/lib/utils";
 import { handleColorByLike } from "@/lib/utils";
 import { handleLikeCount } from "@/lib/utils";
+import { formatNumber } from "@/lib/utils";
 import type { Repository } from "@/types/prisma.type";
 import type { User } from "@/types/prisma.type";
 import type { Like } from "@prisma/client";
@@ -48,9 +49,11 @@ export const RepositoryCardFooter = ({
   return (
     <div className="flex justify-between space-x-4 text-xs text-[#848D97]">
       <div className="flex space-x-4">
-        <div className="flex items-center space-x-1">
-          <span>{repository.language.name}</span>
-        </div>
+        {repository.language.name && (
+          <div className="flex items-center space-x-1">
+            <span>{repository.language.name}</span>
+          </div>
+        )}
         <div className="flex items-center space-x-1">
           <Star
             className={cn(
@@ -58,7 +61,7 @@ export const RepositoryCardFooter = ({
               handleAlreadyStarredColor(repositoriesAlreadyStarred, repository),
             )}
           />
-          <span>{repository.repositoryStargazers}</span>
+          <span>{formatNumber(repository.repositoryStargazers)}</span>
         </div>
       </div>
       <form
@@ -73,7 +76,7 @@ export const RepositoryCardFooter = ({
             )}
           />
         </button>
-        <span>{handleLikeCount(likes, repository)}</span>
+        <span>{formatNumber(handleLikeCount(likes, repository))}</span>
       </form>
     </div>
   );
