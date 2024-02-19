@@ -20,3 +20,16 @@ export const likeRepository = userAction(
     revalidatePath("/");
   },
 );
+
+export const unlikeRepository = userAction(
+  likeRepositorySchema,
+  async (data, ctx) => {
+    try {
+      await likeService.unlikeRepository(ctx.userId!, data.repositoryId);
+    } catch (error) {
+      if (error instanceof Error) return { error: error.message };
+    }
+
+    revalidatePath("/");
+  },
+);

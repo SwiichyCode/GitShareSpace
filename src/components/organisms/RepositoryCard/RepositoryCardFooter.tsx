@@ -1,7 +1,10 @@
 "use client";
 import { Star, Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { likeRepository } from "@/actions/likerepository.action";
+import {
+  likeRepository,
+  unlikeRepository,
+} from "@/actions/likerepository.action";
 import { handleAlreadyStarredColor } from "@/lib/utils";
 import { handleColorByLike } from "@/lib/utils";
 import { handleLikeCount } from "@/lib/utils";
@@ -27,9 +30,19 @@ export const RepositoryCardFooter = ({
   const handleLikeRepository = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    await likeRepository({
-      repositoryId: repository.id,
-    });
+    const hasLiked = likes.some(
+      (like) => like.userId === user?.id && like.repositoryId === repository.id,
+    );
+
+    if (hasLiked) {
+      await unlikeRepository({
+        repositoryId: repository.id,
+      });
+    } else {
+      await likeRepository({
+        repositoryId: repository.id,
+      });
+    }
   };
 
   return (

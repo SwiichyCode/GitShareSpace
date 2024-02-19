@@ -21,6 +21,15 @@ class LikeService {
       },
     });
   }
+
+  async unlikeRepository(userId: string, repositoryId: number) {
+    await db.like.deleteMany({
+      where: {
+        userId: userId,
+        repositoryId: repositoryId,
+      },
+    });
+  }
 }
 
 const likeService = new LikeService();
