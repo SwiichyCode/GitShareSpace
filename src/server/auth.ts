@@ -20,15 +20,17 @@ declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;
+      firstConnection: boolean;
       // ...other properties
       // role: UserRole;
     } & DefaultSession["user"];
   }
 
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
+  interface User {
+    // ...other properties
+    // role: UserRole;
+    firstConnection: boolean;
+  }
 }
 
 /**
@@ -44,13 +46,14 @@ export const authOptions: NextAuthOptions = {
         user: {
           ...session.user,
           id: user.id,
+          firstConnection: user.firstConnection,
         },
       };
     },
 
     async signIn({ user, account }) {
-      if (user.id || account?.userId) {
-        // console.log("Syncing starred repositories for user:", user.id);
+      if (user.id && user.firstConnection === false) {
+        console.log("syncing starred repositories");
         await repositoryService.syncStarredRepositories(user.id, account);
       }
 
