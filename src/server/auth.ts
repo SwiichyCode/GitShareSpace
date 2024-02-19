@@ -38,7 +38,7 @@ declare module "next-auth" {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    async session({ session, user }) {
+    session({ session, user }) {
       return {
         ...session,
         user: {
@@ -49,7 +49,7 @@ export const authOptions: NextAuthOptions = {
     },
 
     async signIn({ user, account }) {
-      if (user.id) {
+      if (user.id && account?.userId) {
         await repositoryService.syncStarredRepositories(user.id, account);
       }
 
