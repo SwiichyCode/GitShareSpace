@@ -49,8 +49,8 @@ export const authOptions: NextAuthOptions = {
     },
 
     async signIn({ user, account }) {
-      if (user.id && account?.userId) {
-        console.log("Syncing starred repositories for user:", user.id);
+      if (user.id || account?.userId) {
+        // console.log("Syncing starred repositories for user:", user.id);
         await repositoryService.syncStarredRepositories(user.id, account);
       }
 
