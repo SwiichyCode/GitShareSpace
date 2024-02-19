@@ -39,6 +39,7 @@ class OctokitService {
     try {
       return await this.octokit.request("GET /users/{username}/starred", {
         username,
+        per_page: 100,
       });
     } catch (error) {
       if (error instanceof Error) return console.log(error.message);
