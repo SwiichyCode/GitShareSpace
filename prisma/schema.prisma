@@ -98,6 +98,8 @@ model Repository {
     createdById           String
     languageId            Int
     language              Language @relation(fields: [languageId], references: [id])
+    // topicId               Int    
+    // topic                 Topic    @relation(fields: [topicId], references: [id])
     topics                Topic[]
     likes                 Like[]
 
@@ -123,10 +125,11 @@ model Language {
 }
 
 model Topic {
-    id           Int        @id @default(autoincrement())
-    name         String     @unique
-    createdAt    DateTime   @default(now())
-    updatedAt    DateTime   @updatedAt
-    repositoryId Int
-    repository   Repository @relation(fields: [repositoryId], references: [id])
+    id           Int          @id @default(autoincrement())
+    name         String       @unique @default("No topic")
+    createdAt    DateTime     @default(now())
+    updatedAt    DateTime     @updatedAt
+    repositories Repository[]
+    // repositoryId Int
+    // repository   Repository @relation(fields: [repositoryId], references: [id])
 }

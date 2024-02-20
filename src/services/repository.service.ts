@@ -75,6 +75,9 @@ class RepositoryService {
       where: {
         url,
       },
+      include: {
+        topics: true,
+      },
     });
   }
 
