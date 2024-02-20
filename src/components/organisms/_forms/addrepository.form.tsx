@@ -46,6 +46,8 @@ export const AddRepositoryForm = () => {
           description: response.data.error,
         });
       }
+
+      form.reset();
     });
   }
 
