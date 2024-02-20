@@ -88,6 +88,8 @@ model Repository {
     repositoryStargazers  Int
     repositoryCreatedAt   DateTime
     repositoryUpdatedAt   DateTime
+    repositoryLicenseName String   @default("No license")
+    repositoryLicenseUrl  String   @default("No license url")
     is_template           Boolean  @default(false)
     ownerId               Int
     ownerUsername         String

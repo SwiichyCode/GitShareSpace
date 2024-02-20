@@ -33,6 +33,8 @@ class RepositoryService {
         repositoryStargazers: octokitResponse.data.stargazers_count,
         repositoryCreatedAt: octokitResponse.data.created_at,
         repositoryUpdatedAt: octokitResponse.data.updated_at,
+        repositoryLicenseName: octokitResponse.data.license?.key,
+        repositoryLicenseUrl: octokitResponse.data.license?.url ?? "",
         language: {
           connectOrCreate: {
             where: {
