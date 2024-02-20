@@ -2,7 +2,6 @@
 import { useState, useOptimistic } from "react";
 import { Heart } from "lucide-react";
 import { likeOrUnlikeRepository } from "@/actions/likerepository.action";
-
 import { cn } from "@/lib/utils";
 import { handleColorByLike } from "@/lib/utils";
 import { handleLikeCount } from "@/lib/utils";
@@ -43,7 +42,7 @@ export const RepositoryCardLike = ({ user, repository, likes }: Props) => {
 
     try {
       setOptimisticLikes({
-        userId: user?.id!,
+        userId: user?.id ?? "",
         repositoryId: repository.id,
         id: Math.random(),
         createdAt: new Date(),
