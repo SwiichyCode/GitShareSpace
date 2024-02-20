@@ -8,24 +8,20 @@ const likeRepositorySchema = z.object({
   repositoryId: z.number(),
 });
 
-export const likeRepository = userAction(
+export const likeOrUnlikeRepository = userAction(
   likeRepositorySchema,
   async (data, ctx) => {
     try {
-      await likeService.likeRepository(ctx.userId!, data.repositoryId);
-    } catch (error) {
-      if (error instanceof Error) return { error: error.message };
-    }
+      const hasLiked = await likeService.hasLikedRepository(
+        ctx.userId!,
+        data.repositoryId,
+      );
 
-    revalidatePath("/");
-  },
-);
-
-export const unlikeRepository = userAction(
-  likeRepositorySchema,
-  async (data, ctx) => {
-    try {
-      await likeService.unlikeRepository(ctx.userId!, data.repositoryId);
+      if (hasLiked) {
+        await likeService.unlikeRepository(ctx.userId!, data.repositoryId);
+      } else {
+        await likeService.likeRepository(ctx.userId!, data.repositoryId);
+      }
     } catch (error) {
       if (error instanceof Error) return { error: error.message };
     }

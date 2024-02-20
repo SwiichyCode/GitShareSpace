@@ -1,9 +1,7 @@
 "use client";
+import { useState, useOptimistic } from "react";
 import { Heart } from "lucide-react";
-import {
-  likeRepository,
-  unlikeRepository,
-} from "@/actions/likerepository.action";
+import { likeOrUnlikeRepository } from "@/actions/likerepository.action";
 
 import { cn } from "@/lib/utils";
 import { handleColorByLike } from "@/lib/utils";
@@ -20,21 +18,45 @@ type Props = {
 };
 
 export const RepositoryCardLike = ({ user, repository, likes }: Props) => {
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [optimisticLikes, setOptimisticLikes] = useOptimistic(
+    likes,
+    (state, newLike: Like) => {
+      const hasLikedRepository = (like: Like) => {
+        return like.userId === user?.id && like.repositoryId === repository.id;
+      };
+
+      if (state.some(hasLikedRepository)) {
+        // Filtrer le like à retirer en fonction de l'ID de l'utilisateur et du repository
+        return state.filter((like) => !hasLikedRepository(like));
+      }
+
+      return [...state, newLike];
+    },
+  );
   const handleLikeRepository = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const hasLiked = likes.some(
-      (like) => like.userId === user?.id && like.repositoryId === repository.id,
-    );
+    if (isUpdating) return;
 
-    if (hasLiked) {
-      await unlikeRepository({
+    setIsUpdating(true);
+
+    try {
+      setOptimisticLikes({
+        userId: user?.id!,
+        repositoryId: repository.id,
+        id: Math.random(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+
+      await likeOrUnlikeRepository({
         repositoryId: repository.id,
       });
-    } else {
-      await likeRepository({
-        repositoryId: repository.id,
-      });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsUpdating(false);
     }
   };
 
@@ -47,11 +69,11 @@ export const RepositoryCardLike = ({ user, repository, likes }: Props) => {
         <Heart
           className={cn(
             "h-4 w-4 hover:cursor-pointer hover:text-[#FF3E6C]",
-            handleColorByLike(user, repository),
+            handleColorByLike(user, repository, optimisticLikes),
           )}
         />
       </button>
-      <span>{formatNumber(handleLikeCount(likes, repository))}</span>
+      <span>{formatNumber(handleLikeCount(optimisticLikes, repository))}</span>
     </form>
   );
 };

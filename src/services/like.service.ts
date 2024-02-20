@@ -30,6 +30,17 @@ class LikeService {
       },
     });
   }
+
+  async hasLikedRepository(userId: string, repositoryId: number) {
+    const like = await db.like.findFirst({
+      where: {
+        userId: userId,
+        repositoryId: repositoryId,
+      },
+    });
+
+    return like;
+  }
 }
 
 const likeService = new LikeService();

@@ -62,18 +62,13 @@ export function getRepositoryAlreadyStarred(
 export const handleColorByLike = (
   user: User | null,
   repository: Repository,
+  optimisticLikes: Like[],
 ) => {
-  const liked = user?.likes.map((like) => {
-    if (like.repositoryId === repository.id) {
-      return like;
-    }
+  const liked = user?.likes.concat(optimisticLikes).find((like) => {
+    return like.repositoryId === repository.id && like.userId === user?.id;
   });
 
-  const filterLiked = liked?.filter((like) => like !== undefined);
-
-  if (filterLiked?.length) {
-    return "text-[#FF3E6C]";
-  }
+  return liked ? "text-[#FF3E6C]" : "";
 };
 
 export const handleLikeCount = (likes: Like[], repository: Repository) => {
