@@ -30,7 +30,7 @@ export const DataSharingAgreementForm = ({ user }: Props) => {
 
   useEffect(() => {
     setOpen(user?.firstConnection);
-  }, [user?.dataSharingAgreement]);
+  }, [user?.firstConnection]);
 
   const form = useForm<z.infer<typeof dataSharingAgreementSchema>>({
     resolver: zodResolver(dataSharingAgreementSchema),

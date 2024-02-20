@@ -59,17 +59,6 @@ export function getRepositoryAlreadyStarred(
   return alreadyStarred;
 }
 
-export const handleAlreadyStarredColor = (
-  repositoriesAlreadyStarred: string[] | undefined,
-  repository: Repository,
-) => {
-  if (repositoriesAlreadyStarred) {
-    return repositoriesAlreadyStarred.map((r) => {
-      if (r === repository.url) return "text-[#E3B341]";
-    });
-  }
-};
-
 export const handleColorByLike = (
   user: User | null,
   repository: Repository,

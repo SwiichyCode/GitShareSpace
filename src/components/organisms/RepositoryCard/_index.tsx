@@ -3,7 +3,7 @@ import { RepositoryCardDescription } from "./RepositoryCardDescription";
 import { RepositoryCardFooter } from "./RepositoryCardFooter";
 import type { User } from "@/types/prisma.type";
 import type { Repository } from "@/types/prisma.type";
-import { Like } from "@prisma/client";
+import type { Like } from "@prisma/client";
 
 type Props = {
   user: User | null;
