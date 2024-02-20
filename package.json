@@ -23,7 +23,6 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.18",
-    "@heroicons/react": "^2.1.1",
     "@hookform/resolvers": "^3.3.4",
     "@next-auth/prisma-adapter": "^1.0.7",
     "@primer/octicons-react": "^19.8.0",

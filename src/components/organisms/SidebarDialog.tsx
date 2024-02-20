@@ -1,7 +1,7 @@
 "use client";
 import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { XMarkIcon } from "@heroicons/react/24/outline";
+import { X } from "lucide-react";
 import { useSidebar } from "@/stores/useSidebar";
 
 type Props = {
@@ -52,7 +52,7 @@ export const SidebarDialog = ({ dialogHeader, children }: Props) => {
                           >
                             <span className="absolute -inset-2.5" />
                             <span className="sr-only">Close panel</span>
-                            <XMarkIcon className="h-5 w-5" aria-hidden="true" />
+                            <X className="h-5 w-5" aria-hidden="true" />
                           </button>
                         </div>
                       </div>

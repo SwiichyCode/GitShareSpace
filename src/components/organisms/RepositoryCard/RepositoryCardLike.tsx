@@ -1,9 +1,8 @@
 "use client";
 import { useState, useOptimistic } from "react";
-import { Heart } from "lucide-react";
+import { HeartIcon, HeartFillIcon } from "@primer/octicons-react";
 import { likeOrUnlikeRepository } from "@/actions/likerepository.action";
 import { cn } from "@/lib/utils";
-import { handleColorByLike } from "@/lib/utils";
 import { handleLikeCount } from "@/lib/utils";
 import { formatNumber } from "@/lib/utils";
 import type { Repository } from "@/types/prisma.type";
@@ -65,12 +64,20 @@ export const RepositoryCardLike = ({ user, repository, likes }: Props) => {
       className="flex items-center space-x-1"
     >
       <button type="submit">
-        <Heart
-          className={cn(
-            "h-4 w-4 hover:cursor-pointer hover:text-[#FF3E6C]",
-            handleColorByLike(user, repository, optimisticLikes),
-          )}
-        />
+        {optimisticLikes.some(
+          (like) =>
+            like.userId === user?.id && like.repositoryId === repository.id,
+        ) ? (
+          <HeartFillIcon
+            className={cn(
+              "h-4 w-4 text-[#FF3E6C] hover:cursor-pointer hover:text-[#FF3E6C]",
+            )}
+          />
+        ) : (
+          <HeartIcon
+            className={cn("h-4 w-4 hover:cursor-pointer hover:text-[#FF3E6C]")}
+          />
+        )}
       </button>
       <span>{formatNumber(handleLikeCount(optimisticLikes, repository))}</span>
     </form>
