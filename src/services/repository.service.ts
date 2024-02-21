@@ -131,6 +131,32 @@ class RepositoryService {
       );
     }
   }
+
+  async syncRepositories() {
+    const repositories = await this.getRepositories();
+
+    for (const repository of repositories) {
+      const octokitResponse = await octokitService.getRepository(
+        repository.url,
+      );
+
+      if (!octokitResponse) {
+        throw new Error(ERROR_MESSAGE.REPOSITORY_NOT_EXIST);
+      }
+
+      await db.repository.update({
+        where: {
+          id: repository.id,
+        },
+        data: {
+          repositoryStargazers: octokitResponse.data.stargazers_count,
+          repositoryLicenseName: octokitResponse.data.license?.key,
+          repositoryLicenseUrl: octokitResponse.data.license?.url ?? "",
+          repositoryUpdatedAt: octokitResponse.data.updated_at,
+        },
+      });
+    }
+  }
 }
 
 const repositoryService = new RepositoryService();
