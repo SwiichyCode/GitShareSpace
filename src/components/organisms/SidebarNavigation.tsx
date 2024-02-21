@@ -6,13 +6,18 @@ import { User, PlusIcon, Star } from "lucide-react";
 import { URL } from "@/constants";
 import { Separator } from "@/components/atoms/separator";
 import { syncRepositories } from "@/actions/syncrepositories.action";
+import { useShareRepositoryModal } from "@/stores/useShareRepositoryModal";
+import { useSidebar } from "@/stores/useSidebar";
 
 export const SidebarNavigation = () => {
-  // const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
+  const { open: openRepositoryModal, setOpen: setOpenRepositoryModal } =
+    useShareRepositoryModal();
+  const { open: openSidebar, setOpen: setOpenSidebar } = useSidebar();
 
-  //   await syncRepositories();
-  // };
+  const handleRepositoryModal = () => {
+    setOpenRepositoryModal(!openRepositoryModal);
+    setOpenSidebar(!openSidebar);
+  };
 
   return (
     <nav className="space-y-2">
@@ -23,13 +28,14 @@ export const SidebarNavigation = () => {
         <User className="h-5 w-5 text-subtle" />
         <span className="text-sm">Your Profile</span>
       </Link>
-      <Link
-        href={URL.SHARE}
-        className="flex items-center space-x-2 rounded-md px-2 py-1 transition hover:bg-subtleHover"
+
+      <button
+        onClick={handleRepositoryModal}
+        className="flex w-full items-center space-x-2 rounded-md px-2 py-1 transition hover:bg-subtleHover"
       >
         <PlusIcon className="h-5 w-5 text-subtle" />
         <span className="text-sm">Share repository</span>
-      </Link>
+      </button>
       <Separator />
       <Link
         href={URL.STARS}

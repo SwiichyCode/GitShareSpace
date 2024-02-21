@@ -1,7 +1,6 @@
 export const URL = {
   HOME: "/",
   PROFILE: "/profile",
-  SHARE: "/share",
   STARS: "/stars",
   REPO: "https://github.com/SwiichyCode/GitShareSpace",
 };
