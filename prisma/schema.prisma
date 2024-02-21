@@ -26,20 +26,19 @@ model Post {
     @@index([name])
 }
 
-// Necessary for Next auth
 model Account {
     id                       String  @id @default(cuid())
     userId                   String
     type                     String
     provider                 String
     providerAccountId        String
-    refresh_token            String? // @db.Text
+    refresh_token            String?
     refresh_token_expires_in Int?
-    access_token             String? // @db.Text
+    access_token             String?
     expires_at               Int?
     token_type               String?
     scope                    String?
-    id_token                 String? // @db.Text
+    id_token                 String?
     session_state            String?
     user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -63,6 +62,7 @@ model User {
     image                    String?
     firstConnection          Boolean      @default(true)
     dataSharingAgreement     Boolean      @default(false)
+    role                     Role         @default(USER)
     accounts                 Account[]
     sessions                 Session[]
     posts                    Post[]
@@ -100,8 +100,6 @@ model Repository {
     createdById           String
     languageId            Int
     language              Language @relation(fields: [languageId], references: [id])
-    // topicId               Int    
-    // topic                 Topic    @relation(fields: [topicId], references: [id])
     topics                Topic[]
     likes                 Like[]
 
@@ -132,6 +130,10 @@ model Topic {
     createdAt    DateTime     @default(now())
     updatedAt    DateTime     @updatedAt
     repositories Repository[]
-    // repositoryId Int
-    // repository   Repository @relation(fields: [repositoryId], references: [id])
+}
+
+enum Role {
+    USER
+    ADMIN
+    DEVELOPER
 }
