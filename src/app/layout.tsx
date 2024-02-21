@@ -2,7 +2,7 @@ import "@/styles/globals.css";
 import { Toaster } from "@/components/atoms/toaster";
 import { Inter } from "next/font/google";
 import { Header } from "@/components/organisms/Header";
-import { Sidebar } from "@/components/organisms/Sidebar";
+import { Sidebar } from "@/components/organisms/Sidebar/_index";
 import TanstackProvider from "@/providers/TanstackProvider";
 
 const inter = Inter({

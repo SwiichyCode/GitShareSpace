@@ -3,12 +3,12 @@
 import Link from "next/link";
 import { signOut } from "next-auth/react";
 import { User, PlusIcon, Star } from "lucide-react";
-import { URL } from "@/constants";
 import { Separator } from "@/components/atoms/separator";
 import { useShareRepositoryModal } from "@/stores/useShareRepositoryModal";
 import { useSidebar } from "@/stores/useSidebar";
 import { AdminWrapper } from "@/components/organisms/AdminWrapper";
 import { SidebarSyncRepositories } from "./SidebarSyncRepositories";
+import { URL } from "@/constants";
 import type { Session } from "next-auth";
 
 type Props = {
