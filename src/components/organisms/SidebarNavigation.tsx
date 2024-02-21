@@ -5,11 +5,17 @@ import { signOut } from "next-auth/react";
 import { User, PlusIcon, Star } from "lucide-react";
 import { URL } from "@/constants";
 import { Separator } from "@/components/atoms/separator";
-import { syncRepositories } from "@/actions/syncrepositories.action";
 import { useShareRepositoryModal } from "@/stores/useShareRepositoryModal";
 import { useSidebar } from "@/stores/useSidebar";
+import { Session } from "next-auth";
+import { AdminWrapper } from "./AdminWrapper";
+import { SidebarSyncRepositories } from "./SidebarSyncRepositories";
 
-export const SidebarNavigation = () => {
+type Props = {
+  session: Session | null;
+};
+
+export const SidebarNavigation = ({ session }: Props) => {
   const { open: openRepositoryModal, setOpen: setOpenRepositoryModal } =
     useShareRepositoryModal();
   const { open: openSidebar, setOpen: setOpenSidebar } = useSidebar();
@@ -45,14 +51,9 @@ export const SidebarNavigation = () => {
         <span className="text-sm">Your stars</span>
       </Link>
       <Separator />
-      {/* <form
-        onSubmit={handleSubmit}
-        className="flex items-center space-x-2 rounded-md px-2 py-1 transition hover:bg-subtleHover"
-      >
-        <button className="text-sm" type="submit">
-          Sync repositories
-        </button>
-      </form> */}
+      <AdminWrapper session={session}>
+        <SidebarSyncRepositories />
+      </AdminWrapper>
       <div
         className="flex min-h-7 cursor-pointer items-center space-x-2 rounded-md px-2 py-1 transition hover:bg-subtleHover"
         onClick={() => signOut()}

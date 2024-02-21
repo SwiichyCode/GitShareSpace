@@ -8,7 +8,7 @@ export const Sidebar = async () => {
 
   return (
     <SidebarDialog dialogHeader={<SidebarHeader session={session} />}>
-      <SidebarNavigation />
+      <SidebarNavigation session={session} />
     </SidebarDialog>
   );
 };
