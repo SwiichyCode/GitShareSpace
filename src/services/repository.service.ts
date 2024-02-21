@@ -3,7 +3,7 @@ import octokitService from "./octokit.service";
 import { ERROR_MESSAGE } from "@/constants";
 import type { Account } from "next-auth";
 
-type postRepositoryData = {
+export type postRepositoryData = {
   url: string;
   description?: string;
   createdBy: string;
@@ -17,7 +17,7 @@ class RepositoryService {
       throw new Error(ERROR_MESSAGE.REPOSITORY_NOT_EXIST);
     }
 
-    const repositoryExist = await this.getRepository(data.url);
+    const repositoryExist = await this.getRepository(octokitResponse.data.id);
 
     if (repositoryExist) {
       throw new Error(ERROR_MESSAGE.REPOSITORY_ALREADY_EXIST);
@@ -72,10 +72,10 @@ class RepositoryService {
     });
   }
 
-  async getRepository(url: string) {
+  async getRepository(repositoryId: number) {
     return await db.repository.findFirst({
       where: {
-        url,
+        repositoryId,
       },
       include: {
         topics: true,
@@ -150,8 +150,8 @@ class RepositoryService {
     const repositories = await this.getRepositories();
 
     for (const repository of repositories) {
-      const octokitResponse = await octokitService.getRepository(
-        repository.url,
+      const octokitResponse = await octokitService.getRepositoryById(
+        repository.repositoryId,
       );
 
       if (!octokitResponse) {

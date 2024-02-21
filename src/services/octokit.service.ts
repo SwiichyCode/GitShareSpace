@@ -1,5 +1,6 @@
-import type { Octokit } from "octokit";
 import { octokit } from "@/lib/octokit";
+import type { Octokit } from "octokit";
+import type { OctokitRepositoryResponse } from "@/lib/octokit";
 
 class OctokitService {
   private octokit: Octokit;
@@ -30,6 +31,18 @@ class OctokitService {
         owner,
         repo,
       });
+    } catch (error) {
+      if (error instanceof Error) return console.log(error.message);
+    }
+  }
+
+  async getRepositoryById(id: number) {
+    try {
+      const response = await this.octokit.request("GET /repositories/{id}", {
+        id,
+      });
+
+      return response as OctokitRepositoryResponse;
     } catch (error) {
       if (error instanceof Error) return console.log(error.message);
     }
