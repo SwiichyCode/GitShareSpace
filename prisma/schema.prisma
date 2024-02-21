@@ -91,6 +91,7 @@ model Repository {
     repositoryLicenseName String   @default("No license")
     repositoryLicenseUrl  String   @default("No license url")
     is_template           Boolean  @default(false)
+    is_visible            Boolean  @default(true)
     ownerId               Int
     ownerUsername         String
     ownerAvatarUrl        String
