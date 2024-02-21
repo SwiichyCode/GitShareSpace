@@ -2,7 +2,12 @@
 
 import Link from "next/link";
 import { signOut } from "next-auth/react";
-import { User, PlusIcon, Star } from "lucide-react";
+import {
+  PersonIcon,
+  RepoIcon,
+  StarIcon,
+  ArrowLeftIcon,
+} from "@primer/octicons-react";
 import { Separator } from "@/components/atoms/separator";
 import { useShareRepositoryModal } from "@/stores/useShareRepositoryModal";
 import { useSidebar } from "@/stores/useSidebar";
@@ -31,7 +36,7 @@ export const SidebarNavigation = ({ session }: Props) => {
         href={URL.PROFILE}
         className="flex items-center space-x-2 rounded-md px-2 py-1 transition hover:bg-subtleHover"
       >
-        <User className="h-5 w-5 text-subtle" />
+        <PersonIcon className="h-4 w-4 text-subtle" />
         <span className="text-sm">Your Profile</span>
       </Link>
 
@@ -39,7 +44,7 @@ export const SidebarNavigation = ({ session }: Props) => {
         onClick={handleRepositoryModal}
         className="flex w-full items-center space-x-2 rounded-md px-2 py-1 transition hover:bg-subtleHover"
       >
-        <PlusIcon className="h-5 w-5 text-subtle" />
+        <RepoIcon className="h-4 w-4 text-subtle" />
         <span className="text-sm">Share repository</span>
       </button>
       <Separator />
@@ -47,19 +52,20 @@ export const SidebarNavigation = ({ session }: Props) => {
         href={URL.STARS}
         className="flex items-center space-x-2 rounded-md px-2 py-1 transition hover:bg-subtleHover"
       >
-        <Star className="h-5 w-5 text-subtle" />
+        <StarIcon className="h-4 w-4 text-subtle" />
         <span className="text-sm">Your stars</span>
       </Link>
       <Separator />
       <AdminWrapper session={session}>
         <SidebarSyncRepositories />
       </AdminWrapper>
-      <div
-        className="flex min-h-7 cursor-pointer items-center space-x-2 rounded-md px-2 py-1 transition hover:bg-subtleHover"
+      <button
+        className="flex min-h-7 w-full cursor-pointer items-center space-x-2 rounded-md px-2 py-1 transition hover:bg-subtleHover"
         onClick={() => signOut()}
       >
+        <ArrowLeftIcon className="h-4 w-4 text-subtle" />
         <span className="text-sm">Sign out</span>
-      </div>
+      </button>
     </nav>
   );
 };
