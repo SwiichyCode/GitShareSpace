@@ -7,9 +7,9 @@ import { URL } from "@/constants";
 import { Separator } from "@/components/atoms/separator";
 import { useShareRepositoryModal } from "@/stores/useShareRepositoryModal";
 import { useSidebar } from "@/stores/useSidebar";
-import { Session } from "next-auth";
-import { AdminWrapper } from "./AdminWrapper";
+import { AdminWrapper } from "@/components/organisms/AdminWrapper";
 import { SidebarSyncRepositories } from "./SidebarSyncRepositories";
+import type { Session } from "next-auth";
 
 type Props = {
   session: Session | null;

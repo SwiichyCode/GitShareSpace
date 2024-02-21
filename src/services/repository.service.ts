@@ -85,6 +85,9 @@ class RepositoryService {
 
   async getRepositories() {
     return await db.repository.findMany({
+      where: {
+        is_visible: true,
+      },
       include: {
         createdBy: true,
         language: true,
@@ -92,6 +95,17 @@ class RepositoryService {
       },
       orderBy: {
         id: "desc",
+      },
+    });
+  }
+
+  async hideRepository(id: number) {
+    return await db.repository.update({
+      where: {
+        id,
+      },
+      data: {
+        is_visible: false,
       },
     });
   }
