@@ -1,4 +1,5 @@
 "use client";
+import { signIn } from "next-auth/react";
 import { Button } from "@/components/atoms/button";
 import { useShareRepositoryModal } from "@/stores/useShareRepositoryModal";
 import { RepoIcon } from "@primer/octicons-react";
@@ -11,15 +12,13 @@ type Props = {
 export const ShareButton = ({ session }: Props) => {
   const { setOpen } = useShareRepositoryModal();
 
+  const handleOpen = async () => {
+    session ? setOpen(true) : await signIn("github");
+  };
+
   return (
-    session && (
-      <Button
-        variant={"success"}
-        onClick={() => setOpen(true)}
-        className="space-x-2"
-      >
-        <RepoIcon className="h-5 w-5" /> <span>Share repository</span>
-      </Button>
-    )
+    <Button variant={"success"} onClick={handleOpen} className="space-x-2">
+      <RepoIcon className="h-5 w-5" /> <span>Share repository</span>
+    </Button>
   );
 };
