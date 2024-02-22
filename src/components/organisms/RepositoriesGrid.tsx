@@ -1,15 +1,14 @@
-import repositoryService from "@/services/repository.service";
 import likeService from "@/services/like.service";
 import { RepositoryCard } from "@/components/organisms/RepositoryCard/_index";
 import { getRepositoryAlreadyStarred } from "@/lib/utils";
-import type { User } from "@/types/prisma.type";
+import type { Repository, User } from "@/types/prisma.type";
 
 type Props = {
   user: User | null;
+  repositories: Repository[];
 };
 
-export const RepositoryGrid = async ({ user }: Props) => {
-  const repositories = await repositoryService.getRepositories();
+export const RepositoriesGrid = async ({ user, repositories }: Props) => {
   const likes = await likeService.getLikes();
   const repositoriesAlreadyStarred = getRepositoryAlreadyStarred(
     repositories,

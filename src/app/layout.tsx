@@ -4,7 +4,6 @@ import { Inter } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { Header } from "@/components/organisms/Header";
 import { Sidebar } from "@/components/organisms/Sidebar/_index";
-import TanstackProvider from "@/providers/TanstackProvider";
 import { env } from "@/env";
 
 const inter = Inter({
@@ -27,11 +26,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`font-sans ${inter.variable} bg-inset text-default`}>
-        <TanstackProvider>
-          <Header />
-          <Sidebar />
-          {children}
-        </TanstackProvider>
+        <Header />
+        <Sidebar />
+        {children}
+
         <Toaster />
       </body>
       <GoogleAnalytics gaId={env.GOOGLE_ANALYTICS_ID} />

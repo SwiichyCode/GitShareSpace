@@ -1,4 +1,3 @@
-// "use client";
 import { RepositoryCardLike } from "./RepositoryCardLike";
 import { RepositoryCardLicense } from "./RepositoryCardLicense";
 import { RepositoryCardStars } from "./RepositoryCardStars";

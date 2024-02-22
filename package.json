@@ -56,6 +56,7 @@
   "devDependencies": {
     "@belkross/commitlint-config": "^1.0.3",
     "@commitlint/cz-commitlint": "^18.6.1",
+    "@faker-js/faker": "^8.4.1",
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^14.2.1",
     "@types/eslint": "^8.44.7",

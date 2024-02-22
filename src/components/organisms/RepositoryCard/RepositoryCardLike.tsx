@@ -32,6 +32,7 @@ export const RepositoryCardLike = ({ user, repository, likes }: Props) => {
       return [...state, newLike];
     },
   );
+
   const handleLikeRepository = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
