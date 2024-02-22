@@ -1,9 +1,11 @@
 import "@/styles/globals.css";
 import { Toaster } from "@/components/atoms/toaster";
 import { Inter } from "next/font/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { Header } from "@/components/organisms/Header";
 import { Sidebar } from "@/components/organisms/Sidebar/_index";
 import TanstackProvider from "@/providers/TanstackProvider";
+import { env } from "@/env";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -32,6 +34,7 @@ export default function RootLayout({
         </TanstackProvider>
         <Toaster />
       </body>
+      <GoogleAnalytics gaId={env.GOOGLE_ANALYTICS_ID} />
     </html>
   );
 }
