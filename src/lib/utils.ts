@@ -4,6 +4,7 @@ import { type LanguageType, languageTypeSchema } from "./types";
 import type { User } from "@/types/prisma.type";
 import type { Repository } from "@/types/prisma.type";
 import type { Like } from "@prisma/client";
+import { ReadonlyURLSearchParams } from "next/navigation";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -85,4 +86,14 @@ export const formatNumber = (num: number) => {
   } else {
     return num;
   }
+};
+
+export const createPageURL = (
+  pageNumber: number | string,
+  searchParams: ReadonlyURLSearchParams,
+  pathname: string,
+) => {
+  const params = new URLSearchParams(searchParams);
+  params.set("page", pageNumber.toString());
+  return `${pathname}?${params.toString()}`;
 };

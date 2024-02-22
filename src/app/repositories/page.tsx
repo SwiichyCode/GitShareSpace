@@ -8,9 +8,9 @@ import { RepositoriesPagination } from "@/components/organisms/RepositoriesPagin
 
 type Props = {
   searchParams?: {
-    query?: string;
-    page?: string;
-    limit?: string;
+    query?: string; //http://localhost:3000/repositories?query=notflix
+    page?: string; //http://localhost:3000/repositories?page=2
+    limit?: string; //http://localhost:3000/repositories?limit=10
   };
 };
 
@@ -25,6 +25,8 @@ export default async function RepositoriesPage({ searchParams }: Props) {
     limit,
     search,
   });
+
+  console.log(data.length);
 
   const session = await getServerAuthSession();
   const user = session && (await userService.getUser(session.user.id));
