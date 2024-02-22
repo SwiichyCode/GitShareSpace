@@ -1,8 +1,8 @@
 import repositoryService from "@/services/repository.service";
+import likeService from "@/services/like.service";
 import { RepositoryCard } from "@/components/organisms/RepositoryCard/_index";
 import { getRepositoryAlreadyStarred } from "@/lib/utils";
 import type { User } from "@/types/prisma.type";
-import likeService from "@/services/like.service";
 
 type Props = {
   user: User | null;

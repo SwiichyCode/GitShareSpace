@@ -54,9 +54,12 @@ export const authOptions: NextAuthOptions = {
       };
     },
 
+    redirect({ baseUrl }) {
+      return Promise.resolve(`${baseUrl}/repositories`);
+    },
+
     async signIn({ user, account }) {
       if (user.id && user.firstConnection === false) {
-        console.log("syncing starred repositories");
         await repositoryService.syncStarredRepositories(user.id, account);
       }
 
