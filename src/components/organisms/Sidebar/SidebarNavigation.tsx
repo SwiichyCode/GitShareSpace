@@ -56,9 +56,11 @@ export const SidebarNavigation = ({ session }: Props) => {
         <span className="text-sm">Your stars</span>
       </Link>
       <Separator />
-      <AdminWrapper session={session}>
-        <SidebarSyncRepositories />
-      </AdminWrapper>
+      {session?.user && (
+        <AdminWrapper user={session.user}>
+          <SidebarSyncRepositories />
+        </AdminWrapper>
+      )}
       <button
         className="flex min-h-7 w-full cursor-pointer items-center space-x-2 rounded-md px-2 py-1 transition hover:bg-subtleHover"
         onClick={() => signOut()}

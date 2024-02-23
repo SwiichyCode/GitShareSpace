@@ -1,10 +1,10 @@
-import type { Session } from "next-auth";
+import type { User } from "next-auth";
 
 type Props = {
-  session: Session | null;
+  user: User | null;
   children: React.ReactNode;
 };
 
-export const AdminWrapper = ({ session, children }: Props) => {
-  return <>{session?.user.role === "ADMIN" ? children : null}</>;
+export const AdminWrapper = ({ user, children }: Props) => {
+  return <>{user?.role === "ADMIN" ? children : null}</>;
 };

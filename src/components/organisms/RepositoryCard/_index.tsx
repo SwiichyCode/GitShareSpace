@@ -20,7 +20,7 @@ export const RepositoryCard = ({
 }: Props) => {
   return (
     <div className="flex flex-col justify-between space-y-4 overflow-hidden rounded-md border border-card bg-default p-2 shadow">
-      <RepositoryCardHeader repository={repository} />
+      <RepositoryCardHeader user={user} repository={repository} />
       <div className="space-y-2 rounded-sm bg-overlay p-3">
         <RepositoryCardDescription repository={repository} />
 

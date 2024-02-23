@@ -1,17 +1,16 @@
 import Link from "next/link";
-import { getServerAuthSession } from "@/server/auth";
 import { ProfileAvatar } from "@/components/molecules/Avatar";
+import { AdminWrapper } from "@/components/organisms/AdminWrapper";
 import { RepositoryCardHide } from "./RepositoryCardHide";
 import type { Repository } from "@/types/prisma.type";
-import { AdminWrapper } from "../AdminWrapper";
+import type { User } from "next-auth";
 
 type Props = {
+  user: User | null;
   repository: Repository;
 };
 
-export const RepositoryCardHeader = async ({ repository }: Props) => {
-  const session = await getServerAuthSession();
-
+export const RepositoryCardHeader = ({ user, repository }: Props) => {
   return (
     <div className="flex justify-between">
       <div className="flex items-center gap-2">
@@ -32,7 +31,7 @@ export const RepositoryCardHeader = async ({ repository }: Props) => {
           </span>
         </div>
       </div>
-      <AdminWrapper session={session}>
+      <AdminWrapper user={user}>
         <RepositoryCardHide repository={repository} />
       </AdminWrapper>
     </div>

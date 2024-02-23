@@ -1,40 +1,46 @@
 import { getServerAuthSession } from "@/server/auth";
-import repositoryService from "@/services/repository.service";
 import userService from "@/services/user.service";
-import { RepositoriesGrid } from "@/components/organisms/RepositoriesGrid";
+import likeService from "@/services/like.service";
 import { DataSharingAgreementForm } from "@/components/organisms/_forms/dataSharingAgreement.form";
 import { AddRepositoryForm } from "@/components/organisms/_forms/addrepository.form";
-import { RepositoriesPagination } from "@/components/organisms/RepositoriesPagination";
+import { RepositoriesGridInfiniteScroll } from "@/components/organisms/RepositoriesGridInfiniteScroll";
+import { getRepositoriesOnScroll } from "@/actions/getRepositories.action";
+import { getRepositoryAlreadyStarred } from "@/lib/utils";
 
 type Props = {
   searchParams?: {
-    query?: string; //http://localhost:3000/repositories?query=notflix
-    page?: string; //http://localhost:3000/repositories?page=2
-    limit?: string; //http://localhost:3000/repositories?limit=10
+    query?: string;
   };
 };
 
 export default async function RepositoriesPage({ searchParams }: Props) {
   const search = searchParams?.query ?? "";
-  const currentPage = Number(searchParams?.page) || 1;
-  const limit = Number(searchParams?.limit) || 15;
-  const offset = (currentPage - 1) * limit;
+  const limit = 20;
 
-  const { data, totalPages } = await repositoryService.getRepositoriesByPage({
-    offset,
-    limit,
+  const { data: initialData } = await getRepositoriesOnScroll({
     search,
+    limit,
   });
 
-  console.log(data.length);
+  const likes = await likeService.getLikes();
 
   const session = await getServerAuthSession();
   const user = session && (await userService.getUser(session.user.id));
+  const repositoriesAlreadyStarred = getRepositoryAlreadyStarred(
+    initialData,
+    user,
+  );
 
   return (
     <div className="space-y-8 p-8">
-      <RepositoriesGrid user={user} repositories={data} />
-      <RepositoriesPagination totalPages={totalPages} />
+      <RepositoriesGridInfiniteScroll
+        user={user}
+        likes={likes}
+        initialData={initialData}
+        repositoriesAlreadyStarred={repositoriesAlreadyStarred}
+        search={search}
+        limit={limit}
+      />
 
       {user && <DataSharingAgreementForm user={user} />}
       <AddRepositoryForm />

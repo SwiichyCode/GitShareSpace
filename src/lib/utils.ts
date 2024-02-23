@@ -4,7 +4,7 @@ import { type LanguageType, languageTypeSchema } from "./types";
 import type { User } from "@/types/prisma.type";
 import type { Repository } from "@/types/prisma.type";
 import type { Like } from "@prisma/client";
-import { ReadonlyURLSearchParams } from "next/navigation";
+import type { ReadonlyURLSearchParams } from "next/navigation";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
