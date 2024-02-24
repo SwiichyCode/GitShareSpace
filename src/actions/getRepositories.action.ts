@@ -2,12 +2,12 @@
 import { db } from "@/server/db";
 
 export const getRepositoriesOnScroll = async ({
-  search,
+  query,
   offset = 0,
   limit = 20,
   cursor,
 }: {
-  search?: string | undefined;
+  query?: string | undefined;
   offset?: number;
   limit?: number;
   cursor?: number;
@@ -16,7 +16,8 @@ export const getRepositoriesOnScroll = async ({
     where: {
       is_visible: true,
       repositoryName: {
-        contains: search,
+        contains: query,
+        mode: "insensitive",
       },
     },
     include: {
@@ -36,7 +37,7 @@ export const getRepositoriesOnScroll = async ({
     where: {
       is_visible: true,
       repositoryName: {
-        contains: search,
+        contains: query,
       },
     },
   });

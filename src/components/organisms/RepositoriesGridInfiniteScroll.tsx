@@ -9,7 +9,7 @@ type Props = {
   likes: Like[];
   initialData: Repository[];
   repositoriesAlreadyStarred: string[] | undefined;
-  search: string;
+  query: string;
   limit: number;
 };
 
@@ -18,12 +18,12 @@ export const RepositoriesGridInfiniteScroll = ({
   likes,
   initialData,
   repositoriesAlreadyStarred,
-  search,
+  query,
   limit,
 }: Props) => {
   const { repositories, ref, isDisable } = useInfiniteScroll({
     initialRepositories: initialData,
-    search,
+    query,
     limit,
   });
 
