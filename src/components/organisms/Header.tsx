@@ -2,6 +2,7 @@ import { Logo } from "@/components/atoms/logo";
 import { AuthNavigation } from "@/components/molecules/AuthNavigation";
 import { ShareButton } from "@/components/molecules/ShareButton";
 import { GithubLink } from "@/components/molecules/GithubLink";
+import { InputSearch } from "@/components/molecules/InputSearch";
 import { getServerAuthSession } from "@/server/auth";
 
 export const Header = async () => {
@@ -10,6 +11,7 @@ export const Header = async () => {
   return (
     <header className="flex items-center justify-between bg-overlay px-6 py-4">
       <Logo />
+      <InputSearch />
 
       <div className="flex items-center space-x-4">
         <GithubLink />

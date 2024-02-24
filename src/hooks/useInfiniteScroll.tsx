@@ -6,18 +6,20 @@ import type { Repository } from "@/types/prisma.type";
 
 type Props = {
   initialRepositories: Repository[];
-  search: string;
+  query: string;
   limit: number;
 };
 
 export const useInfiniteScroll = ({
   initialRepositories,
-  search,
+  query,
   limit,
 }: Props) => {
   const [repositories, setRepositories] = useState(initialRepositories);
   const [page, setPage] = useState(1);
-  const [ref, inView] = useInView();
+  const [ref, inView] = useInView({
+    rootMargin: "200px",
+  });
   const [isDisable, setDisable] = useState(false);
 
   const loadMoreRepositories = useCallback(async () => {
@@ -25,10 +27,10 @@ export const useInfiniteScroll = ({
     const offset = next * limit;
 
     const { data: newRepositories } = await getRepositoriesOnScroll({
-      search,
+      query,
       limit: 20,
       offset,
-      cursor: repositories[repositories.length - 1]!.id,
+      cursor: repositories.length && repositories[repositories.length - 1]!.id,
     });
 
     if (newRepositories.length) {
@@ -40,7 +42,7 @@ export const useInfiniteScroll = ({
     } else {
       setDisable(true);
     }
-  }, [page, limit, search, repositories]);
+  }, [page, limit, query, repositories]);
 
   useEffect(() => {
     let isSubscribed = true;
@@ -53,7 +55,14 @@ export const useInfiniteScroll = ({
     return () => {
       isSubscribed = false;
     };
-  }, [inView, loadMoreRepositories]);
+  }, [inView, loadMoreRepositories, query]);
+
+  // If the search query changes, reset the list of repositories.
+  useEffect(() => {
+    setRepositories(initialRepositories);
+    setPage(1);
+    setDisable(false);
+  }, [initialRepositories, query]);
 
   return { repositories, ref, isDisable };
 };

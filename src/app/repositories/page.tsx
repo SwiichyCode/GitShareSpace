@@ -6,6 +6,7 @@ import { AddRepositoryForm } from "@/components/organisms/_forms/addrepository.f
 import { RepositoriesGridInfiniteScroll } from "@/components/organisms/RepositoriesGridInfiniteScroll";
 import { getRepositoriesOnScroll } from "@/actions/getRepositories.action";
 import { getRepositoryAlreadyStarred } from "@/lib/utils";
+import { parseAsString } from "nuqs/server";
 
 type Props = {
   searchParams?: {
@@ -13,14 +14,19 @@ type Props = {
   };
 };
 
+const queryParser = parseAsString.withDefault("");
+
 export default async function RepositoriesPage({ searchParams }: Props) {
-  const search = searchParams?.query ?? "";
+  // const query = searchParams?.query ?? "";
+  const query = queryParser.parseServerSide(searchParams?.query);
   const limit = 20;
 
   const { data: initialData } = await getRepositoriesOnScroll({
-    search,
+    query,
     limit,
   });
+
+  console.log(query);
 
   const likes = await likeService.getLikes();
 
@@ -38,7 +44,7 @@ export default async function RepositoriesPage({ searchParams }: Props) {
         likes={likes}
         initialData={initialData}
         repositoriesAlreadyStarred={repositoriesAlreadyStarred}
-        search={search}
+        query={query}
         limit={limit}
       />
 
