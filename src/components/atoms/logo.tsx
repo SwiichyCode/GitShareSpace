@@ -3,7 +3,7 @@ import React from "react";
 
 export const Logo = () => {
   return (
-    <Link href="/" className="text-lg font-semibold">
+    <Link href="/" className="flex flex-1 text-lg font-semibold">
       GitshareSpace.
     </Link>
   );

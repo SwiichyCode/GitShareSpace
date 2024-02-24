@@ -47,7 +47,7 @@ export const InputSearch = ({ placeholder }: Props) => {
           ref={inputRef}
         />
       </div>
-      <div className="flex h-5 w-10 items-center border-l border-[#848D97]">
+      <div className="flex h-5 w-10 items-center border-l border-[#30363D]">
         {isLoading && <Spinner />}
       </div>
     </div>
