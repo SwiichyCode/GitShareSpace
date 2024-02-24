@@ -41,9 +41,14 @@ export const RepositoriesGridInfiniteScroll = ({
         ))}
       </div>
 
-      <div ref={ref} className="mt-6 flex flex-col items-center justify-center">
-        <p className="text-sm text-gray-400">Loading more repositories...</p>
-      </div>
+      {!isDisable && (
+        <div
+          ref={ref}
+          className="mt-6 flex flex-col items-center justify-center"
+        >
+          <p className="text-sm text-gray-400">Loading more repositories...</p>
+        </div>
+      )}
     </>
   );
 };
