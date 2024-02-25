@@ -8,7 +8,6 @@ import { formatNumber } from "@/lib/utils";
 import type { Repository } from "@/types/prisma.type";
 import type { User } from "@/types/prisma.type";
 import type { Like } from "@prisma/client";
-import { reportUnusedDisableDirectives } from ".eslintrc.cjs";
 
 type Props = {
   user: User | null;
