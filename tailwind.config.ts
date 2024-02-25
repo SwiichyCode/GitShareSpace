@@ -36,6 +36,7 @@ const config = {
         subtleHover: "#292F36",
         success: "#238636",
         successHover: "#2EA043",
+        buttonHover: "#171B20",
       },
       textColor: {
         default: "#E6EDF3",

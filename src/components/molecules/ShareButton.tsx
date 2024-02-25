@@ -18,7 +18,8 @@ export const ShareButton = ({ session }: Props) => {
 
   return (
     <Button variant={"success"} onClick={handleOpen} className="space-x-2">
-      <RepoIcon className="h-5 w-5" /> <span>Share repository</span>
+      <RepoIcon className="h-5 w-5" />{" "}
+      <span className="hidden lg:block">Share repository</span>
     </Button>
   );
 };

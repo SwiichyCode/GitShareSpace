@@ -17,10 +17,8 @@ export const SidebarDialog = ({ dialogHeader, children }: Props) => {
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
         <Transition.Child
           as={Fragment}
-          //   enter="ease-in-out duration-500"
           enterFrom="opacity-0"
           enterTo="opacity-100"
-          //   leave="ease-in-out duration-500"
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
@@ -29,18 +27,17 @@ export const SidebarDialog = ({ dialogHeader, children }: Props) => {
 
         <div className="fixed inset-0 overflow-hidden">
           <div className="absolute inset-0 overflow-hidden">
-            <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
+            <div className="pointer-events-none inset-y-0 flex h-screen max-w-full md:fixed md:right-0 md:pl-10">
               <Transition.Child
                 as={Fragment}
                 enter="transform transition ease-in-out duration-200"
                 enterFrom="translate-x-full"
                 enterTo="translate-x-0"
-                // leave="transform transition ease-in-out duration-500"
                 leaveFrom="translate-x-0"
                 leaveTo="translate-x-full"
               >
-                <Dialog.Panel className="pointer-events-auto w-screen max-w-80">
-                  <div className="flex h-full flex-col overflow-y-scroll rounded-l-xl bg-overlay py-6 shadow-overlay">
+                <Dialog.Panel className="pointer-events-auto w-full md:w-screen md:max-w-80">
+                  <div className="flex h-full flex-col overflow-y-scroll bg-overlay py-6 shadow-overlay md:rounded-l-xl">
                     <div className="px-4 sm:px-6">
                       <div className="flex items-start justify-between">
                         {dialogHeader}

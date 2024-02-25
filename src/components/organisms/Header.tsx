@@ -9,13 +9,13 @@ export const Header = async () => {
   const session = await getServerAuthSession();
 
   return (
-    <header className="flex items-center justify-between bg-overlay px-6 py-4">
+    <header className="flex items-center justify-between border-b border-default bg-inset px-6 py-4">
       <Logo />
 
       <div className="flex items-center justify-end space-x-4">
-        <InputSearch />
-        <div className="h-6 w-[1px] bg-[#30363D]" />
         <GithubLink />
+        <InputSearch />
+        <div className="hidden h-6 w-[1px] bg-[#30363D] lg:block" />
         <ShareButton session={session} />
         <AuthNavigation session={session} />
       </div>
