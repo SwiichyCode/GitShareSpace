@@ -7,3 +7,7 @@ export type Repository = Prisma.RepositoryGetPayload<{
 export type User = Prisma.UserGetPayload<{
   include: { likes: true };
 }>;
+
+export type Comment = Prisma.CommentGetPayload<{
+  include: { createdBy: true };
+}>;

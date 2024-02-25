@@ -69,6 +69,7 @@ model User {
     posts                    Post[]
     repositories             Repository[]
     likes                    Like[]
+    Comment                  Comment[]
 }
 
 model VerificationToken {
@@ -80,7 +81,7 @@ model VerificationToken {
 }
 
 model Repository {
-    id                    Int      @id @default(autoincrement())
+    id                    Int       @id @default(autoincrement())
     url                   String
     description           String?
     repositoryId          Int
@@ -89,23 +90,35 @@ model Repository {
     repositoryStargazers  Int
     repositoryCreatedAt   DateTime
     repositoryUpdatedAt   DateTime
-    repositoryLicenseName String   @default("No license")
-    repositoryLicenseUrl  String   @default("No license url")
-    is_template           Boolean  @default(false)
-    is_visible            Boolean  @default(true)
+    repositoryLicenseName String    @default("No license")
+    repositoryLicenseUrl  String    @default("No license url")
+    is_template           Boolean   @default(false)
+    is_visible            Boolean   @default(true)
     ownerId               Int
     ownerUsername         String
     ownerAvatarUrl        String
-    createdAt             DateTime @default(now())
-    updatedAt             DateTime @updatedAt
-    createdBy             User     @relation(fields: [createdById], references: [id])
+    createdAt             DateTime  @default(now())
+    updatedAt             DateTime  @updatedAt
+    createdBy             User      @relation(fields: [createdById], references: [id])
     createdById           String
     languageId            Int
-    language              Language @relation(fields: [languageId], references: [id])
+    language              Language  @relation(fields: [languageId], references: [id])
     topics                Topic[]
     likes                 Like[]
+    comments              Comment[]
 
     @@index([url])
+}
+
+model Comment {
+    id           Int        @id @default(autoincrement())
+    content      String
+    createdAt    DateTime   @default(now())
+    updatedAt    DateTime   @updatedAt
+    createdBy    User       @relation(fields: [createdById], references: [id])
+    createdById  String
+    repository   Repository @relation(fields: [repositoryId], references: [id])
+    repositoryId Int
 }
 
 model Like {

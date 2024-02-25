@@ -1,7 +1,7 @@
 "use client";
 
 import { TrashIcon } from "@primer/octicons-react";
-import { DialogWrapper } from "./DialogWrapper";
+import { DialogWrapper } from "@/components/organisms/DialogWrapper";
 import { RemoveStaredRepositoryForm } from "../_forms/removeStaredRepository.form";
 
 export const SidebarRemoveStarredRepositories = () => {

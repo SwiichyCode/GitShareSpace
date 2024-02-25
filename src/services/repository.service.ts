@@ -225,6 +225,42 @@ class RepositoryService {
       });
     }
   }
+
+  async addCommentToRepository(
+    repositoryId: number,
+    content: string,
+    createdBy: string,
+  ) {
+    return await db.comment.create({
+      data: {
+        content,
+        createdBy: {
+          connect: {
+            id: createdBy,
+          },
+        },
+        repository: {
+          connect: {
+            id: repositoryId,
+          },
+        },
+      },
+    });
+  }
+
+  async getCommentsByRepositoryId(repositoryId: number) {
+    return await db.comment.findMany({
+      where: {
+        repositoryId,
+      },
+      include: {
+        createdBy: true,
+      },
+      orderBy: {
+        id: "desc",
+      },
+    });
+  }
 }
 
 const repositoryService = new RepositoryService();

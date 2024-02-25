@@ -17,7 +17,6 @@ type Props = {
 const queryParser = parseAsString.withDefault("");
 
 export default async function RepositoriesPage({ searchParams }: Props) {
-  // const query = searchParams?.query ?? "";
   const query = queryParser.parseServerSide(searchParams?.query);
   const limit = 20;
 

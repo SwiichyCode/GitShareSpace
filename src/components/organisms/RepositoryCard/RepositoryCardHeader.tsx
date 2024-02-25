@@ -9,9 +9,14 @@ import { displayNameOrUsername } from "@/lib/utils";
 type Props = {
   user: User | null;
   repository: Repository;
+  isComment?: boolean;
 };
 
-export const RepositoryCardHeader = ({ user, repository }: Props) => {
+export const RepositoryCardHeader = ({
+  user,
+  repository,
+  isComment = false,
+}: Props) => {
   return (
     <div className="flex justify-between">
       <div className="flex items-center gap-2">
@@ -32,9 +37,11 @@ export const RepositoryCardHeader = ({ user, repository }: Props) => {
           </span>
         </div>
       </div>
-      <AdminWrapper role={user?.role}>
-        <RepositoryCardHide repository={repository} />
-      </AdminWrapper>
+      {!isComment && (
+        <AdminWrapper role={user?.role}>
+          <RepositoryCardHide repository={repository} />
+        </AdminWrapper>
+      )}
     </div>
   );
 };

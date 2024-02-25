@@ -64,7 +64,7 @@ export const RepositoryCardLike = ({ user, repository, likes }: Props) => {
   return (
     <form
       onSubmit={handleLikeRepository}
-      className="flex items-center space-x-1"
+      className="flex items-center space-x-1 hover:text-[#FF3E6C]"
     >
       <button type="submit">
         {optimisticLikes.some(
@@ -72,14 +72,10 @@ export const RepositoryCardLike = ({ user, repository, likes }: Props) => {
             like.userId === user?.id && like.repositoryId === repository.id,
         ) ? (
           <HeartFillIcon
-            className={cn(
-              "h-4 w-4 text-[#FF3E6C] hover:cursor-pointer hover:text-[#FF3E6C]",
-            )}
+            className={cn("h-4 w-4 text-[#FF3E6C] hover:cursor-pointer ")}
           />
         ) : (
-          <HeartIcon
-            className={cn("h-4 w-4 hover:cursor-pointer hover:text-[#FF3E6C]")}
-          />
+          <HeartIcon className={cn("h-4 w-4 hover:cursor-pointer ")} />
         )}
       </button>
       <span>{formatNumber(handleLikeCount(optimisticLikes, repository))}</span>

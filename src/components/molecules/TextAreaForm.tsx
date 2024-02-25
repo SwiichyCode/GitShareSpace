@@ -12,7 +12,7 @@ export interface TextAreaFormProps
   extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   control: any;
   name: string;
-  label: string;
+  label?: string;
 }
 
 const TextAreaForm = React.forwardRef<HTMLTextAreaElement, TextAreaFormProps>(

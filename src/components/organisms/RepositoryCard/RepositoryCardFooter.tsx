@@ -2,6 +2,7 @@ import { RepositoryCardLike } from "./RepositoryCardLike";
 import { RepositoryCardLicense } from "./RepositoryCardLicense";
 import { RepositoryCardStars } from "./RepositoryCardStars";
 import { RepositoryCardLanguage } from "./RepositoryCardLanguage";
+import { RepositoryCardComment } from "./RepositoryCardComment";
 import type { Repository } from "@/types/prisma.type";
 import type { User } from "@/types/prisma.type";
 import type { Like } from "@prisma/client";
@@ -29,7 +30,10 @@ export const RepositoryCardFooter = ({
         />
         <RepositoryCardLicense repository={repository} />
       </div>
-      <RepositoryCardLike user={user} repository={repository} likes={likes} />
+      <div className="flex space-x-4">
+        <RepositoryCardComment repository={repository} />
+        <RepositoryCardLike user={user} repository={repository} likes={likes} />
+      </div>
     </div>
   );
 };

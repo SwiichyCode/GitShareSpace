@@ -13,7 +13,7 @@ export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   control: any;
   name: string;
-  label: string;
+  label?: string;
   description?: string;
 }
 
