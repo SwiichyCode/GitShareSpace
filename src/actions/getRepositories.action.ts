@@ -24,6 +24,7 @@ export const getRepositoriesOnScroll = async ({
       createdBy: true,
       language: true,
       topics: true,
+      comments: true,
     },
     orderBy: {
       id: "desc",

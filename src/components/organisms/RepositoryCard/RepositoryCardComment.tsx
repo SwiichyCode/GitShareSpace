@@ -13,7 +13,7 @@ export const RepositoryCardComment = ({ repository }: Props) => {
       className="flex items-center space-x-1 hover:text-[#2F81F7]"
     >
       <CommentDiscussionIcon className="h-4 w-4" />
-      <span>0</span>
+      <span>{repository.comments.length}</span>
     </Link>
   );
 };
