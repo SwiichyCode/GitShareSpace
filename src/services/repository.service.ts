@@ -1,12 +1,14 @@
 import { db } from "@/server/db";
 import octokitService from "./octokit.service";
+import { extractUserIdFromAvatarUrl } from "@/lib/utils";
 import { ERROR_MESSAGE } from "@/constants";
-import type { Account } from "next-auth";
+import type { User } from "next-auth";
 
 export type postRepositoryData = {
   url: string;
   description?: string;
   createdBy: string;
+  createdByUsername?: string;
 };
 
 class RepositoryService {
@@ -172,8 +174,14 @@ class RepositoryService {
     });
   }
 
-  async syncStarredRepositories(userId: string, account: Account | null) {
-    const githubUser = await octokitService.getUser(account?.providerAccountId);
+  async syncStarredRepositories(user: User) {
+    if (!user) {
+      throw new Error(ERROR_MESSAGE.USER_NOT_FOUND);
+    }
+
+    const githubUser = await octokitService.getUser(
+      extractUserIdFromAvatarUrl(user.image!),
+    );
 
     if (!githubUser) {
       throw new Error(ERROR_MESSAGE.GITHUB_USER_NOT_FOUND);
@@ -185,7 +193,7 @@ class RepositoryService {
 
     if (starredRepositories) {
       await this.updateRepositoryAlreadyStarred(
-        userId,
+        user.id,
         //eslint-disable-next-line
         starredRepositories.data.map((repo: any) => repo.html_url),
       );

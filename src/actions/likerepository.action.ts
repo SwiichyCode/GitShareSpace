@@ -13,14 +13,20 @@ export const likeOrUnlikeRepository = userAction(
   async (data, ctx) => {
     try {
       const hasLiked = await likeService.hasLikedRepository(
-        ctx.userId!,
+        ctx.session.user.id,
         data.repositoryId,
       );
 
       if (hasLiked) {
-        await likeService.unlikeRepository(ctx.userId!, data.repositoryId);
+        await likeService.unlikeRepository(
+          ctx.session.user.id,
+          data.repositoryId,
+        );
       } else {
-        await likeService.likeRepository(ctx.userId!, data.repositoryId);
+        await likeService.likeRepository(
+          ctx.session.user.id,
+          data.repositoryId,
+        );
       }
     } catch (error) {
       if (error instanceof Error) return { error: error.message };

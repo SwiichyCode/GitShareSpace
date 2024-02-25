@@ -20,18 +20,18 @@ declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;
+      username: string;
       role: "USER" | "ADMIN" | "DEVELOPER";
       firstConnection: boolean;
-      // ...other properties
-      // role: UserRole;
+      dataSharingAgreement: boolean;
     } & DefaultSession["user"];
   }
 
   interface User {
-    // ...other properties
-    // role: UserRole;
+    username: string;
     role: "USER" | "ADMIN" | "DEVELOPER";
     firstConnection: boolean;
+    dataSharingAgreement: boolean;
   }
 }
 
@@ -48,8 +48,10 @@ export const authOptions: NextAuthOptions = {
         user: {
           ...session.user,
           id: user.id,
+          username: user.username,
           role: user.role,
           firstConnection: user.firstConnection,
+          dataSharingAgreement: user.dataSharingAgreement,
         },
       };
     },
@@ -58,9 +60,9 @@ export const authOptions: NextAuthOptions = {
       return Promise.resolve(`${baseUrl}/repositories`);
     },
 
-    async signIn({ user, account }) {
-      if (user.id && user.firstConnection === false) {
-        await repositoryService.syncStarredRepositories(user.id, account);
+    async signIn({ user }) {
+      if (user.id && !user.firstConnection && user.dataSharingAgreement) {
+        await repositoryService.syncStarredRepositories(user);
       }
 
       return true;

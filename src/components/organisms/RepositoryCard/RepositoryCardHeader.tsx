@@ -3,7 +3,8 @@ import { ProfileAvatar } from "@/components/molecules/Avatar";
 import { AdminWrapper } from "@/components/organisms/AdminWrapper";
 import { RepositoryCardHide } from "./RepositoryCardHide";
 import type { Repository } from "@/types/prisma.type";
-import type { User } from "next-auth";
+import type { User } from "@/types/prisma.type";
+import { displayNameOrUsername } from "@/lib/utils";
 
 type Props = {
   user: User | null;
@@ -27,11 +28,11 @@ export const RepositoryCardHeader = ({ user, repository }: Props) => {
             {repository.ownerUsername}/{repository.repositoryName}
           </Link>
           <span className="text-xs">
-            Published by {repository.createdBy.name}
+            Published by {displayNameOrUsername({ repository })}
           </span>
         </div>
       </div>
-      <AdminWrapper user={user}>
+      <AdminWrapper role={user?.role}>
         <RepositoryCardHide repository={repository} />
       </AdminWrapper>
     </div>

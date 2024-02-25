@@ -1,10 +1,10 @@
-import type { User } from "next-auth";
+import type { User } from "@/types/prisma.type";
 
 type Props = {
-  user: User | null;
+  role: User["role"] | undefined;
   children: React.ReactNode;
 };
 
-export const AdminWrapper = ({ user, children }: Props) => {
-  return <>{user?.role === "ADMIN" ? children : null}</>;
+export const AdminWrapper = ({ role, children }: Props) => {
+  return <>{role === "ADMIN" ? children : null}</>;
 };

@@ -1,5 +1,6 @@
 import { getServerAuthSession } from "@/server/auth";
 import { createSafeActionClient } from "next-safe-action";
+import type { Session } from "next-auth";
 
 export const adminAction = createSafeActionClient({
   //@ts-expect-error - Return type is not correct
@@ -29,7 +30,7 @@ export const action = createSafeActionClient();
 export class ActionError extends Error {}
 
 export const userAction = createSafeActionClient<{
-  userId: string | undefined;
+  session: Session;
 }>({
   //@ts-expect-error - Return type is not correct
   handleReturnedServerError(e) {
@@ -46,10 +47,8 @@ export const userAction = createSafeActionClient<{
     const session = await getServerAuthSession();
     if (!session) throw new ActionError("Not logged in");
 
-    const userId = session.user.id;
-
     return {
-      userId,
+      session,
     };
   },
 });

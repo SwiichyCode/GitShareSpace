@@ -26,8 +26,6 @@ export default async function RepositoriesPage({ searchParams }: Props) {
     limit,
   });
 
-  console.log(query);
-
   const likes = await likeService.getLikes();
 
   const session = await getServerAuthSession();

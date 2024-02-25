@@ -1,18 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { signOut } from "next-auth/react";
-import {
-  PersonIcon,
-  RepoIcon,
-  StarIcon,
-  ArrowLeftIcon,
-} from "@primer/octicons-react";
+import { PersonIcon, RepoIcon, StarIcon } from "@primer/octicons-react";
 import { Separator } from "@/components/atoms/separator";
 import { useShareRepositoryModal } from "@/stores/useShareRepositoryModal";
 import { useSidebar } from "@/stores/useSidebar";
-import { AdminWrapper } from "@/components/organisms/AdminWrapper";
-import { SidebarSyncRepositories } from "./SidebarSyncRepositories";
+import { SidebarSignout } from "./SidebarSignout";
+import { SidebarAdministration } from "./SidebarAdministration";
 import { URL } from "@/constants";
 import type { Session } from "next-auth";
 
@@ -56,18 +50,8 @@ export const SidebarNavigation = ({ session }: Props) => {
         <span className="text-sm">Your stars</span>
       </Link>
       <Separator />
-      {session?.user && (
-        <AdminWrapper user={session.user}>
-          <SidebarSyncRepositories />
-        </AdminWrapper>
-      )}
-      <button
-        className="flex min-h-7 w-full cursor-pointer items-center space-x-2 rounded-md px-2 py-1 transition hover:bg-subtleHover"
-        onClick={() => signOut()}
-      >
-        <ArrowLeftIcon className="h-4 w-4 text-subtle" />
-        <span className="text-sm">Sign out</span>
-      </button>
+      <SidebarAdministration session={session} />
+      <SidebarSignout />
     </nav>
   );
 };

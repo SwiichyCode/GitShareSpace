@@ -1,10 +1,11 @@
-import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { type ClassValue, clsx } from "clsx";
 import { type LanguageType, languageTypeSchema } from "./types";
+import type { ReadonlyURLSearchParams } from "next/navigation";
 import type { User } from "@/types/prisma.type";
 import type { Repository } from "@/types/prisma.type";
 import type { Like } from "@prisma/client";
-import type { ReadonlyURLSearchParams } from "next/navigation";
+import type { Session } from "next-auth";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -96,4 +97,20 @@ export const createPageURL = (
   const params = new URLSearchParams(searchParams);
   params.set("page", pageNumber.toString());
   return `${pathname}?${params.toString()}`;
+};
+
+export const displayNameOrUsername = ({
+  repository,
+  session,
+}: {
+  repository?: Repository;
+  session?: Session | null;
+}) => {
+  if (repository) {
+    return repository.createdBy.username ?? repository.createdBy.name;
+  }
+
+  if (session) {
+    return session.user.username ?? session.user.name;
+  }
 };

@@ -8,7 +8,7 @@ export const updateAgreement = userAction(
   dataSharingAgreementSchema,
   async (data, ctx) => {
     try {
-      await userService.updateAgreement(ctx.userId!, data.agreement!);
+      await userService.updateAgreement(ctx.session.user, data.agreement!);
     } catch (error) {
       if (error instanceof Error) return { error: error.message };
     }

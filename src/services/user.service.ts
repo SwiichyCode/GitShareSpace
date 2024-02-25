@@ -1,4 +1,8 @@
 import { db } from "@/server/db";
+import octokitService from "./octokit.service";
+import repositoryService from "./repository.service";
+import { extractUserIdFromAvatarUrl } from "@/lib/utils";
+import type { User } from "next-auth";
 
 class UserService {
   async getUser(userId: string) {
@@ -12,12 +16,26 @@ class UserService {
     });
   }
 
-  async updateAgreement(userId: string, agreement: boolean) {
+  async updateAgreement(user: User, agreement: boolean) {
+    const githubUser = await octokitService.getUser(
+      extractUserIdFromAvatarUrl(user.image ?? ""),
+    );
+
+    if (!githubUser) {
+      throw new Error("User not found");
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    const username = githubUser.data.login;
+
+    await repositoryService.syncStarredRepositories(user);
+
     return await db.user.update({
       where: {
-        id: userId,
+        id: user.id,
       },
       data: {
+        username,
         dataSharingAgreement: agreement,
         firstConnection: false,
       },

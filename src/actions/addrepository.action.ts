@@ -10,7 +10,7 @@ export const addRepository = userAction(
     try {
       await repositoryService.postRepository({
         ...data,
-        createdBy: ctx.userId!,
+        createdBy: ctx.session.user.id,
       });
     } catch (error) {
       if (error instanceof Error) return { error: error.message };

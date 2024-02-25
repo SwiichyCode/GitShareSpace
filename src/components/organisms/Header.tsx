@@ -12,7 +12,7 @@ export const Header = async () => {
     <header className="flex items-center justify-between bg-overlay px-6 py-4">
       <Logo />
 
-      <div className="flex flex-1 items-center justify-end space-x-4">
+      <div className="flex items-center justify-end space-x-4">
         <InputSearch />
         <div className="h-6 w-[1px] bg-[#30363D]" />
         <GithubLink />

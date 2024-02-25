@@ -1,5 +1,6 @@
 import type { Session } from "next-auth";
 import { ProfileAvatar } from "@/components/molecules/Avatar";
+import { displayNameOrUsername } from "@/lib/utils";
 
 type Props = {
   session: Session | null;
@@ -16,7 +17,7 @@ export const SidebarHeader = async ({ session }: Props) => {
       )}
       <div className="flex flex-col">
         <span className="w-36 truncate text-base font-bold">
-          {session?.user.name}
+          {displayNameOrUsername({ session })}
         </span>
         <span className="w-36 truncate text-sm">{session?.user.email}</span>
       </div>

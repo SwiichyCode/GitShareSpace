@@ -1,7 +1,7 @@
 "use client";
 import { useTransition } from "react";
 import { syncRepositories } from "@/actions/syncrepositories.action";
-import { FileSymlinkFileIcon } from "@primer/octicons-react";
+import { SyncIcon } from "@primer/octicons-react";
 
 export const SidebarSyncRepositories = () => {
   const [isPending, startTransition] = useTransition();
@@ -22,7 +22,7 @@ export const SidebarSyncRepositories = () => {
         className="flex w-full cursor-pointer items-center space-x-2 rounded-md px-2 py-1 text-sm transition hover:bg-subtleHover"
         type="submit"
       >
-        <FileSymlinkFileIcon className="h-4 w-4 text-subtle" />
+        <SyncIcon className="h-4 w-4 text-subtle" />
         <span>{isPending ? "Syncing..." : "Sync repositories"}</span>
       </button>
     </form>
