@@ -257,7 +257,7 @@ class RepositoryService {
         createdBy: true,
       },
       orderBy: {
-        id: "desc",
+        id: "asc",
       },
     });
   }

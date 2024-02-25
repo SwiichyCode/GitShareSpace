@@ -1,7 +1,7 @@
 "use server";
-import { revalidatePath } from "next/cache";
 import { userAction } from "@/lib/next-safe-action";
 import repositoryService from "@/services/repository.service";
+import { pusherServer } from "@/lib/pusherServer";
 import * as z from "zod";
 
 const schema = z.object({
@@ -10,6 +10,11 @@ const schema = z.object({
 });
 
 export const addComment = userAction(schema, async (data, ctx) => {
+  await pusherServer.trigger(`repo-${data.repositoryId}`, "new-comment", {
+    content: data.content,
+    userId: ctx.session.user.id,
+  });
+
   try {
     await repositoryService.addCommentToRepository(
       data.repositoryId,
@@ -19,6 +24,4 @@ export const addComment = userAction(schema, async (data, ctx) => {
   } catch (error) {
     if (error instanceof Error) return { error: error.message };
   }
-
-  revalidatePath(`/repositories/${data.repositoryId}`);
 });
