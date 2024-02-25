@@ -30,7 +30,7 @@ export const SidebarDialog = ({ dialogHeader, children }: Props) => {
             <div className="pointer-events-none inset-y-0 flex h-screen max-w-full md:fixed md:right-0 md:pl-10">
               <Transition.Child
                 as={Fragment}
-                enter="transform transition ease-in-out duration-200"
+                enter="md:transform md:transition md:ease-in-out md:duration-200"
                 enterFrom="translate-x-full"
                 enterTo="translate-x-0"
                 leaveFrom="translate-x-0"
