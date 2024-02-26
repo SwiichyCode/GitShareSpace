@@ -1,13 +1,14 @@
 "use client";
 import { X } from "lucide-react";
 import { hideRepository } from "@/actions/hiderepository.action";
+import { withAdminRole } from "@/components/_HOC/withAdminRole";
 import type { Repository } from "@/types/prisma.type";
 
 type Props = {
   repository: Repository;
 };
 
-export const RepositoryCardHide = ({ repository }: Props) => {
+const RepositoryCardHide = ({ repository }: Props) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -22,3 +23,5 @@ export const RepositoryCardHide = ({ repository }: Props) => {
     </form>
   );
 };
+
+export const RepositoryCardHideWithRole = withAdminRole(RepositoryCardHide);

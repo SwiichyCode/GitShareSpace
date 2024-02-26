@@ -25,6 +25,17 @@ class AdminService {
       },
     });
   }
+
+  async updateUserRole(userId: string) {
+    return await db.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        role: "USER",
+      },
+    });
+  }
 }
 
 const adminService = new AdminService();

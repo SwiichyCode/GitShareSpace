@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { Form } from "@/components/atoms/form";
 import { SubmitButton } from "@/components/molecules/SubmitButton";
 import { TextAreaForm } from "@/components/molecules/TextAreaForm";
-import { addComment } from "@/actions/addcomment";
+import { addComment } from "@/actions/addcomment.action";
 import { formAddCommentSchema } from "./addcomment.schema";
 import type { z } from "zod";
 

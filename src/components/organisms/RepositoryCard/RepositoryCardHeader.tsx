@@ -1,10 +1,9 @@
 import Link from "next/link";
 import { ProfileAvatar } from "@/components/molecules/Avatar";
-import { AdminWrapper } from "@/components/organisms/AdminWrapper";
-import { RepositoryCardHide } from "./RepositoryCardHide";
+import { RepositoryCardHideWithRole } from "./RepositoryCardHide";
+import { displayNameOrUsername } from "@/lib/utils";
 import type { Repository } from "@/types/prisma.type";
 import type { User } from "@/types/prisma.type";
-import { displayNameOrUsername } from "@/lib/utils";
 
 type Props = {
   user: User | null;
@@ -38,9 +37,7 @@ export const RepositoryCardHeader = ({
         </div>
       </div>
       {!isComment && (
-        <AdminWrapper role={user?.role}>
-          <RepositoryCardHide repository={repository} />
-        </AdminWrapper>
+        <RepositoryCardHideWithRole role={user?.role} repository={repository} />
       )}
     </div>
   );
