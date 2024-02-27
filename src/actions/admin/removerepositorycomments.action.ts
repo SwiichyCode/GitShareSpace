@@ -3,7 +3,8 @@
 import { adminAction } from "@/lib/next-safe-action";
 import adminService from "@/services/admin.service";
 import { revalidatePath } from "next/cache";
-import { z } from "zod";
+import { URL } from "@/constants";
+import * as z from "zod";
 
 const schema = z.object({
   repositoryId: z.number(),
@@ -16,5 +17,5 @@ export const removeRepositoryComments = adminAction(schema, async (data) => {
     if (error instanceof Error) return { error: error.message };
   }
 
-  revalidatePath(`/repositories/${data.repositoryId}`);
+  revalidatePath(`${URL.REPOSITORIES}/${data.repositoryId}`);
 });

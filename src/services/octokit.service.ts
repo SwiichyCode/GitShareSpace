@@ -1,4 +1,5 @@
 import { octokit } from "@/lib/octokit";
+import { OCTOKIT_ENDPOINT, ERROR_MESSAGE } from "@/constants";
 import type { Octokit } from "octokit";
 import type { OctokitRepositoryResponse } from "@/lib/octokit";
 
@@ -11,7 +12,7 @@ class OctokitService {
 
   async getUser(userId: string | undefined) {
     try {
-      return await this.octokit.request("GET /user/{userId}", {
+      return await this.octokit.request(OCTOKIT_ENDPOINT.GET_USER, {
         userId,
       });
     } catch (error) {
@@ -24,10 +25,10 @@ class OctokitService {
       const [owner, repo] = url.split("/").slice(-2);
 
       if (!owner || !repo) {
-        throw new Error("Invalid repository URL");
+        throw new Error(ERROR_MESSAGE.GITHUB_INVALID_URL);
       }
 
-      return await this.octokit.request("GET /repos/{owner}/{repo}", {
+      return await this.octokit.request(OCTOKIT_ENDPOINT.GET_REPOSITORY, {
         owner,
         repo,
       });
@@ -38,9 +39,12 @@ class OctokitService {
 
   async getRepositoryById(id: number) {
     try {
-      const response = await this.octokit.request("GET /repositories/{id}", {
-        id,
-      });
+      const response = await this.octokit.request(
+        OCTOKIT_ENDPOINT.GET_REPOSITORY_BY_ID,
+        {
+          id,
+        },
+      );
 
       return response as OctokitRepositoryResponse;
     } catch (error) {
@@ -50,10 +54,13 @@ class OctokitService {
 
   async getStaredRepositoriesByUser(username: string) {
     try {
-      return await this.octokit.request("GET /users/{username}/starred", {
-        username,
-        per_page: 100,
-      });
+      return await this.octokit.request(
+        OCTOKIT_ENDPOINT.GET_STARRED_REPOSITORIES,
+        {
+          username,
+          per_page: 100,
+        },
+      );
     } catch (error) {
       if (error instanceof Error) return console.log(error.message);
     }

@@ -3,7 +3,8 @@
 import { adminAction } from "@/lib/next-safe-action";
 import adminService from "@/services/admin.service";
 import { revalidatePath } from "next/cache";
-import { z } from "zod";
+import { URL } from "@/constants";
+import * as z from "zod";
 
 const schema = z.object({
   userId: z.string(),
@@ -16,5 +17,5 @@ export const removeStaredRepositories = adminAction(schema, async (data) => {
     if (error instanceof Error) return { error: error.message };
   }
 
-  revalidatePath("/repositories");
+  revalidatePath(URL.REPOSITORIES);
 });
