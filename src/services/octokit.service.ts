@@ -28,10 +28,15 @@ class OctokitService {
         throw new Error(ERROR_MESSAGE.GITHUB_INVALID_URL);
       }
 
-      return await this.octokit.request(OCTOKIT_ENDPOINT.GET_REPOSITORY, {
-        owner,
-        repo,
-      });
+      const response = await this.octokit.request(
+        OCTOKIT_ENDPOINT.GET_REPOSITORY,
+        {
+          owner,
+          repo,
+        },
+      );
+
+      return response as OctokitRepositoryResponse;
     } catch (error) {
       if (error instanceof Error) return console.log(error.message);
     }
