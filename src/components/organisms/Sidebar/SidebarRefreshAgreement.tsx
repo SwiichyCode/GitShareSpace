@@ -1,7 +1,7 @@
 "use client";
 import { useTransition } from "react";
 import { FileSymlinkFileIcon } from "@primer/octicons-react";
-import { refreshAgreement } from "@/actions/refreshagreement.action";
+import { refreshAgreement } from "@/actions/admin/refreshagreement.action";
 
 export const SidebarRefreshAgreement = () => {
   const [isPending, startTransition] = useTransition();

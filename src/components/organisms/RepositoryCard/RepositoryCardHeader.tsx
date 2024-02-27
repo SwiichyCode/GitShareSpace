@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { ProfileAvatar } from "@/components/molecules/Avatar";
 import { RepositoryCardHideWithRole } from "./RepositoryCardHide";
-import { displayNameOrUsername } from "@/lib/utils";
 import type { Repository } from "@/types/prisma.type";
 import type { User } from "@/types/prisma.type";
 
@@ -32,7 +31,8 @@ export const RepositoryCardHeader = ({
             {repository.ownerUsername}/{repository.repositoryName}
           </Link>
           <span className="text-xs">
-            Published by {displayNameOrUsername({ repository })}
+            Published by{" "}
+            {repository.createdBy.username ?? repository.createdBy.name}
           </span>
         </div>
       </div>

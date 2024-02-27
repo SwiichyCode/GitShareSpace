@@ -1,6 +1,8 @@
 import { db } from "@/server/db";
 import octokitService from "./octokit.service";
 import { extractUserIdFromAvatarUrl } from "@/lib/utils";
+import { Prisma } from "@prisma/client";
+import { PrismaError } from "@/lib/exceptions";
 import { ERROR_MESSAGE } from "@/constants";
 import type { User } from "next-auth";
 
@@ -19,57 +21,70 @@ class RepositoryService {
       throw new Error(ERROR_MESSAGE.REPOSITORY_NOT_EXIST);
     }
 
-    const repositoryExist = await this.getRepository(octokitResponse.data.id);
-
-    if (repositoryExist) {
-      throw new Error(ERROR_MESSAGE.REPOSITORY_ALREADY_EXIST);
-    }
-
-    return await db.repository.create({
-      data: {
-        url: data.url,
-        description: data.description,
-        repositoryId: octokitResponse.data.id,
-        repositoryName: octokitResponse.data.name,
-        repositoryDescription: octokitResponse.data.description,
-        repositoryStargazers: octokitResponse.data.stargazers_count,
-        repositoryCreatedAt: octokitResponse.data.created_at,
-        repositoryUpdatedAt: octokitResponse.data.updated_at,
-        repositoryLicenseName: octokitResponse.data.license?.key,
-        repositoryLicenseUrl: octokitResponse.data.license?.url ?? "",
-        language: {
-          connectOrCreate: {
-            where: {
-              name: octokitResponse.data.language ?? "",
-            },
-            create: {
-              name: octokitResponse.data.language ?? "",
-            },
-          },
-        },
-        topics: {
-          connectOrCreate: octokitResponse.data.topics?.map((topic: string) => {
-            return {
+    try {
+      await db.repository.create({
+        data: {
+          url: data.url,
+          description: data.description,
+          repositoryId: octokitResponse.data.id,
+          repositoryName: octokitResponse.data.name,
+          repositoryDescription: octokitResponse.data.description,
+          repositoryStargazers: octokitResponse.data.stargazers_count,
+          repositoryCreatedAt: octokitResponse.data.created_at,
+          repositoryUpdatedAt: octokitResponse.data.updated_at,
+          repositoryLicenseName: octokitResponse.data.license?.key,
+          repositoryLicenseUrl: octokitResponse.data.license?.url ?? "",
+          language: {
+            connectOrCreate: {
               where: {
-                name: topic,
+                name: octokitResponse.data.language ?? "",
               },
               create: {
-                name: topic,
+                name: octokitResponse.data.language ?? "",
               },
-            };
-          }),
-        },
-        is_template: octokitResponse.data.is_template,
-        createdAt: octokitResponse.data.created_at,
-        updatedAt: octokitResponse.data.updated_at,
-        ownerUsername: octokitResponse.data.owner.login,
-        ownerId: octokitResponse.data.owner.id,
-        ownerAvatarUrl: octokitResponse.data.owner.avatar_url,
-        createdBy: {
-          connect: {
-            id: data.createdBy,
+            },
+          },
+          topics: {
+            connectOrCreate: octokitResponse.data.topics?.map(
+              (topic: string) => {
+                return {
+                  where: {
+                    name: topic,
+                  },
+                  create: {
+                    name: topic,
+                  },
+                };
+              },
+            ),
+          },
+          is_template: octokitResponse.data.is_template,
+          createdAt: octokitResponse.data.created_at,
+          updatedAt: octokitResponse.data.updated_at,
+          ownerUsername: octokitResponse.data.owner.login,
+          ownerId: octokitResponse.data.owner.id,
+          ownerAvatarUrl: octokitResponse.data.owner.avatar_url,
+          createdBy: {
+            connect: {
+              id: data.createdBy,
+            },
           },
         },
+      });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        throw new PrismaError(error);
+      }
+    }
+  }
+
+  async getRepositoryByGithubId(repositoryId: number) {
+    return await db.repository.findFirst({
+      where: {
+        repositoryId,
+      },
+      include: {
+        topics: true,
       },
     });
   }
@@ -77,9 +92,11 @@ class RepositoryService {
   async getRepository(repositoryId: number) {
     return await db.repository.findFirst({
       where: {
-        repositoryId,
+        id: repositoryId,
       },
       include: {
+        createdBy: true,
+        language: true,
         topics: true,
       },
     });

@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { pusherClient } from "@/lib/pusherClient";
 import type { Comment } from "@/types/prisma.type";
+import { CardComment } from "./CardMessage";
 
 type Props = {
   initialComments: Comment[];
@@ -21,20 +22,16 @@ export const CommentMessages = ({ initialComments, repositoryId }: Props) => {
     return () => {
       pusherClient.unsubscribe(`repo-${repositoryId}`);
     };
-  }, []);
+  }, [repositoryId]);
 
   return (
-    <div>
+    <div className=" flex flex-col gap-8">
       {initialComments.map((comment) => (
-        <div key={comment.id}>
-          <p>{comment.content}</p>
-        </div>
+        <CardComment key={comment.id} comment={comment} />
       ))}
 
       {comments.map((comment) => (
-        <div key={comment.id}>
-          <p>{comment.content}</p>
-        </div>
+        <CardComment key={comment.id} comment={comment} />
       ))}
     </div>
   );

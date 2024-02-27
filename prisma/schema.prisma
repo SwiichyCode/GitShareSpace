@@ -84,7 +84,7 @@ model Repository {
     id                    Int       @id @default(autoincrement())
     url                   String
     description           String?
-    repositoryId          Int
+    repositoryId          Int       @unique
     repositoryName        String
     repositoryDescription String?
     repositoryStargazers  Int

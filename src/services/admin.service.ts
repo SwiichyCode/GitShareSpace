@@ -36,6 +36,14 @@ class AdminService {
       },
     });
   }
+
+  async removeRepositoryComments(repositoryId: number) {
+    return await db.comment.deleteMany({
+      where: {
+        repositoryId: repositoryId,
+      },
+    });
+  }
 }
 
 const adminService = new AdminService();

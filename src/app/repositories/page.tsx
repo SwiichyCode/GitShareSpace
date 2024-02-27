@@ -26,7 +26,6 @@ export default async function RepositoriesPage({ searchParams }: Props) {
   });
 
   const likes = await likeService.getLikes();
-
   const session = await getServerAuthSession();
   const user = session && (await userService.getUser(session.user.id));
   const repositoriesAlreadyStarred = getRepositoryAlreadyStarred(

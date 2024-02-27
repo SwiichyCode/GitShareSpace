@@ -4,26 +4,26 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useSidebar } from "@/stores/useSidebar";
 import { Form } from "@/components/atoms/form";
+import { removeRepositoryCommentsSchema } from "./removerepositorycomments.schema";
 import { InputForm } from "@/components/molecules/InputForm";
 import { SubmitButton } from "@/components/molecules/SubmitButton";
-import { updateUserRole } from "@/actions/admin/updateuserrole.action";
-import { updateUserRoleSchema } from "./updateuserrole.schema";
+import { removeRepositoryComments } from "@/actions/admin/removerepositorycomments.action";
 import type * as z from "zod";
 
-export const UpdateUserRoleForm = () => {
+export const RemoveRepositoryCommentsForm = () => {
   const { setOpen } = useSidebar();
   const [isPending, startTransition] = useTransition();
 
-  const form = useForm<z.infer<typeof updateUserRoleSchema>>({
-    resolver: zodResolver(updateUserRoleSchema),
+  const form = useForm<z.infer<typeof removeRepositoryCommentsSchema>>({
+    resolver: zodResolver(removeRepositoryCommentsSchema),
     defaultValues: {
-      userId: "",
+      repositoryId: 0,
     },
   });
 
-  function onSubmit(data: z.infer<typeof updateUserRoleSchema>) {
+  function onSubmit(data: z.infer<typeof removeRepositoryCommentsSchema>) {
     startTransition(async () => {
-      await updateUserRole(data);
+      await removeRepositoryComments(data);
 
       form.reset();
       setOpen(false);
@@ -33,14 +33,15 @@ export const UpdateUserRoleForm = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <h2 className="text-xl font-bold">Update user role</h2>
+        <h2 className="text-xl font-bold">Remove repository comments</h2>
         <InputForm
           control={form.control}
-          name="userId"
-          label="User ID"
-          placeholder="clsqk2mm60000cu1s9gyccgrz"
+          name="repositoryId"
+          label="Repository ID"
+          placeholder="42"
+          type="number"
         />
-        <SubmitButton isPending={isPending}>Update</SubmitButton>
+        <SubmitButton isPending={isPending}>Remove</SubmitButton>
       </form>
     </Form>
   );

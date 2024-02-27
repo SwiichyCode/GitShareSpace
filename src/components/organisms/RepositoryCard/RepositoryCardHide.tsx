@@ -1,6 +1,6 @@
 "use client";
 import { X } from "lucide-react";
-import { hideRepository } from "@/actions/hiderepository.action";
+import { hideRepository } from "@/actions/admin/hiderepository.action";
 import { withAdminRole } from "@/components/_HOC/withAdminRole";
 import type { Repository } from "@/types/prisma.type";
 

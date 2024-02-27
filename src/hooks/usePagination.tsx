@@ -19,7 +19,7 @@ export const usePagination = ({ totalPages }: Props) => {
   };
 
   const calculatePageRange = () => {
-    const buttonsToShow = 3; // Nombre de boutons à afficher autour de la page actuelle
+    const buttonsToShow = 3;
     const halfButtonsToShow = Math.floor(buttonsToShow / 2);
     const startPage = Math.max(1, currentPage - halfButtonsToShow);
     const endPage = Math.min(totalPages, startPage + buttonsToShow - 1);

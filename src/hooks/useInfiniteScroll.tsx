@@ -57,7 +57,6 @@ export const useInfiniteScroll = ({
     };
   }, [inView, loadMoreRepositories, query]);
 
-  // If the search query changes, reset the list of repositories.
   useEffect(() => {
     setRepositories(initialRepositories);
     setPage(1);

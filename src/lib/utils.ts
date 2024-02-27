@@ -1,11 +1,10 @@
 import { twMerge } from "tailwind-merge";
+import { formatDistanceToNow } from "date-fns";
 import { type ClassValue, clsx } from "clsx";
 import { type LanguageType, languageTypeSchema } from "./types";
 import type { ReadonlyURLSearchParams } from "next/navigation";
-import type { User } from "@/types/prisma.type";
-import type { Repository } from "@/types/prisma.type";
+import type { User, Repository } from "@/types/prisma.type";
 import type { Like } from "@prisma/client";
-import type { Session } from "next-auth";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -74,18 +73,19 @@ export const handleLikeCount = (likes: Like[], repository: Repository) => {
 };
 
 export const formatNumber = (num: number) => {
+  const format = (divisor: number, suffix: string) => {
+    const formattedNum = (num / divisor).toFixed(1);
+    return formattedNum.endsWith(".0")
+      ? formattedNum.slice(0, -2) + suffix
+      : formattedNum + suffix;
+  };
+
   if (num >= 1000000) {
-    const formattedNum = (num / 1000000).toFixed(1);
-    return formattedNum.endsWith(".0")
-      ? formattedNum.slice(0, -2) + "m"
-      : formattedNum + "m";
+    return format(1000000, "m");
   } else if (num >= 1000) {
-    const formattedNum = (num / 1000).toFixed(1);
-    return formattedNum.endsWith(".0")
-      ? formattedNum.slice(0, -2) + "k"
-      : formattedNum + "k";
+    return format(1000, "k");
   } else {
-    return num;
+    return num.toString();
   }
 };
 
@@ -99,18 +99,14 @@ export const createPageURL = (
   return `${pathname}?${params.toString()}`;
 };
 
-export const displayNameOrUsername = ({
-  repository,
-  session,
-}: {
-  repository?: Repository;
-  session?: Session | null;
-}) => {
-  if (repository) {
-    return repository.createdBy.username ?? repository.createdBy.name;
-  }
+export const hasLikedRepository = (
+  like: Like,
+  userId: User["id"] | undefined,
+  repositoryId: Repository["id"],
+) => {
+  return like.userId === userId && like.repositoryId === repositoryId;
+};
 
-  if (session) {
-    return session.user.username ?? session.user.name;
-  }
+export const calculateCommentCreatedRange = (createdAt: Date) => {
+  return formatDistanceToNow(new Date(createdAt));
 };

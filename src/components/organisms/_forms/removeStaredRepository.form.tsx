@@ -7,7 +7,7 @@ import { Form } from "@/components/atoms/form";
 import { removeStaredRepositorySchema } from "./removeStaredRepository.schema";
 import { InputForm } from "@/components/molecules/InputForm";
 import { SubmitButton } from "@/components/molecules/SubmitButton";
-import { removeStaredRepositories } from "@/actions/removeStaredRepositories.action";
+import { removeStaredRepositories } from "@/actions/admin/removeStaredRepositories.action";
 import type * as z from "zod";
 
 export const RemoveStaredRepositoryForm = () => {
