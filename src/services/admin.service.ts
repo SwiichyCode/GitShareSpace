@@ -14,7 +14,7 @@ class AdminService {
   }
 
   async removeRepositoryAlreadyStarred(userId: string) {
-    return await db.user.update({
+    await db.user.update({
       where: {
         id: userId,
       },
@@ -27,7 +27,7 @@ class AdminService {
   }
 
   async updateUserRole(userId: string) {
-    return await db.user.update({
+    await db.user.update({
       where: {
         id: userId,
       },
@@ -38,7 +38,7 @@ class AdminService {
   }
 
   async removeRepositoryComments(repositoryId: number) {
-    return await db.comment.deleteMany({
+    await db.comment.deleteMany({
       where: {
         repositoryId: repositoryId,
       },
