@@ -5,10 +5,10 @@ import {
   type NextAuthOptions,
 } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
-
+import repositoryService from "@/services/repository.service";
 import { env } from "@/env";
 import { db } from "@/server/db";
-import repositoryService from "@/services/repository.service";
+import { URL } from "@/constants";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -57,7 +57,7 @@ export const authOptions: NextAuthOptions = {
     },
 
     redirect({ baseUrl }) {
-      return Promise.resolve(`${baseUrl}/repositories`);
+      return Promise.resolve(baseUrl + URL.REPOSITORIES);
     },
 
     async signIn({ user }) {

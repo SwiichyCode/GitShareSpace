@@ -1,9 +1,7 @@
 import "@/styles/globals.css";
-import { Toaster } from "@/components/atoms/toaster";
+
 import { Inter } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
-import { Header } from "@/components/organisms/Header";
-import { Sidebar } from "@/components/organisms/Sidebar/_index";
 import { env } from "@/env";
 
 const inter = Inter({
@@ -25,12 +23,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`font-sans ${inter.variable} bg-inset text-default`}>
-        <Header />
-        <Sidebar />
+      <body
+        className={`font-sans ${inter.variable} scroll-smooth bg-inset text-default`}
+      >
         {children}
-
-        <Toaster />
       </body>
       <GoogleAnalytics gaId={env.GOOGLE_ANALYTICS_ID} />
     </html>

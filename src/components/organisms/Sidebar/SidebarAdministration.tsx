@@ -1,4 +1,4 @@
-import { withAdminRole } from "@/components/_HOC/withAdminRole";
+import { withAdminRole } from "@/components/_HOCs/withAdminRole";
 import { SidebarSyncRepositories } from "./SidebarSyncRepositories";
 import { SidebarRefreshAgreement } from "./SidebarRefreshAgreement";
 import { SidebarRemoveStarredRepositories } from "./SidebarRemoveStarredRepositories";

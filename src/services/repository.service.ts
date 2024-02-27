@@ -165,7 +165,7 @@ class RepositoryService {
   }
 
   async hideRepository(id: number) {
-    return await db.repository.update({
+    await db.repository.update({
       where: {
         id,
       },
