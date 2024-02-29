@@ -1,19 +1,42 @@
 import type { Repository } from "@/types/prisma.type";
+import { cn } from "@/lib/utils";
 
 type Props = {
   repository: Repository;
 };
 
+type DescriptionProps = {
+  title: string;
+  text: string | null;
+  className?: string;
+};
+
+const Description = (props: DescriptionProps) => {
+  const { title, text, className } = props;
+  const isEmptyClass = !text && "h-[40px] rounded-md bg-[#0D1117]";
+
+  return (
+    <p className={cn("line-clamp-2 w-full text-sm", isEmptyClass, className)}>
+      {text && (
+        <>
+          <span className="font-semibold">{title}:</span> {text}
+        </>
+      )}
+    </p>
+  );
+};
+
 export const RepositoryCardDescription = ({ repository }: Props) => {
   return (
     <>
-      <p className="w-full truncate text-sm">
-        <span>Github description:</span>{" "}
-        {repository.repositoryDescription ?? "No description provided"}
-      </p>
-      <p className="w-full truncate text-sm">
-        <span>Publisher description:</span> {repository.description}
-      </p>
+      <Description
+        title="Github description"
+        text={repository.repositoryDescription}
+      />
+      <Description
+        title="Publisher description"
+        text={repository.description}
+      />
     </>
   );
 };

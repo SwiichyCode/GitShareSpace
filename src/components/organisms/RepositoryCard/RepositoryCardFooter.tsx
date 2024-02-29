@@ -21,7 +21,7 @@ export const RepositoryCardFooter = ({
   repositoriesAlreadyStarred,
 }: Props) => {
   return (
-    <div className="flex justify-between space-x-4 text-xs text-[#848D97]">
+    <div className="flex justify-between space-x-4 pt-2 text-xs text-[#848D97]">
       <div className="flex space-x-4">
         <RepositoryCardLanguage repository={repository} />
         <RepositoryCardStars
