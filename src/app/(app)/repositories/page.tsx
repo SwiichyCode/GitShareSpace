@@ -1,12 +1,12 @@
 import { getServerAuthSession } from "@/server/auth";
-import userService from "@/services/user.service";
-import likeService from "@/services/like.service";
 import { DataSharingAgreementForm } from "@/components/organisms/_forms/dataSharingAgreement.form";
 import { AddRepositoryForm } from "@/components/organisms/_forms/addrepository.form";
 import { RepositoriesGridInfiniteScroll } from "@/components/organisms/RepositoriesGridInfiniteScroll";
 import { getRepositoriesOnScroll } from "@/actions/getRepositories.action";
 import { getRepositoryAlreadyStarred } from "@/lib/utils";
 import { parseAsString } from "nuqs/server";
+import { getLikes } from "@/actions/getLikes.action";
+import { getUser } from "@/actions/getUser";
 
 type Props = {
   searchParams?: {
@@ -25,9 +25,9 @@ export default async function RepositoriesPage({ searchParams }: Props) {
     limit,
   });
 
-  const likes = await likeService.getLikes();
+  const likes = await getLikes();
   const session = await getServerAuthSession();
-  const user = session && (await userService.getUser(session.user.id));
+  const user = session && (await getUser(session.user.id));
   const repositoriesAlreadyStarred = getRepositoryAlreadyStarred(
     initialData,
     user,

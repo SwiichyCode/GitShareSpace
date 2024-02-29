@@ -15,7 +15,7 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/atoms/form";
-import { updateAgreement } from "@/actions/agreement.action";
+import { updateAgreement } from "@/actions/updateagreement.action";
 import type { User } from "@prisma/client";
 import type { z } from "zod";
 

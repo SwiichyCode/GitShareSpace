@@ -55,7 +55,7 @@ export const useInfiniteScroll = ({
     return () => {
       isSubscribed = false;
     };
-  }, [inView, loadMoreRepositories, query]);
+  }, [inView, loadMoreRepositories]);
 
   useEffect(() => {
     setRepositories(initialRepositories);

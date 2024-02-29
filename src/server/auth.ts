@@ -68,6 +68,7 @@ export const authOptions: NextAuthOptions = {
       return true;
     },
   },
+  // @ts-expect-error - `PrismaAdapter` Prisma with accelerate.
   adapter: PrismaAdapter(db),
   providers: [
     GithubProvider({

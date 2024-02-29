@@ -9,7 +9,6 @@ export default function AppLayout({ children }: PropsWithChildren) {
       <Header />
       <Sidebar />
       {children}
-
       <Toaster />
     </>
   );
