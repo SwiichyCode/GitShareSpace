@@ -26,18 +26,18 @@ export const useInfiniteScroll = ({
     const next = page + 1;
     const offset = next * limit;
 
-    const { data: newRepositories } = await getRepositoriesOnScroll({
+    const { data } = await getRepositoriesOnScroll({
       query,
       limit: 20,
       offset,
       cursor: repositories.length && repositories[repositories.length - 1]!.id,
     });
 
-    if (newRepositories.length) {
+    if (data.length) {
       setPage(next);
       setRepositories((prev: Repository[] | undefined) => [
         ...(prev?.length ? prev : []),
-        ...newRepositories,
+        ...data,
       ]);
     } else {
       setDisable(true);

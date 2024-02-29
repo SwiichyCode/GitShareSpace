@@ -17,10 +17,10 @@ import {
 } from "@/components/atoms/form";
 import { updateAgreement } from "@/actions/updateagreement.action";
 import type { User } from "@prisma/client";
-import type { z } from "zod";
+import type * as z from "zod";
 
 type Props = {
-  user: User;
+  user: User | null;
 };
 
 export const DataSharingAgreementForm = ({ user }: Props) => {
@@ -46,6 +46,8 @@ export const DataSharingAgreementForm = ({ user }: Props) => {
       setOpen(false);
     });
   }
+
+  if (!user) return null;
 
   return (
     <Dialog open={open}>

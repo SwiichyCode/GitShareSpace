@@ -12,7 +12,7 @@ import { InputForm } from "@/components/molecules/InputForm";
 import { TextAreaForm } from "@/components/molecules/TextAreaForm";
 import { SubmitButton } from "@/components/molecules/SubmitButton";
 import { addRepository } from "@/actions/addrepository.action";
-import type { z } from "zod";
+import type * as z from "zod";
 
 export const AddRepositoryForm = () => {
   const [isPending, startTransition] = useTransition();

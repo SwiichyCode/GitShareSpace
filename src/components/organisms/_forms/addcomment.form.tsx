@@ -8,8 +8,8 @@ import { SubmitButton } from "@/components/molecules/SubmitButton";
 import { TextAreaForm } from "@/components/molecules/TextAreaForm";
 import { addComment } from "@/actions/addcomment.action";
 import { formAddCommentSchema } from "./addcomment.schema";
-import { User } from "@/types/prisma.type";
-import type { z } from "zod";
+import type { User } from "@/types/prisma.type";
+import type * as z from "zod";
 
 type Props = {
   user: User | null;

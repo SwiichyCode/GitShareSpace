@@ -1,54 +1,35 @@
 "use client";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
-import { RepositoryCard } from "./RepositoryCard/_index";
-import type { Repository, User } from "@/types/prisma.type";
-import type { Like } from "@prisma/client";
+import { RepositoryCard } from "@/components/organisms/RepositoryCard/_index";
+import { RepositoriesLoader } from "@/components/molecules/RepositoriesLoader";
+import { RepositoriesGridLayout } from "./RepositoriesGridLayout";
+import { useRepositoriesContext } from "@/context/repositoriesContext";
 
 type Props = {
-  user: User | null;
-  likes: Like[];
-  initialData: Repository[];
-  repositoriesAlreadyStarred: string[] | undefined;
   query: string;
-  limit: number;
 };
 
-export const RepositoriesGridInfiniteScroll = ({
-  user,
-  likes,
-  initialData,
-  repositoriesAlreadyStarred,
-  query,
-  limit,
-}: Props) => {
+export const RepositoriesGridInfiniteScroll = ({ query }: Props) => {
+  const { data: initialRepositories, user } = useRepositoriesContext();
+
   const { repositories, ref, isDisable } = useInfiniteScroll({
-    initialRepositories: initialData,
+    initialRepositories,
     query,
-    limit,
+    limit: 20,
   });
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
+      <RepositoriesGridLayout>
         {repositories.map((repository) => (
           <RepositoryCard
-            user={user}
-            likes={likes}
-            repository={repository}
-            repositoriesAlreadyStarred={repositoriesAlreadyStarred}
             key={repository.id}
+            user={user}
+            repository={repository}
           />
         ))}
-      </div>
-
-      {!isDisable && (
-        <div
-          ref={ref}
-          className="mt-6 flex flex-col items-center justify-center"
-        >
-          <p className="text-sm text-gray-400">Loading more repositories...</p>
-        </div>
-      )}
+      </RepositoriesGridLayout>
+      <RepositoriesLoader isDisable={isDisable} ref={ref} />
     </>
   );
 };
