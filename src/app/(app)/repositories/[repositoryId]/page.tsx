@@ -3,18 +3,20 @@ import { ProfileAvatar } from "@/components/molecules/Avatar";
 import { CommentMessages } from "@/components/organisms/CommentMessages";
 import { AddCommentForm } from "@/components/organisms/_forms/addcomment.form";
 import repositoryService from "@/services/repository.service";
+import { getServerAuthSession } from "@/server/auth";
+import { getUser } from "@/actions/getUser";
 
 export default async function RepositoryCommentPage({
   params,
 }: {
   params: { repositoryId: number };
 }) {
-  const repository = await repositoryService.getRepository(
-    Number(params.repositoryId),
-  );
-  const initialComments = await repositoryService.getCommentsByRepositoryId(
-    Number(params.repositoryId),
-  );
+  const repositoryId = Number(params.repositoryId);
+  const repository = await repositoryService.getRepository(repositoryId);
+  const initialComments =
+    await repositoryService.getCommentsByRepositoryId(repositoryId);
+  const session = await getServerAuthSession();
+  const user = session && (await getUser(session.user.id));
 
   if (!repository) {
     return <div>Repository not found</div>;
@@ -46,7 +48,7 @@ export default async function RepositoryCommentPage({
         initialComments={initialComments}
         repositoryId={params.repositoryId}
       />
-      <AddCommentForm repositoryId={Number(params.repositoryId)} />
+      {session && <AddCommentForm user={user} repositoryId={repositoryId} />}
     </div>
   );
 }

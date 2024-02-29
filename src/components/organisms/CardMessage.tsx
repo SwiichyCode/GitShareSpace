@@ -11,7 +11,7 @@ export const CardComment = ({ comment }: Props) => {
   return (
     <div className="flex flex-col space-y-4 overflow-hidden rounded-md border border-card bg-default px-4 py-2 shadow">
       <div className="flex items-center gap-2">
-        <ProfileAvatar pictureUrl={comment.createdBy.image ?? ""} />
+        <ProfileAvatar pictureUrl={comment.createdBy.image ?? "/avatar.png"} />
         <div className="flex space-x-2">
           <Link
             href="#"

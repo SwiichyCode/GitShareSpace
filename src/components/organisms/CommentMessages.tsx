@@ -9,13 +9,20 @@ type Props = {
   repositoryId: number;
 };
 
+type CommentEvent = {
+  picture: string | null | undefined;
+  name: string | null | undefined;
+  username: string | null | undefined;
+  content: string;
+};
+
 export const CommentMessages = ({ initialComments, repositoryId }: Props) => {
-  const [comments, setComments] = useState<Comment[]>([]);
+  const [comments, setComments] = useState<CommentEvent[]>([]);
 
   useEffect(() => {
     pusherClient.subscribe(`repo-${repositoryId}`);
 
-    pusherClient.bind("new-comment", (data: Comment) => {
+    pusherClient.bind("new-comment", (data: CommentEvent) => {
       setComments((prev) => [...prev, data]);
     });
 
@@ -31,7 +38,10 @@ export const CommentMessages = ({ initialComments, repositoryId }: Props) => {
       ))}
 
       {comments.map((comment) => (
-        <CardComment key={comment.id} comment={comment} />
+        <>
+          <p>{comment.username}</p>
+          <p>{comment.content}</p>
+        </>
       ))}
     </div>
   );

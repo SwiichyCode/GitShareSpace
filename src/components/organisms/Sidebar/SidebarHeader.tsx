@@ -1,5 +1,7 @@
 import type { Session } from "next-auth";
 import { ProfileAvatar } from "@/components/molecules/Avatar";
+import { Button } from "@/components/atoms/button";
+import { useSidebar } from "@/stores/useSidebar";
 
 type Props = {
   session: Session | null;

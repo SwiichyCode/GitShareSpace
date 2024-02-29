@@ -1,18 +1,14 @@
-"use client";
 import Image from "next/image";
 import { Avatar, AvatarFallback } from "@/components/atoms/avatar";
-import { useSidebar } from "@/stores/useSidebar";
 
 type Props = {
-  pictureUrl?: string;
+  pictureUrl?: string | null;
   alt?: string;
 };
 
 export const ProfileAvatar = ({ pictureUrl, alt }: Props) => {
-  const { setOpen } = useSidebar();
-
   return (
-    <Avatar className="cursor-pointer" onClick={() => setOpen(true)}>
+    <Avatar>
       <Image
         src={pictureUrl ?? ""}
         width={40}
