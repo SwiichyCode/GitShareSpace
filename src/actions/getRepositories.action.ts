@@ -21,3 +21,7 @@ export const getRepositoriesOnScroll = async ({
     cursor,
   });
 };
+
+export const getRepositories = async () => {
+  return await repositoryService.getRepositories();
+};

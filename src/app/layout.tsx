@@ -1,7 +1,7 @@
 import "@/styles/globals.css";
 
 import { Inter } from "next/font/google";
-// import { GoogleAnalytics } from "@next/third-parties/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { TanstackProvider } from "@/providers/TanstackProvider";
 import { env } from "@/env";
@@ -32,7 +32,7 @@ export default function RootLayout({
         <SpeedInsights />
       </body>
 
-      {/* <GoogleAnalytics gaId={env.GOOGLE_ANALYTICS_ID} /> */}
+      <GoogleAnalytics gaId={env.GOOGLE_ANALYTICS_ID} />
     </html>
   );
 }
