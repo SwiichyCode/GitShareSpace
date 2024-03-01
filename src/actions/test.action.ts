@@ -17,17 +17,20 @@ export const getRepositoriesOnScroll = async ({
     db.repository.findMany({
       where: {
         is_visible: true,
+
         repositoryName: {
           contains: query,
           mode: "insensitive",
         },
       },
+
       include: {
         createdBy: true,
         language: true,
         topics: true,
         comments: true,
       },
+
       orderBy: {
         id: "desc",
       },
