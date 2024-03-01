@@ -11,7 +11,7 @@ export const RepositoryCardTopics = ({
   visibleTopics = 3,
 }: Props) => {
   return (
-    <div className="text-link flex gap-2">
+    <div className="flex h-[22px] gap-2 text-link">
       {repository.topics.slice(0, visibleTopics).map((topic) => (
         <Badge key={topic.id} className="truncate ">
           {topic.name}

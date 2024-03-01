@@ -52,6 +52,7 @@ export function getRepositoryAlreadyStarred(
   const repositoriesFromUser = user?.repositoryAlreadyStarred.map(
     (repository) => repository,
   );
+
   const alreadyStarred = repositoriesFromUser?.filter(
     (repositoryAlreadyStarred) =>
       repositoriesFromDatabase.includes(repositoryAlreadyStarred),

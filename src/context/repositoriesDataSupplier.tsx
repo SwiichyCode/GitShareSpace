@@ -14,9 +14,14 @@ export const repositoriesDataSupplier = async ({ query }: Props) => {
   const { data } = await repositoryService.getRepositoriesOnScroll({
     query,
   });
+
+  const repositories = await repositoryService.getRepositories();
   const user = await userService.getUser(session?.user.id ?? "");
   const likes = await likeService.getLikes();
-  const repositoriesAlreadyStarred = getRepositoryAlreadyStarred(data, user);
+  const repositoriesAlreadyStarred = getRepositoryAlreadyStarred(
+    repositories,
+    user,
+  );
 
   return { user, data, likes, repositoriesAlreadyStarred };
 };

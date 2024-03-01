@@ -15,12 +15,17 @@ const queryParser = parseAsString.withDefault("");
 
 export default async function RepositoriesPage({ searchParams }: Props) {
   const query = queryParser.parseServerSide(searchParams?.query);
-  const { user, data, likes } = await repositoriesDataSupplier({ query });
+  const { user, data, likes, repositoriesAlreadyStarred } =
+    await repositoriesDataSupplier({ query });
 
   return (
-    <RepositoriesProvider user={user} data={data} likes={likes}>
+    <RepositoriesProvider
+      user={user}
+      data={data}
+      likes={likes}
+      repositoriesAlreadyStarred={repositoriesAlreadyStarred}
+    >
       <RepositoriesGridInfiniteScroll query={query} />
-
       <DataSharingAgreementForm user={user} />
       <AddRepositoryForm />
     </RepositoriesProvider>
