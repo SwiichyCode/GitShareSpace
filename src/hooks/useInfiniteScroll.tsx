@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
 import { useInView } from "react-intersection-observer";
-import { getRepositoriesOnScroll } from "@/actions/getRepositories.action";
+import { getRepositoriesOnScroll } from "@/actions/test.action";
 import type { Repository } from "@/types/prisma.type";
 
 type Props = {
