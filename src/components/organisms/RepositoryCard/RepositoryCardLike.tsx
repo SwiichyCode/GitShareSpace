@@ -1,5 +1,5 @@
 "use client";
-import { useState, useCallback, useOptimistic } from "react";
+import { useState, useCallback, useOptimistic, useRef } from "react";
 import { HeartIcon, HeartFillIcon } from "@primer/octicons-react";
 import { likeOrUnlikeRepository } from "@/actions/likerepository.action";
 import { cn } from "@/lib/utils";
@@ -9,10 +9,25 @@ import type { Repository } from "@/types/prisma.type";
 import type { User } from "@/types/prisma.type";
 import type { Like } from "@prisma/client";
 
+import Fireworks from "react-canvas-confetti/dist/presets/fireworks";
+
 type Props = {
   user: User | null;
   likes: Like[];
   repository: Repository;
+};
+
+type TRunAnimationParams = {
+  speed: number;
+  duration?: number;
+  delay?: number;
+};
+
+type TConductorInstance = {
+  run: (params: TRunAnimationParams) => void;
+  shoot: () => void;
+  pause: () => void;
+  stop: () => void;
 };
 
 export const RepositoryCardLike = ({ user, repository, likes }: Props) => {
@@ -65,6 +80,16 @@ export const RepositoryCardLike = ({ user, repository, likes }: Props) => {
     [user, isUpdating, repository.id, setOptimisticLikes],
   );
 
+  const controller = useRef<TConductorInstance | null>(null);
+
+  const onInitHandler = ({ conductor }: { conductor: TConductorInstance }) => {
+    controller.current = conductor;
+  };
+
+  const onShoot = () => {
+    controller.current?.shoot();
+  };
+
   return (
     <form
       onSubmit={handleLikeRepository}
@@ -73,7 +98,8 @@ export const RepositoryCardLike = ({ user, repository, likes }: Props) => {
         isLiked && "text-[#FF3E6C]",
       )}
     >
-      <button type="submit">
+      <Fireworks onInit={onInitHandler} />
+      <button type="submit" onClick={onShoot}>
         {isLiked ? (
           <HeartFillIcon className={cn("h-4 w-4 hover:cursor-pointer ")} />
         ) : (
