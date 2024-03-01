@@ -73,3 +73,18 @@ export const getRepositories = async () => {
     },
   });
 };
+
+export const getLikes = async () => {
+  return await db.like.findMany();
+};
+
+export const getUser = async (userId: string) => {
+  return await db.user.findFirst({
+    where: {
+      id: userId,
+    },
+    include: {
+      likes: true,
+    },
+  });
+};

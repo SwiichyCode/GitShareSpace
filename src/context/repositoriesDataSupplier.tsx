@@ -1,12 +1,14 @@
 import { getServerAuthSession } from "@/server/auth";
 // import repositoryService from "@/services/repository.service";
-import likeService from "@/services/like.service";
-import userService from "@/services/user.service";
+// import likeService from "@/services/like.service";
+// import userService from "@/services/user.service";
 import { getRepositoryAlreadyStarred } from "@/lib/utils";
 // import { getRepositoriesOnScroll } from "@/actions/getRepositories.action";
 import {
   getRepositories,
   getRepositoriesOnScroll,
+  getUser,
+  getLikes,
 } from "@/actions/test.action";
 
 type Props = {
@@ -21,8 +23,8 @@ export const repositoriesDataSupplier = async ({ query }: Props) => {
   });
 
   const repositories = await getRepositories();
-  const user = await userService.getUser(session?.user.id ?? "");
-  const likes = await likeService.getLikes();
+  const user = await getUser(session?.user.id ?? "");
+  const likes = await getLikes();
   const repositoriesAlreadyStarred = getRepositoryAlreadyStarred(
     repositories,
     user,
