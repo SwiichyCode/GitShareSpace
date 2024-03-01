@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import { RepositoryCardLayout } from "./_layout";
 import { RepositoryCardHeader } from "./RepositoryCardHeader";
 import { RepositoryCardDescription } from "./RepositoryCardDescription";
@@ -13,15 +12,13 @@ type Props = {
 };
 
 export const RepositoryCard = ({ user, repository }: Props) => {
-  const repositoryCardRef = useRef<HTMLDivElement>(null);
-
   return (
-    <RepositoryCardLayout ref={repositoryCardRef}>
+    <RepositoryCardLayout>
       <RepositoryCardHeader user={user} repository={repository} />
       <div className="space-y-2 rounded-sm bg-overlay p-3">
         <RepositoryCardDescription repository={repository} />
 
-        <RepositoryCardTopics repository={repository} ref={repositoryCardRef} />
+        <RepositoryCardTopics repository={repository} />
         <RepositoryCardFooter user={user} repository={repository} />
       </div>
     </RepositoryCardLayout>
