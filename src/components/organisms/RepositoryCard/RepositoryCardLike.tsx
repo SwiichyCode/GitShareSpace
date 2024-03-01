@@ -90,7 +90,7 @@ export const RepositoryCardLike = ({ user, repository, likes }: Props) => {
     controller.current?.shoot();
   };
 
-  const handleClick = isLiked ? () => {} : onShoot;
+  const handleShoot = isLiked && !isUpdating ? onShoot : undefined;
 
   return (
     <form
@@ -101,7 +101,7 @@ export const RepositoryCardLike = ({ user, repository, likes }: Props) => {
       )}
     >
       <Fireworks onInit={onInitHandler} />
-      <button type="submit" onClick={handleClick}>
+      <button type="submit" onClick={handleShoot}>
         {isLiked ? (
           <HeartFillIcon className={cn("h-4 w-4 hover:cursor-pointer ")} />
         ) : (
