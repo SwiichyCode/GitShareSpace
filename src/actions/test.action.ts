@@ -34,7 +34,6 @@ export const getRepositoriesOnScroll = async ({
       skip: cursor !== undefined ? 1 : offset,
       take: limit,
       cursor: cursor ? { id: cursor } : undefined,
-      cacheStrategy: { ttl: 60 },
     }),
 
     db.repository.count({
@@ -44,7 +43,6 @@ export const getRepositoriesOnScroll = async ({
           contains: query,
         },
       },
-      cacheStrategy: { ttl: 60 },
     }),
   ]);
 

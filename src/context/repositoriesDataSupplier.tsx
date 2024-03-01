@@ -18,17 +18,14 @@ type Props = {
 export const repositoriesDataSupplier = async ({ query }: Props) => {
   const session = await getServerAuthSession();
 
-  const { data } = await getRepositoriesOnScroll({
-    query,
-  });
+  // const { data } = await getRepositoriesOnScroll({
+  //   query,
+  // });
 
-  const repositories = await getRepositories();
+  const data = await getRepositories();
   const user = await getUser(session?.user.id ?? "");
   const likes = await getLikes();
-  const repositoriesAlreadyStarred = getRepositoryAlreadyStarred(
-    repositories,
-    user,
-  );
+  const repositoriesAlreadyStarred = getRepositoryAlreadyStarred(data, user);
 
   return { user, data, likes, repositoriesAlreadyStarred };
 };

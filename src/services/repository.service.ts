@@ -197,7 +197,6 @@ class RepositoryService {
         skip: cursor !== undefined ? 1 : offset,
         take: limit,
         cursor: cursor ? { id: cursor } : undefined,
-        cacheStrategy: { ttl: 60 },
       }),
 
       db.repository.count({
@@ -207,7 +206,6 @@ class RepositoryService {
             contains: query,
           },
         },
-        cacheStrategy: { ttl: 60 },
       }),
     ]);
 
