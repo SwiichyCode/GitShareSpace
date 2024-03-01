@@ -1,7 +1,7 @@
 import type { Prisma } from "@prisma/client";
 
 export type Repository = Prisma.RepositoryGetPayload<{
-  include: { createdBy: true; language: true; comments: true };
+  include: { createdBy: true; language: true; comments: true; topics: true };
 }>;
 
 export type RepositoryTest = Prisma.RepositoryGetPayload<{

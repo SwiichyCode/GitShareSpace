@@ -1,7 +1,7 @@
 "use client";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 import { RepositoryCard } from "@/components/organisms/RepositoryCard/_index";
-import { RepositoriesLoader } from "@/components/molecules/RepositoriesLoader";
+import { RepositoriesLoader } from "@/components/organisms/RepositoriesGrid/RepositoriesLoader";
 import { RepositoriesGridLayout } from "./RepositoriesGridLayout";
 import { useRepositoriesContext } from "@/context/repositoriesContext";
 
