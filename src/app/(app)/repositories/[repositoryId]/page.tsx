@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { ProfileAvatar } from "@/components/molecules/Avatar";
-import { CommentMessages } from "@/components/organisms/CommentMessages";
-import { AddCommentForm } from "@/components/organisms/_forms/addcomment.form";
-import repositoryService from "@/services/repository.service";
 import { getServerAuthSession } from "@/server/auth";
 import { getUser } from "@/actions/getUser";
+import repositoryService from "@/services/repository.service";
+import { ProfileAvatar } from "@/components/molecules/Avatar";
+import { CommentList } from "@/components/organisms/Comment/CommentList";
+import { AddCommentForm } from "@/components/organisms/_forms/addcomment.form";
 
 export default async function RepositoryCommentPage({
   params,
@@ -44,7 +44,7 @@ export default async function RepositoryCommentPage({
         </div>
       </div>
 
-      <CommentMessages
+      <CommentList
         initialComments={initialComments}
         repositoryId={params.repositoryId}
       />

@@ -7,7 +7,7 @@ type Props = {
   comment: Comment;
 };
 
-export const CardComment = ({ comment }: Props) => {
+export const CommentCard = ({ comment }: Props) => {
   return (
     <div className="flex flex-col space-y-4 overflow-hidden rounded-md border border-card bg-default px-4 py-2 shadow">
       <div className="flex items-center gap-2">

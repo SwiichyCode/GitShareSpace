@@ -1,7 +1,7 @@
 "use client";
 
 import { TrashIcon } from "@primer/octicons-react";
-import { DialogWrapper } from "@/components/organisms/DialogWrapper";
+import { DialogWrapper } from "@/components/molecules/DialogWrapper";
 import { UpdateUserRoleForm } from "../_forms/updateuserrole.form";
 
 export const SidebarUpdateUserRole = () => {

@@ -1,9 +1,9 @@
 import { parseAsString } from "nuqs/server";
 import { repositoriesDataSupplier } from "@/context/repositoriesDataSupplier";
 import { RepositoriesProvider } from "@/context/repositoriesContext";
+import { RepositoriesGridInfiniteScroll } from "@/components/organisms//RepositoriesGrid/RepositoriesGridInfiniteScroll";
 import { DataSharingAgreementForm } from "@/components/organisms/_forms/dataSharingAgreement.form";
 import { AddRepositoryForm } from "@/components/organisms/_forms/addrepository.form";
-import { RepositoriesGridInfiniteScroll } from "@/components/organisms/RepositoriesGridInfiniteScroll";
 
 type Props = {
   searchParams?: {

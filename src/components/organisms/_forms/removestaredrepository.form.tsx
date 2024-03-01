@@ -4,10 +4,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useSidebar } from "@/stores/useSidebar";
 import { Form } from "@/components/atoms/form";
-import { removeStaredRepositorySchema } from "./removeStaredRepository.schema";
+import { removeStaredRepositorySchema } from "./removestaredrepositoryschema";
 import { InputForm } from "@/components/molecules/InputForm";
 import { SubmitButton } from "@/components/molecules/SubmitButton";
-import { removeStaredRepositories } from "@/actions/admin/removeStaredRepositories.action";
+import { removeStaredRepositories } from "@/actions/admin/removestaredrepositories.action";
 import type * as z from "zod";
 
 export const RemoveStaredRepositoryForm = () => {

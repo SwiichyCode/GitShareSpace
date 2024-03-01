@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/atoms/form";
 import { dataSharingAgreementSchema } from "./dataSharingAgreement.schema";
-import { DataSharingContent } from "@/components/organisms/DataSharingContent";
+import { DataSharingContent } from "@/components/molecules/DataSharingContent";
 import { Dialog, DialogContent } from "@/components/atoms/dialog";
 import { SubmitButton } from "@/components/molecules/SubmitButton";
 import { Checkbox } from "@/components/atoms/checkbox";

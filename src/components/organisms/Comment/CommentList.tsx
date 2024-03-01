@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { pusherClient } from "@/lib/pusherClient";
+import { CommentCard } from "@/components/organisms/Comment/CommentCard";
 import type { Comment } from "@/types/prisma.type";
-import { CardComment } from "./CardMessage";
 
 type Props = {
   initialComments: Comment[];
@@ -16,7 +16,7 @@ type CommentEvent = {
   content: string;
 };
 
-export const CommentMessages = ({ initialComments, repositoryId }: Props) => {
+export const CommentList = ({ initialComments, repositoryId }: Props) => {
   const [comments, setComments] = useState<CommentEvent[]>([]);
 
   useEffect(() => {
@@ -34,7 +34,7 @@ export const CommentMessages = ({ initialComments, repositoryId }: Props) => {
   return (
     <div className=" flex flex-col gap-8">
       {initialComments.map((comment) => (
-        <CardComment key={comment.id} comment={comment} />
+        <CommentCard key={comment.id} comment={comment} />
       ))}
 
       {comments.map((comment) => (
