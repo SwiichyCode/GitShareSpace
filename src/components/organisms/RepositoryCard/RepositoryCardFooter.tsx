@@ -22,7 +22,7 @@ export const RepositoryCardFooter = ({
   const { likes } = useRepositoriesContext();
 
   return (
-    <div className="flex justify-between space-x-4 pt-2 text-xs text-[#848D97]">
+    <div className="text-icon flex justify-between space-x-4 pt-2 text-xs">
       <div className="flex space-x-4">
         <RepositoryCardLanguage repository={repository} />
         <RepositoryCardStars

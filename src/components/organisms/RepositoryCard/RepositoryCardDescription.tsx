@@ -1,6 +1,7 @@
 import { removeUnsupportedEmojis } from "@/utils/removeUnsupportedEmojis";
 import type { Repository } from "@/types/prisma.type";
 import { cn } from "@/lib/utils";
+import { Editor } from "@/components/molecules/Editor";
 
 type Props = {
   repository: Repository;
@@ -14,15 +15,11 @@ type DescriptionProps = {
 
 const Description = (props: DescriptionProps) => {
   const { title, text, className } = props;
-  const isEmptyClass = !text && "rounded-md bg-[#0D1117]";
+  const isEmpty = !text && "rounded-md bg-[#0D1117]";
 
   return (
     <p
-      className={cn(
-        "line-clamp-2 h-[40px] w-full text-sm",
-        isEmptyClass,
-        className,
-      )}
+      className={cn("line-clamp-2 h-[40px] w-full text-sm", isEmpty, className)}
     >
       {text && (
         <>
@@ -41,7 +38,12 @@ export const RepositoryCardDescription = ({ repository }: Props) => {
         title="Github description"
         text={repository.repositoryDescription}
       />
-      <Description
+      {/* <Description
+        title="Publisher description"
+        text={repository.description}
+      /> */}
+      <Editor
+        key={"editor"}
         title="Publisher description"
         text={repository.description}
       />

@@ -42,6 +42,7 @@ const config = {
         default: "#E6EDF3",
         subtle: "#6E7781",
         link: "#2F81E8",
+        icon: "#848D97",
       },
       boxShadow: {
         overlay: "0 0 0 1px #30363d, 0 16px 32px rgba(1,4,9,0.85)",

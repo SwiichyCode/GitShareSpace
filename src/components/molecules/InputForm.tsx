@@ -32,13 +32,14 @@ const InputForm = React.forwardRef<HTMLInputElement, InputProps>(
 
             {description && <FormDescription>{description}</FormDescription>}
 
-            <FormMessage className=" text-red-500" />
+            <FormMessage className="text-red-500" />
           </FormItem>
         )}
       />
     );
   },
 );
+
 InputForm.displayName = "Input";
 
 export { InputForm };
