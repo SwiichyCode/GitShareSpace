@@ -11,10 +11,15 @@ import type { User } from "@/types/prisma.type";
 type Props = {
   user: User | null;
   repository: Repository;
+  repositoriesAlreadyStarred?: string[];
 };
 
-export const RepositoryCardFooter = ({ user, repository }: Props) => {
-  const { likes, repositoriesAlreadyStarred } = useRepositoriesContext();
+export const RepositoryCardFooter = ({
+  user,
+  repository,
+  repositoriesAlreadyStarred,
+}: Props) => {
+  const { likes } = useRepositoriesContext();
 
   return (
     <div className="flex justify-between space-x-4 pt-2 text-xs text-[#848D97]">

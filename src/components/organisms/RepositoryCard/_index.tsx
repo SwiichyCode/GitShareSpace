@@ -9,9 +9,14 @@ import type { Repository } from "@/types/prisma.type";
 type Props = {
   user: User | null;
   repository: Repository;
+  repositoriesAlreadyStarred?: string[];
 };
 
-export const RepositoryCard = ({ user, repository }: Props) => {
+export const RepositoryCard = ({
+  user,
+  repository,
+  repositoriesAlreadyStarred,
+}: Props) => {
   return (
     <RepositoryCardLayout>
       <RepositoryCardHeader user={user} repository={repository} />
@@ -19,7 +24,11 @@ export const RepositoryCard = ({ user, repository }: Props) => {
         <RepositoryCardDescription repository={repository} />
 
         <RepositoryCardTopics repository={repository} />
-        <RepositoryCardFooter user={user} repository={repository} />
+        <RepositoryCardFooter
+          user={user}
+          repository={repository}
+          repositoriesAlreadyStarred={repositoriesAlreadyStarred}
+        />
       </div>
     </RepositoryCardLayout>
   );

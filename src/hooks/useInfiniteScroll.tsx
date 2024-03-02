@@ -2,18 +2,21 @@
 import { useState, useEffect, useCallback } from "react";
 import { useInView } from "react-intersection-observer";
 import { getRepositoriesOnScroll } from "@/actions/test.action";
-import type { Repository } from "@/types/prisma.type";
+import { getRepositoryAlreadyStarred } from "@/utils/getRepositoryAlreadyStarred";
+import type { Repository, User } from "@/types/prisma.type";
 
 type Props = {
   initialRepositories: Repository[];
   query: string;
   limit: number;
+  user: User | null;
 };
 
 export const useInfiniteScroll = ({
   initialRepositories,
   query,
   limit,
+  user,
 }: Props) => {
   const [repositories, setRepositories] = useState(initialRepositories);
   const [page, setPage] = useState(1);
@@ -44,6 +47,11 @@ export const useInfiniteScroll = ({
     }
   }, [page, limit, query, repositories]);
 
+  const repositoriesAlreadyStarred = getRepositoryAlreadyStarred(
+    repositories,
+    user,
+  );
+
   useEffect(() => {
     let isSubscribed = true;
 
@@ -63,5 +71,5 @@ export const useInfiniteScroll = ({
     setDisable(false);
   }, [initialRepositories, query]);
 
-  return { repositories, ref, isDisable };
+  return { repositories, repositoriesAlreadyStarred, ref, isDisable };
 };

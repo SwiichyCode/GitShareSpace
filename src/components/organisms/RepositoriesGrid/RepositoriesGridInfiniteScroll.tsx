@@ -12,11 +12,13 @@ type Props = {
 export const RepositoriesGridInfiniteScroll = ({ query }: Props) => {
   const { data: initialRepositories, user } = useRepositoriesContext();
 
-  const { repositories, ref, isDisable } = useInfiniteScroll({
-    initialRepositories,
-    query,
-    limit: 20,
-  });
+  const { repositories, repositoriesAlreadyStarred, ref, isDisable } =
+    useInfiniteScroll({
+      initialRepositories,
+      query,
+      limit: 20,
+      user,
+    });
 
   return (
     <>
@@ -26,6 +28,7 @@ export const RepositoriesGridInfiniteScroll = ({ query }: Props) => {
             key={repository.id}
             user={user}
             repository={repository}
+            repositoriesAlreadyStarred={repositoriesAlreadyStarred}
           />
         ))}
       </RepositoriesGridLayout>

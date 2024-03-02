@@ -1,5 +1,4 @@
 import { getServerAuthSession } from "@/server/auth";
-import { getRepositoryAlreadyStarred } from "@/lib/utils";
 import {
   getRepositoriesOnScroll,
   getUser,
@@ -19,7 +18,6 @@ export const repositoriesDataSupplier = async ({ query }: Props) => {
 
   const user = await getUser(session?.user.id ?? "");
   const likes = await getLikes();
-  const repositoriesAlreadyStarred = getRepositoryAlreadyStarred(data, user);
 
-  return { user, data, likes, repositoriesAlreadyStarred };
+  return { user, data, likes };
 };

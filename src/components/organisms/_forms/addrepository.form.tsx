@@ -69,7 +69,7 @@ export const AddRepositoryForm = () => {
               label="Description"
               placeholder="eg. A simple e-commerce template built with Next.js and TailwindCSS."
             />
-            <SubmitButton isPending={isPending}>Submit</SubmitButton>
+            <SubmitButton isPending={isPending}>Share</SubmitButton>
           </form>
         </Form>
       </DialogContent>
