@@ -35,6 +35,7 @@ const config = {
         subtle: "#6E7781",
         subtleHover: "#292F36",
         success: "#238636",
+        skeleton: "#0D1117",
         successHover: "#2EA043",
         buttonHover: "#171B20",
       },

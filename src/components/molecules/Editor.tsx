@@ -16,7 +16,7 @@ export const Editor = ({ title, text, className }: Props) => {
     editable: false,
   });
 
-  const isEmpty = !text && "rounded-md bg-[#0D1117]";
+  const isEmpty = !text && "rounded-md bg-skeleton";
 
   return (
     <EditorContent

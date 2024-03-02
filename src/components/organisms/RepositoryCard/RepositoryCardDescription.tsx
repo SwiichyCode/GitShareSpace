@@ -15,7 +15,7 @@ type DescriptionProps = {
 
 const Description = (props: DescriptionProps) => {
   const { title, text, className } = props;
-  const isEmpty = !text && "rounded-md bg-[#0D1117]";
+  const isEmpty = !text && "rounded-md bg-skeleton";
 
   return (
     <p
