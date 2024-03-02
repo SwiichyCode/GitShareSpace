@@ -22,3 +22,8 @@ export const OCTOKIT_ENDPOINT = {
   GET_REPOSITORY_BY_ID: "GET /repositories/{id}",
   GET_STARRED_REPOSITORIES: "GET /users/{username}/starred",
 };
+
+export const DIRECTION_LIST = {
+  COLUMN: "column",
+  GRID: "grid",
+};

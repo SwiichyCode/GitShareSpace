@@ -40,7 +40,9 @@ class RepositoryService {
                 name: octokitResponse.data.language ?? "",
               },
               create: {
-                name: octokitResponse.data.language ?? "",
+                name: octokitResponse.data.language
+                  ? octokitResponse.data.language
+                  : "markdown",
               },
             },
           },

@@ -4,11 +4,13 @@ import { db } from "@/server/db";
 
 export const getRepositoriesOnScroll = async ({
   query,
+  language,
   offset = 0,
   limit = 20,
   cursor,
 }: {
-  query?: string | undefined;
+  query?: string;
+  language?: string;
   offset?: number;
   limit?: number;
   cursor?: number;
@@ -21,6 +23,12 @@ export const getRepositoriesOnScroll = async ({
         repositoryName: {
           contains: query,
           mode: "insensitive",
+        },
+        language: {
+          name: {
+            contains: language,
+            mode: "insensitive",
+          },
         },
       },
 
@@ -88,4 +96,8 @@ export const getUser = async (userId: string) => {
       likes: true,
     },
   });
+};
+
+export const getLanguages = async () => {
+  return await db.language.findMany();
 };

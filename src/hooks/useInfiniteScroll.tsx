@@ -7,14 +7,12 @@ import type { Repository, User } from "@/types/prisma.type";
 
 type Props = {
   initialRepositories: Repository[];
-  query: string;
   limit: number;
   user: User | null;
 };
 
 export const useInfiniteScroll = ({
   initialRepositories,
-  query,
   limit,
   user,
 }: Props) => {
@@ -30,7 +28,6 @@ export const useInfiniteScroll = ({
     const offset = next * limit;
 
     const { data } = await getRepositoriesOnScroll({
-      query,
       limit: 20,
       offset,
       cursor: repositories.length && repositories[repositories.length - 1]!.id,
@@ -45,7 +42,7 @@ export const useInfiniteScroll = ({
     } else {
       setDisable(true);
     }
-  }, [page, limit, query, repositories]);
+  }, [page, limit]);
 
   const repositoriesAlreadyStarred = getRepositoryAlreadyStarred(
     repositories,
@@ -64,12 +61,6 @@ export const useInfiniteScroll = ({
       isSubscribed = false;
     };
   }, [inView, loadMoreRepositories]);
-
-  useEffect(() => {
-    setRepositories(initialRepositories);
-    setPage(1);
-    setDisable(false);
-  }, [initialRepositories, query]);
 
   return { repositories, repositoriesAlreadyStarred, ref, isDisable };
 };

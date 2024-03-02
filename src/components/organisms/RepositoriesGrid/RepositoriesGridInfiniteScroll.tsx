@@ -7,23 +7,26 @@ import { useRepositoriesContext } from "@/context/repositoriesContext";
 
 type Props = {
   query: string;
+  language: string;
 };
 
-export const RepositoriesGridInfiniteScroll = ({ query }: Props) => {
+export const RepositoriesGridInfiniteScroll = ({ query, language }: Props) => {
   const { data: initialRepositories, user } = useRepositoriesContext();
 
   const { repositories, repositoriesAlreadyStarred, ref, isDisable } =
     useInfiniteScroll({
       initialRepositories,
-      query,
       limit: 20,
       user,
     });
 
+  const dynamicValue = () =>
+    query || language ? initialRepositories : repositories;
+
   return (
     <>
       <RepositoriesGridLayout>
-        {repositories.map((repository) => (
+        {dynamicValue().map((repository) => (
           <RepositoryCard
             key={repository.id}
             user={user}

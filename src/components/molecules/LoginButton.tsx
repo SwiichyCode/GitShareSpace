@@ -6,7 +6,7 @@ export const LoginButton = () => {
   return (
     <Button
       onClick={async () => await signIn("github")}
-      className="space-x-2 bg-success hover:bg-successHover"
+      className="hover:bg-success-hover space-x-2 bg-success"
     >
       <span>Sign in</span>
     </Button>

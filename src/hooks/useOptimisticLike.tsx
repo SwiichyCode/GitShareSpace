@@ -1,4 +1,4 @@
-import { useState, useCallback, useOptimistic } from "react";
+import { useState, useCallback, useOptimistic, useTransition } from "react";
 import { likeOrUnlikeRepository } from "@/actions/likerepository.action";
 import { hasLikedRepository } from "@/lib/utils";
 import type { Repository, User } from "@/types/prisma.type";
@@ -15,6 +15,7 @@ export const useOptimisticLike = ({
   repository,
   likes,
 }: UseOptimisticLikeProps) => {
+  const [_, startTransition] = useTransition();
   const [isUpdating, setIsUpdating] = useState(false);
   const [optimisticLikes, setOptimisticLikes] = useOptimistic(
     likes,
@@ -39,27 +40,29 @@ export const useOptimisticLike = ({
     async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
-      if (!user || isUpdating) return;
+      startTransition(async () => {
+        if (!user || isUpdating) return;
 
-      setIsUpdating(true);
+        setIsUpdating(true);
 
-      try {
-        setOptimisticLikes({
-          userId: user.id,
-          repositoryId: repository.id,
-          id: Math.random(),
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        });
+        try {
+          setOptimisticLikes({
+            userId: user.id,
+            repositoryId: repository.id,
+            id: Math.random(),
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          });
 
-        await likeOrUnlikeRepository({
-          repositoryId: repository.id,
-        });
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setIsUpdating(false);
-      }
+          await likeOrUnlikeRepository({
+            repositoryId: repository.id,
+          });
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setIsUpdating(false);
+        }
+      });
     },
     [user, isUpdating, repository.id, setOptimisticLikes],
   );

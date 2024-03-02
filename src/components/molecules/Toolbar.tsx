@@ -26,7 +26,6 @@ export const ToolBar = ({ editor }: Props) => {
       <Toggle
         size="sm"
         pressed={editor.isActive("heading", { level: 1 })}
-        className="hover:bg-buttonHover"
         onPressedChange={() =>
           editor.chain().focus().toggleHeading({ level: 1 }).run()
         }
@@ -36,7 +35,6 @@ export const ToolBar = ({ editor }: Props) => {
       <Toggle
         size="sm"
         pressed={editor.isActive("heading", { level: 2 })}
-        className="hover:bg-buttonHover"
         onPressedChange={() =>
           editor.chain().focus().toggleHeading({ level: 2 }).run()
         }
@@ -46,7 +44,6 @@ export const ToolBar = ({ editor }: Props) => {
       <Toggle
         size="sm"
         pressed={editor.isActive("heading", { level: 3 })}
-        className="hover:bg-buttonHover"
         onPressedChange={() =>
           editor.chain().focus().toggleHeading({ level: 3 }).run()
         }
@@ -55,7 +52,6 @@ export const ToolBar = ({ editor }: Props) => {
       </Toggle>
       <Toggle
         size="sm"
-        className="hover:bg-buttonHover active:bg-buttonHover"
         pressed={editor.isActive("bold")}
         onPressedChange={() => editor.chain().focus().toggleBold().run()}
       >
@@ -63,7 +59,6 @@ export const ToolBar = ({ editor }: Props) => {
       </Toggle>
       <Toggle
         size="sm"
-        className="hover:bg-buttonHover"
         pressed={editor.isActive("italic")}
         onPressedChange={() => editor.chain().focus().toggleItalic().run()}
       >
@@ -71,7 +66,6 @@ export const ToolBar = ({ editor }: Props) => {
       </Toggle>
       <Toggle
         size="sm"
-        className="hover:bg-buttonHover"
         pressed={editor.isActive("strike")}
         onPressedChange={() => editor.chain().focus().toggleStrike().run()}
       >
@@ -79,7 +73,6 @@ export const ToolBar = ({ editor }: Props) => {
       </Toggle>
       {/* <Toggle
         size="sm"
-        className="hover:bg-buttonHover"
         pressed={editor.isActive("bulletList")}
         onPressedChange={() => editor.chain().focus().toggleBulletList().run()}
       >
@@ -87,7 +80,6 @@ export const ToolBar = ({ editor }: Props) => {
       </Toggle>
       <Toggle
         size="sm"
-        className="hover:bg-buttonHover"
         pressed={editor.isActive("orderedList")}
         onPressedChange={() => editor.chain().focus().toggleOrderedList().run()}
       >
