@@ -17,10 +17,12 @@ export interface RichTextFieldProps
   description?: string;
 }
 
-const RichTextFieldForm = React.forwardRef<
-  HTMLInputElement,
-  RichTextFieldProps
->(({ control, name, label, description }) => {
+export const RichTextFieldForm = ({
+  control,
+  name,
+  label,
+  description,
+}: RichTextFieldProps) => {
   return (
     <FormField
       control={control}
@@ -37,8 +39,4 @@ const RichTextFieldForm = React.forwardRef<
       )}
     />
   );
-});
-
-RichTextFieldForm.displayName = "RichTextField";
-
-export { RichTextFieldForm };
+};
