@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/atoms/form";
 import { dataSharingAgreementSchema } from "./dataSharingAgreement.schema";
-import { DataSharingContent } from "@/components/organisms/DataSharingContent";
+import { DataSharingContent } from "@/components/molecules/DataSharingContent";
 import { Dialog, DialogContent } from "@/components/atoms/dialog";
 import { SubmitButton } from "@/components/molecules/SubmitButton";
 import { Checkbox } from "@/components/atoms/checkbox";
@@ -17,10 +17,10 @@ import {
 } from "@/components/atoms/form";
 import { updateAgreement } from "@/actions/updateagreement.action";
 import type { User } from "@prisma/client";
-import type { z } from "zod";
+import type * as z from "zod";
 
 type Props = {
-  user: User;
+  user: User | null;
 };
 
 export const DataSharingAgreementForm = ({ user }: Props) => {
@@ -46,6 +46,8 @@ export const DataSharingAgreementForm = ({ user }: Props) => {
       setOpen(false);
     });
   }
+
+  if (!user) return null;
 
   return (
     <Dialog open={open}>

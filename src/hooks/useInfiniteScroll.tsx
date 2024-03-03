@@ -1,67 +1,62 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
 import { useInView } from "react-intersection-observer";
-import { getRepositoriesOnScroll } from "@/actions/getRepositories.action";
-import type { Repository } from "@/types/prisma.type";
+import { getRepositoriesOnScroll } from "@/actions/test.action";
+import { getRepositoryAlreadyStarredURL } from "@/utils/getRepositoryAlreadyStarredURL";
+import type { Repository, User } from "@/types/prisma.type";
 
 type Props = {
   initialRepositories: Repository[];
-  query: string;
   limit: number;
+  user: User | null;
 };
 
 export const useInfiniteScroll = ({
   initialRepositories,
-  query,
   limit,
+  user,
 }: Props) => {
   const [repositories, setRepositories] = useState(initialRepositories);
   const [page, setPage] = useState(1);
+
   const [ref, inView] = useInView({
     rootMargin: "200px",
   });
-  const [isDisable, setDisable] = useState(false);
 
-  const loadMoreRepositories = useCallback(async () => {
+  const [isDisabled, setDisabled] = useState(false);
+
+  const fetchMoreRepositories = useCallback(async () => {
     const next = page + 1;
     const offset = next * limit;
 
-    const { data: newRepositories } = await getRepositoriesOnScroll({
-      query,
-      limit: 20,
+    const { data } = await getRepositoriesOnScroll({
+      limit,
       offset,
       cursor: repositories.length && repositories[repositories.length - 1]!.id,
     });
 
-    if (newRepositories.length) {
+    if (data.length) {
       setPage(next);
       setRepositories((prev: Repository[] | undefined) => [
         ...(prev?.length ? prev : []),
-        ...newRepositories,
+        ...data,
       ]);
     } else {
-      setDisable(true);
+      setDisabled(true);
     }
-  }, [page, limit, query, repositories]);
+  }, [page, limit, repositories]);
+
+  const repositoriesAlreadyStarred = getRepositoryAlreadyStarredURL(
+    repositories,
+    user,
+  );
 
   useEffect(() => {
-    let isSubscribed = true;
-
-    if (inView && isSubscribed) {
+    if (inView) {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      loadMoreRepositories();
+      fetchMoreRepositories();
     }
+  }, [inView, fetchMoreRepositories]);
 
-    return () => {
-      isSubscribed = false;
-    };
-  }, [inView, loadMoreRepositories]);
-
-  useEffect(() => {
-    setRepositories(initialRepositories);
-    setPage(1);
-    setDisable(false);
-  }, [initialRepositories, query]);
-
-  return { repositories, ref, isDisable };
+  return { repositories, repositoriesAlreadyStarred, ref, isDisabled };
 };

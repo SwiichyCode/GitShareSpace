@@ -1,9 +1,8 @@
 import "@/styles/globals.css";
 
 import { Inter } from "next/font/google";
-import { GoogleAnalytics } from "@next/third-parties/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { TanstackProvider } from "@/providers/TanstackProvider";
-import { env } from "@/env";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -28,8 +27,8 @@ export default function RootLayout({
         className={`font-sans ${inter.variable} scroll-smooth bg-inset text-default`}
       >
         <TanstackProvider>{children}</TanstackProvider>
+        <SpeedInsights />
       </body>
-      <GoogleAnalytics gaId={env.GOOGLE_ANALYTICS_ID} />
     </html>
   );
 }

@@ -44,6 +44,18 @@ class AdminService {
       },
     });
   }
+
+  async updateCronLastRun() {
+    await db.cron.update({
+      where: {
+        id: 1,
+      },
+
+      data: {
+        lastRun: new Date(),
+      },
+    });
+  }
 }
 
 const adminService = new AdminService();

@@ -1,8 +1,7 @@
 "use client";
 import { useTransition, useRef, useState } from "react";
 import { parseAsString, useQueryState } from "nuqs";
-import { useDebouncedCallback } from "use-debounce";
-import { useMediaQuery } from "usehooks-ts";
+import { useMediaQuery, useDebounceCallback } from "usehooks-ts";
 import { Drawer, DrawerContent } from "@/components/atoms/drawer";
 import { Input } from "@/components/atoms/input";
 import { Spinner } from "@/components/atoms/spinner";
@@ -21,10 +20,11 @@ export const InputSearch = ({ placeholder }: Props) => {
     "query",
     parseAsString.withDefault("").withOptions({ startTransition }),
   );
+
   const inputRef = useRef<HTMLInputElement>(null);
   const isDesktop = useMediaQuery("(min-width: 1024px)");
 
-  const handleSearch = useDebouncedCallback(
+  const handleSearch = useDebounceCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
       const query = e.target.value;
 

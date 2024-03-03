@@ -9,10 +9,10 @@ import { useToast } from "@/components/atoms/use-toast";
 import { useShareRepositoryModal } from "@/stores/useShareRepositoryModal";
 import { Dialog, DialogContent } from "@/components/atoms/dialog";
 import { InputForm } from "@/components/molecules/InputForm";
-import { TextAreaForm } from "@/components/molecules/TextAreaForm";
+import { RichTextFieldForm } from "@/components/molecules/RichTextFieldForm";
 import { SubmitButton } from "@/components/molecules/SubmitButton";
 import { addRepository } from "@/actions/addrepository.action";
-import type { z } from "zod";
+import type * as z from "zod";
 
 export const AddRepositoryForm = () => {
   const [isPending, startTransition] = useTransition();
@@ -63,13 +63,14 @@ export const AddRepositoryForm = () => {
               placeholder="https://github.com/username/repository"
               description="You cannot add a private repository."
             />
-            <TextAreaForm
+
+            <RichTextFieldForm
               control={form.control}
               name="description"
               label="Description"
-              placeholder="eg. A simple e-commerce template built with Next.js and TailwindCSS."
+              description="Provide a detailed description of the project."
             />
-            <SubmitButton isPending={isPending}>Submit</SubmitButton>
+            <SubmitButton isPending={isPending}>Share</SubmitButton>
           </form>
         </Form>
       </DialogContent>

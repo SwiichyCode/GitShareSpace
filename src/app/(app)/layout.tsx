@@ -1,5 +1,5 @@
 import React, { type PropsWithChildren } from "react";
-import { Header } from "@/components/organisms/Header";
+import { Header } from "@/components/organisms/Header/_index";
 import { Sidebar } from "@/components/organisms/Sidebar/_index";
 import { Toaster } from "@/components/atoms/toaster";
 

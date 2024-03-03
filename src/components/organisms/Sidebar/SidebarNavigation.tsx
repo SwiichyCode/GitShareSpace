@@ -28,7 +28,7 @@ export const SidebarNavigation = ({ session }: Props) => {
     <nav className="space-y-2">
       <Link
         href={URL.PROFILE}
-        className="flex items-center space-x-2 rounded-md px-2 py-1 transition hover:bg-subtleHover"
+        className="hover:bg-subtle-hover flex items-center space-x-2 rounded-md px-2 py-1 transition"
       >
         <PersonIcon className="h-4 w-4 text-subtle" />
         <span className="text-sm">Your Profile</span>
@@ -36,7 +36,7 @@ export const SidebarNavigation = ({ session }: Props) => {
 
       <button
         onClick={handleRepositoryModal}
-        className="flex w-full items-center space-x-2 rounded-md px-2 py-1 transition hover:bg-subtleHover"
+        className="hover:bg-subtle-hover flex w-full items-center space-x-2 rounded-md px-2 py-1 transition"
       >
         <RepoIcon className="h-4 w-4 text-subtle" />
         <span className="text-sm">Share repository</span>
@@ -44,7 +44,7 @@ export const SidebarNavigation = ({ session }: Props) => {
       <Separator />
       <Link
         href={URL.STARS}
-        className="flex items-center space-x-2 rounded-md px-2 py-1 transition hover:bg-subtleHover"
+        className="hover:bg-subtle-hover flex items-center space-x-2 rounded-md px-2 py-1 transition"
       >
         <StarIcon className="h-4 w-4 text-subtle" />
         <span className="text-sm">Your stars</span>

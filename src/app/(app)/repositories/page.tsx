@@ -1,16 +1,15 @@
-import { getServerAuthSession } from "@/server/auth";
+import { parseAsString } from "nuqs/server";
+import { fetchRepositoryRelatedData } from "@/context/fetchRepositoryRelatedData";
+import { RepositoriesProvider } from "@/context/repositoriesContext";
+import { RepositoriesFilter } from "@/components/organisms/RepositoriesFilter/_index";
+import { RepositoriesGridInfiniteScroll } from "@/components/organisms/RepositoriesGrid/RepositoriesGridInfiniteScroll";
 import { DataSharingAgreementForm } from "@/components/organisms/_forms/dataSharingAgreement.form";
 import { AddRepositoryForm } from "@/components/organisms/_forms/addrepository.form";
-import { RepositoriesGridInfiniteScroll } from "@/components/organisms/RepositoriesGridInfiniteScroll";
-import { getRepositoriesOnScroll } from "@/actions/getRepositories.action";
-import { getRepositoryAlreadyStarred } from "@/lib/utils";
-import { parseAsString } from "nuqs/server";
-import { getLikes } from "@/actions/getLikes.action";
-import { getUser } from "@/actions/getUser";
 
 type Props = {
   searchParams?: {
     query?: string;
+    language?: string;
   };
 };
 
@@ -18,34 +17,18 @@ const queryParser = parseAsString.withDefault("");
 
 export default async function RepositoriesPage({ searchParams }: Props) {
   const query = queryParser.parseServerSide(searchParams?.query);
-  const limit = 20;
-
-  const { data: initialData } = await getRepositoriesOnScroll({
+  const language = queryParser.parseServerSide(searchParams?.language);
+  const { user, data, likes, languages } = await fetchRepositoryRelatedData({
     query,
-    limit,
+    language,
   });
 
-  const likes = await getLikes();
-  const session = await getServerAuthSession();
-  const user = session && (await getUser(session.user.id));
-  const repositoriesAlreadyStarred = getRepositoryAlreadyStarred(
-    initialData,
-    user,
-  );
-
   return (
-    <div className="space-y-8 p-8">
-      <RepositoriesGridInfiniteScroll
-        user={user}
-        likes={likes}
-        initialData={initialData}
-        repositoriesAlreadyStarred={repositoriesAlreadyStarred}
-        query={query}
-        limit={limit}
-      />
-
-      {user && <DataSharingAgreementForm user={user} />}
+    <RepositoriesProvider user={user} data={data} likes={likes}>
+      <RepositoriesFilter languages={languages} />
+      <RepositoriesGridInfiniteScroll query={query} language={language} />
+      <DataSharingAgreementForm user={user} />
       <AddRepositoryForm />
-    </div>
+    </RepositoriesProvider>
   );
 }

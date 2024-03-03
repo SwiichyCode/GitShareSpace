@@ -40,7 +40,9 @@ class RepositoryService {
                 name: octokitResponse.data.language ?? "",
               },
               create: {
-                name: octokitResponse.data.language ?? "",
+                name: octokitResponse.data.language
+                  ? octokitResponse.data.language
+                  : "markdown",
               },
             },
           },
@@ -111,6 +113,7 @@ class RepositoryService {
         createdBy: true,
         language: true,
         topics: true,
+        comments: true,
       },
       orderBy: {
         id: "desc",
@@ -196,7 +199,6 @@ class RepositoryService {
         skip: cursor !== undefined ? 1 : offset,
         take: limit,
         cursor: cursor ? { id: cursor } : undefined,
-        cacheStrategy: { ttl: 60 },
       }),
 
       db.repository.count({
@@ -206,7 +208,6 @@ class RepositoryService {
             contains: query,
           },
         },
-        cacheStrategy: { ttl: 60 },
       }),
     ]);
 

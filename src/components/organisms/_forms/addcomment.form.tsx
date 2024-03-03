@@ -8,13 +8,15 @@ import { SubmitButton } from "@/components/molecules/SubmitButton";
 import { TextAreaForm } from "@/components/molecules/TextAreaForm";
 import { addComment } from "@/actions/addcomment.action";
 import { formAddCommentSchema } from "./addcomment.schema";
-import type { z } from "zod";
+import type { User } from "@/types/prisma.type";
+import type * as z from "zod";
 
 type Props = {
+  user: User | null;
   repositoryId: number;
 };
 
-export const AddCommentForm = ({ repositoryId }: Props) => {
+export const AddCommentForm = ({ user, repositoryId }: Props) => {
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof formAddCommentSchema>>({
@@ -28,10 +30,15 @@ export const AddCommentForm = ({ repositoryId }: Props) => {
     startTransition(async () => {
       const payload = {
         repositoryId,
+        picture: user?.image,
+        name: user?.name,
+        username: user?.username,
         content: data.content,
       };
 
       await addComment(payload);
+
+      form.reset();
     });
   }
 

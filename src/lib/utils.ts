@@ -42,24 +42,6 @@ export function handleColorByLanguage(language: LanguageType) {
   }
 }
 
-export function getRepositoryAlreadyStarred(
-  repositories: Repository[],
-  user: User | null,
-) {
-  const repositoriesFromDatabase = repositories.map(
-    (repository) => repository.url,
-  );
-  const repositoriesFromUser = user?.repositoryAlreadyStarred.map(
-    (repository) => repository,
-  );
-  const alreadyStarred = repositoriesFromUser?.filter(
-    (repositoryAlreadyStarred) =>
-      repositoriesFromDatabase.includes(repositoryAlreadyStarred),
-  );
-
-  return alreadyStarred;
-}
-
 export const handleLikeCount = (likes: Like[], repository: Repository) => {
   const liked = likes.map((like) => {
     if (like.repositoryId === repository.id) {

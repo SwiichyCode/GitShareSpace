@@ -1,7 +1,7 @@
 "use client";
 
 import { TrashIcon } from "@primer/octicons-react";
-import { DialogWrapper } from "@/components/organisms/DialogWrapper";
+import { DialogWrapper } from "@/components/molecules/DialogWrapper";
 import { UpdateUserRoleForm } from "../_forms/updateuserrole.form";
 
 export const SidebarUpdateUserRole = () => {
@@ -9,7 +9,7 @@ export const SidebarUpdateUserRole = () => {
     <DialogWrapper
       triggerChildren={
         <button
-          className="flex w-full cursor-pointer items-center space-x-2 rounded-md px-2 py-1 text-sm transition hover:bg-subtleHover"
+          className="hover:bg-subtle-hover flex w-full cursor-pointer items-center space-x-2 rounded-md px-2 py-1 text-sm transition"
           type="submit"
         >
           <TrashIcon className="h-4 w-4 text-subtle" />
