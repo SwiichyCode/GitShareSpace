@@ -15,7 +15,7 @@ type Props = {
 };
 
 export const SelectLanguages = ({ languages }: Props) => {
-  const [isLoading, startTransition] = useTransition();
+  const [isPending, startTransition] = useTransition();
   const [language, setLanguage] = useQueryState(
     "language",
     parseAsString.withDefault("").withOptions({ startTransition }),

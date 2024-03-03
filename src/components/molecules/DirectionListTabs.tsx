@@ -2,7 +2,10 @@
 
 import { ToggleGroup, ToggleGroupItem } from "@/components/atoms/toggle-group";
 import { Rows2, Grid2X2 } from "lucide-react";
-import { useListDirection, DirectionType } from "@/stores/useListDirection";
+import {
+  useListDirection,
+  type DirectionType,
+} from "@/stores/useListDirection";
 import { DIRECTION_LIST } from "@/constants";
 
 export const DirectionListTabs = () => {

@@ -42,7 +42,7 @@ export const useInfiniteScroll = ({
     } else {
       setDisable(true);
     }
-  }, [page, limit]);
+  }, [page, limit, repositories]);
 
   const repositoriesAlreadyStarred = getRepositoryAlreadyStarred(
     repositories,

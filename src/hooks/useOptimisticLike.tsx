@@ -15,7 +15,7 @@ export const useOptimisticLike = ({
   repository,
   likes,
 }: UseOptimisticLikeProps) => {
-  const [_, startTransition] = useTransition();
+  const [isPending, startTransition] = useTransition();
   const [isUpdating, setIsUpdating] = useState(false);
   const [optimisticLikes, setOptimisticLikes] = useOptimistic(
     likes,
