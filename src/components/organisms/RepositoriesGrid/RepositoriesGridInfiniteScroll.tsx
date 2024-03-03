@@ -32,6 +32,8 @@ export const RepositoriesGridInfiniteScroll = ({ query, language }: Props) => {
     toggleFilter,
   });
 
+  console.log("rerendering RepositoriesGridInfiniteScroll");
+
   return (
     <>
       <RepositoriesGridLayout>

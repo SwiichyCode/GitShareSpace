@@ -2,6 +2,10 @@ import { getRepositoriesAlreadyStarred } from "@/utils/getRepositoriesAlreadySta
 import { fakerMockUser, fakerMockRepository } from "@/mocks/_index";
 
 describe("getRepositoriesAlreadyStarred", () => {
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
   const mockUser = {
     ...fakerMockUser,
     repositoryAlreadyStarred: ["https://dummy.com/repository/1"],

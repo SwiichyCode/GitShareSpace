@@ -18,9 +18,11 @@ export const useInfiniteScroll = ({
 }: Props) => {
   const [repositories, setRepositories] = useState(initialRepositories);
   const [page, setPage] = useState(1);
+
   const [ref, inView] = useInView({
     rootMargin: "200px",
   });
+
   const [isDisabled, setDisabled] = useState(false);
 
   const fetchMoreRepositories = useCallback(async () => {
@@ -42,7 +44,7 @@ export const useInfiniteScroll = ({
     } else {
       setDisabled(true);
     }
-  }, [page, limit]);
+  }, [page, limit, repositories]);
 
   const repositoriesAlreadyStarred = getRepositoryAlreadyStarredURL(
     repositories,
