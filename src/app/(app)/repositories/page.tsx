@@ -23,8 +23,6 @@ export default async function RepositoriesPage({ searchParams }: Props) {
     language,
   });
 
-  console.log("RepositoriesPage");
-
   return (
     <RepositoriesProvider user={user} data={data} likes={likes}>
       <RepositoriesFilter languages={languages} />

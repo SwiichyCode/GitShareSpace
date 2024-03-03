@@ -21,15 +21,24 @@ export const SelectLanguages = ({ languages }: Props) => {
     parseAsString.withDefault("").withOptions({ startTransition }),
   );
 
+  const handleChange = async (value: string) => {
+    if (value === "all") {
+      await setLanguage("");
+      return;
+    }
+    await setLanguage(value);
+  };
+
   return (
     <Select
-      defaultValue={language}
-      onValueChange={async (value) => await setLanguage(value)}
+      defaultValue={language || "all"}
+      onValueChange={(value) => handleChange(value)}
     >
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder="Languages" />
       </SelectTrigger>
       <SelectContent>
+        <SelectItem value="all">All</SelectItem>
         {languages.map((language) => (
           <SelectItem key={language.id} value={language.name}>
             {language.name}
