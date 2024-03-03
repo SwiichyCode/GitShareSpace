@@ -147,6 +147,11 @@ model Topic {
     repositories Repository[]
 }
 
+model Cron {
+    id      Int      @id @default(autoincrement())
+    lastRun DateTime
+}
+
 enum Role {
     USER
     ADMIN
