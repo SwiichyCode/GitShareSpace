@@ -1,46 +1,33 @@
 import { faker } from "@faker-js/faker";
+import { fakerMockUser } from "./user.mock";
+import { fakerMockComment } from "./comment.mock";
+import { fakerMockLanguage } from "./language.mock";
+import { fakerMockTopic } from "./topic.mock";
+import type { Repository } from "@/types/prisma.type";
 
-interface Repository {
-  id: number;
-  description: string;
-  ownerAvatarUrl: string;
-  ownerUsername: string;
-  repositoryName: string;
-  repositoryDescription: string;
-  repositoryStargazers: number;
-  repositoryLicenseUrl: string;
-  repositoryLicenseName: string;
-  language: {
-    name: string;
-  };
-  createdBy: {
-    name: string;
-  };
-}
-
-function createRandomRepository(): Repository {
-  return {
-    id: faker.number.int(),
-    description: faker.lorem.sentence(),
-    ownerAvatarUrl: faker.image.avatar(),
-    ownerUsername: faker.internet.userName(),
-    repositoryName: faker.person.firstName(),
-    repositoryDescription: faker.lorem.sentence(),
-    repositoryStargazers: faker.number.int(),
-    repositoryLicenseUrl: faker.internet.url(),
-    repositoryLicenseName: faker.random.word(),
-    language: {
-      name: faker.random.word(),
-    },
-    createdBy: {
-      name: faker.person.firstName(),
-    },
-  };
-}
-
-const repository = createRandomRepository();
-
-export const repositoryMock = {
-  repository,
-  createRandomRepository,
+export const fakerMockRepository: Repository = {
+  id: faker.number.int(),
+  url: faker.internet.url(),
+  description: faker.lorem.sentence(),
+  repositoryId: faker.number.int(),
+  repositoryName: faker.lorem.words(3),
+  repositoryDescription: faker.lorem.sentence(),
+  repositoryStargazers: faker.number.int(),
+  repositoryCreatedAt: faker.date.past(),
+  repositoryUpdatedAt: faker.date.recent(),
+  repositoryLicenseName: faker.lorem.word(),
+  repositoryLicenseUrl: faker.internet.url(),
+  is_template: faker.datatype.boolean(),
+  is_visible: faker.datatype.boolean(),
+  ownerId: faker.number.int(),
+  ownerUsername: faker.internet.userName(),
+  ownerAvatarUrl: faker.image.avatarGitHub(),
+  createdAt: faker.date.past(),
+  updatedAt: faker.date.recent(),
+  createdById: faker.string.uuid(),
+  languageId: faker.number.int(),
+  createdBy: fakerMockUser,
+  language: fakerMockLanguage,
+  comments: Array.from({ length: 5 }, () => fakerMockComment),
+  topics: Array.from({ length: 5 }, () => fakerMockTopic),
 };
