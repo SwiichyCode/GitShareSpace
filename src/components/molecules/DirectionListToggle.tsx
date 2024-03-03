@@ -8,7 +8,7 @@ import {
 } from "@/stores/useListDirection";
 import { DIRECTION_LIST } from "@/constants";
 
-export const DirectionListTabs = () => {
+export const DirectionListToggle = () => {
   const { direction, setDirection } = useListDirection();
 
   return (
@@ -19,10 +19,10 @@ export const DirectionListTabs = () => {
       defaultChecked
     >
       <ToggleGroupItem value={DIRECTION_LIST.GRID} className="rounded-md">
-        <Grid2X2 className="h-4 w-4" />
+        <Grid2X2 className="h-4 w-4 text-default" />
       </ToggleGroupItem>
       <ToggleGroupItem value={DIRECTION_LIST.COLUMN} className="rounded-md">
-        <Rows2 className="h-4 w-4" />
+        <Rows2 className="h-4 w-4 text-default" />
       </ToggleGroupItem>
     </ToggleGroup>
   );

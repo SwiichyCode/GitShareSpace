@@ -11,7 +11,10 @@ type Props = {
   language?: string;
 };
 
-export const repositoriesDataSupplier = async ({ query, language }: Props) => {
+export const fetchRepositoryRelatedData = async ({
+  query,
+  language,
+}: Props) => {
   const session = await getServerAuthSession();
   const { data } = await getRepositoriesOnScroll({
     query,

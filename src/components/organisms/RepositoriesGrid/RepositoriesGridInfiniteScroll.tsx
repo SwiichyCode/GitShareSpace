@@ -4,6 +4,8 @@ import { RepositoryCard } from "@/components/organisms/RepositoryCard/_index";
 import { RepositoriesLoader } from "@/components/organisms/RepositoriesGrid/RepositoriesLoader";
 import { RepositoriesGridLayout } from "./RepositoriesGridLayout";
 import { useRepositoriesContext } from "@/context/repositoriesContext";
+import { useToggleFilter } from "@/stores/useToggleFilter";
+import { getFilteredRepositories } from "@/utils/getFilteredRepositories";
 
 type Props = {
   query: string;
@@ -12,21 +14,28 @@ type Props = {
 
 export const RepositoriesGridInfiniteScroll = ({ query, language }: Props) => {
   const { data: initialRepositories, user } = useRepositoriesContext();
-
-  const { repositories, repositoriesAlreadyStarred, ref, isDisable } =
+  const { repositories, repositoriesAlreadyStarred, ref, isDisabled } =
     useInfiniteScroll({
       initialRepositories,
       limit: 20,
       user,
     });
 
-  const dynamicValue = () =>
-    query || language ? initialRepositories : repositories;
+  const { toggleFilter } = useToggleFilter();
+
+  const filteredRepositories = getFilteredRepositories({
+    query,
+    language,
+    initialRepositories,
+    repositories,
+    user,
+    toggleFilter,
+  });
 
   return (
     <>
       <RepositoriesGridLayout>
-        {dynamicValue().map((repository) => (
+        {filteredRepositories.map((repository) => (
           <RepositoryCard
             key={repository.id}
             user={user}
@@ -35,7 +44,7 @@ export const RepositoriesGridInfiniteScroll = ({ query, language }: Props) => {
           />
         ))}
       </RepositoriesGridLayout>
-      <RepositoriesLoader isDisable={isDisable} ref={ref} />
+      <RepositoriesLoader isDisabled={isDisabled} ref={ref} />
     </>
   );
 };

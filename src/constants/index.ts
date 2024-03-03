@@ -27,3 +27,9 @@ export const DIRECTION_LIST = {
   COLUMN: "column",
   GRID: "grid",
 };
+
+export const TOGGLE_FILTER = {
+  STARRED: "starred",
+  LIKED: "liked",
+  ALL: "all",
+};

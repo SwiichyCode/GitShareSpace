@@ -1,4 +1,5 @@
-import { DirectionListTabs } from "@/components/molecules/DirectionListTabs";
+import { DirectionListToggle } from "@/components/molecules/DirectionListToggle";
+import { AlreadyStarredToggle } from "@/components/molecules/AlreadyStarredToggle";
 import { SelectLanguages } from "@/components/molecules/SelectLanguages";
 import type { Language } from "@prisma/client";
 
@@ -9,7 +10,8 @@ type Props = {
 export const RepositoriesFilter = ({ languages }: Props) => {
   return (
     <div className="flex space-x-4">
-      <DirectionListTabs />
+      <DirectionListToggle />
+      <AlreadyStarredToggle />
       <SelectLanguages languages={languages} />
     </div>
   );

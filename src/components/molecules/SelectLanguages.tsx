@@ -1,6 +1,5 @@
 "use client";
-import { useTransition } from "react";
-import { parseAsString, useQueryState } from "nuqs";
+import { useQueryParams } from "@/hooks/useQueryParams";
 import {
   Select,
   SelectContent,
@@ -15,18 +14,12 @@ type Props = {
 };
 
 export const SelectLanguages = ({ languages }: Props) => {
-  const [isPending, startTransition] = useTransition();
-  const [language, setLanguage] = useQueryState(
-    "language",
-    parseAsString.withDefault("").withOptions({ startTransition }),
-  );
+  const { params: language, setParams: setLanguage } = useQueryParams({
+    key: "language",
+  });
 
   const handleChange = async (value: string) => {
-    if (value === "all") {
-      await setLanguage("");
-      return;
-    }
-    await setLanguage(value);
+    value === "all" ? await setLanguage("") : await setLanguage(value);
   };
 
   return (

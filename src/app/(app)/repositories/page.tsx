@@ -1,5 +1,5 @@
 import { parseAsString } from "nuqs/server";
-import { repositoriesDataSupplier } from "@/context/repositoriesDataSupplier";
+import { fetchRepositoryRelatedData } from "@/context/fetchRepositoryRelatedData";
 import { RepositoriesProvider } from "@/context/repositoriesContext";
 import { RepositoriesFilter } from "@/components/organisms/RepositoriesFilter/_index";
 import { RepositoriesGridInfiniteScroll } from "@/components/organisms/RepositoriesGrid/RepositoriesGridInfiniteScroll";
@@ -18,7 +18,7 @@ const queryParser = parseAsString.withDefault("");
 export default async function RepositoriesPage({ searchParams }: Props) {
   const query = queryParser.parseServerSide(searchParams?.query);
   const language = queryParser.parseServerSide(searchParams?.language);
-  const { user, data, likes, languages } = await repositoriesDataSupplier({
+  const { user, data, likes, languages } = await fetchRepositoryRelatedData({
     query,
     language,
   });
