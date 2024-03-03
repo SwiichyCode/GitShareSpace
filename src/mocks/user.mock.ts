@@ -1,5 +1,6 @@
 import { faker } from "@faker-js/faker";
 import type { User } from "@/types/prisma.type";
+import { fakerMockLike } from "./like.mock";
 
 export const fakerMockUser: User = {
   id: faker.string.uuid(),
@@ -12,5 +13,5 @@ export const fakerMockUser: User = {
   firstConnection: faker.datatype.boolean(0),
   dataSharingAgreement: faker.datatype.boolean(0.9),
   role: "USER",
-  likes: [],
+  likes: [fakerMockLike],
 };
