@@ -54,7 +54,7 @@ export const InputSearch = ({ placeholder }: Props) => {
                 "hidden h-8 w-full bg-transparent focus:border-0 focus:outline-none focus:ring-0",
                 "lg:flex",
               )}
-              placeholder={placeholder ? placeholder : "Type to search..."}
+              placeholder={placeholder ? placeholder : "Repository name..."}
               onChange={handleSearch}
               onFocus={() => setIsEditing(true)}
               onBlur={() => setIsEditing(false)}

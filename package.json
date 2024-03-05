@@ -42,6 +42,7 @@
     "@radix-ui/react-toggle-group": "^1.0.4",
     "@t3-oss/env-nextjs": "^0.7.1",
     "@tanstack/react-query": "^5.24.1",
+    "@tanstack/react-query-devtools": "^5.24.8",
     "@tanstack/react-query-next-experimental": "^5.24.1",
     "@tiptap/react": "^2.2.4",
     "@tiptap/starter-kit": "^2.2.4",

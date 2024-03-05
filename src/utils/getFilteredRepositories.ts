@@ -1,7 +1,6 @@
 import type { Repository, User } from "@/types/prisma.type";
 import { getRepositoriesAlreadyStarred } from "./getRepositoriesAlreadyStarred";
 import { getRepositoriesAlreadyLiked } from "./getRepositoriesAlreadyLiked";
-import { memo } from "react";
 
 type Props = {
   query: string;

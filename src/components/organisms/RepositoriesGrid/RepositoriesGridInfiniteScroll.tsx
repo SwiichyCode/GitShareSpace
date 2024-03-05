@@ -1,52 +1,46 @@
 "use client";
-import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
+
+import { useFetchInfiniteRepositories } from "@/hooks/useFetchInfiniteRepositories";
+import { useFetchNextPage } from "@/hooks/useFetchNextPage";
 import { RepositoryCard } from "@/components/organisms/RepositoryCard/_index";
 import { RepositoriesLoader } from "@/components/organisms/RepositoriesGrid/RepositoriesLoader";
 import { RepositoriesGridLayout } from "./RepositoriesGridLayout";
-import { useRepositoriesContext } from "@/context/repositoriesContext";
-import { useToggleFilter } from "@/stores/useToggleFilter";
-import { getFilteredRepositories } from "@/utils/getFilteredRepositories";
+import { User } from "@/types/prisma.type";
 
 type Props = {
+  user: User | null;
   query: string;
   language: string;
 };
 
-export const RepositoriesGridInfiniteScroll = ({ query, language }: Props) => {
-  const { data: initialRepositories, user } = useRepositoriesContext();
-  const { repositories, repositoriesAlreadyStarred, ref, isDisabled } =
-    useInfiniteScroll({
-      initialRepositories,
-      limit: 20,
-      user,
-    });
+export const RepositoriesGridInfiniteScroll = ({
+  user,
+  query,
+  language,
+}: Props) => {
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useFetchInfiniteRepositories({ query, language });
 
-  const { toggleFilter } = useToggleFilter();
-
-  const filteredRepositories = getFilteredRepositories({
-    query,
-    language,
-    initialRepositories,
-    repositories,
-    user,
-    toggleFilter,
+  const { ref } = useFetchNextPage({
+    action: fetchNextPage,
+    hasNextPage,
   });
-
-  console.log("rerendering RepositoriesGridInfiniteScroll");
 
   return (
     <>
-      <RepositoriesGridLayout>
-        {filteredRepositories.map((repository) => (
-          <RepositoryCard
-            key={repository.id}
-            user={user}
-            repository={repository}
-            repositoriesAlreadyStarred={repositoriesAlreadyStarred}
-          />
-        ))}
-      </RepositoriesGridLayout>
-      <RepositoriesLoader isDisabled={isDisabled} ref={ref} />
+      {data?.pages.map((page, i) => (
+        <RepositoriesGridLayout key={i}>
+          {page.data.map((repository) => (
+            <RepositoryCard
+              key={repository.id}
+              user={user}
+              repository={repository}
+              // repositoriesAlreadyStarred={repositoriesAlreadyStarred}
+            />
+          ))}
+        </RepositoriesGridLayout>
+      ))}
+      <RepositoriesLoader isDisabled={isFetchingNextPage} ref={ref} />
     </>
   );
 };

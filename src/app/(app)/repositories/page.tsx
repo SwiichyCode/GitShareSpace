@@ -26,7 +26,13 @@ export default async function RepositoriesPage({ searchParams }: Props) {
   return (
     <RepositoriesProvider user={user} data={data} likes={likes}>
       <RepositoriesFilter languages={languages} />
-      <RepositoriesGridInfiniteScroll query={query} language={language} />
+
+      <RepositoriesGridInfiniteScroll
+        user={user}
+        query={query}
+        language={language}
+      />
+
       <DataSharingAgreementForm user={user} />
       <AddRepositoryForm />
     </RepositoriesProvider>

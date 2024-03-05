@@ -169,24 +169,37 @@ class RepositoryService {
 
   async getRepositoriesOnScroll({
     query,
+    language,
     offset = 0,
     limit = 20,
     cursor,
   }: {
-    query?: string | undefined;
+    query?: string;
+    language?: string;
     offset?: number;
     limit?: number;
     cursor?: number;
   }) {
+    const whereCondition: Prisma.RepositoryWhereInput = {
+      is_visible: true,
+      repositoryName: {
+        contains: query,
+        mode: "insensitive",
+      },
+    };
+
+    if (language && language !== "all") {
+      whereCondition.language = {
+        name: {
+          equals: language,
+          mode: "insensitive",
+        },
+      };
+    }
+
     const [data, totalCount] = await db.$transaction([
       db.repository.findMany({
-        where: {
-          is_visible: true,
-          repositoryName: {
-            contains: query,
-            mode: "insensitive",
-          },
-        },
+        where: whereCondition,
         include: {
           createdBy: true,
           language: true,
@@ -196,7 +209,7 @@ class RepositoryService {
         orderBy: {
           id: "desc",
         },
-        skip: cursor !== undefined ? 1 : offset,
+        skip: cursor === undefined ? offset : 0,
         take: limit,
         cursor: cursor ? { id: cursor } : undefined,
       }),
@@ -211,12 +224,12 @@ class RepositoryService {
       }),
     ]);
 
-    const totalPages = Math.ceil(totalCount / limit);
+    const nextCursor = data.length === limit ? data[limit - 1]!.id : undefined;
 
     return {
       data,
       totalCount,
-      totalPages,
+      nextCursor,
     };
   }
 

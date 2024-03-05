@@ -1,15 +1,19 @@
-import { forwardRef, memo } from "react";
+import { forwardRef } from "react";
 
 type Props = {
-  isDisabled: boolean;
+  isDisabled?: boolean;
 };
 
 const RepositoriesLoader = forwardRef(
   (props: Props, ref: React.ForwardedRef<HTMLDivElement | null>) => {
     const { isDisabled } = props;
 
-    return isDisabled ? null : (
-      <div ref={ref} className="mt-6 flex flex-col items-center justify-center">
+    return (
+      <div
+        ref={ref}
+        className="mt-6 flex flex-col items-center justify-center"
+        style={{ visibility: !isDisabled ? "hidden" : "initial" }}
+      >
         <p className="text-sm text-gray-400">Loading more repositories...</p>
       </div>
     );

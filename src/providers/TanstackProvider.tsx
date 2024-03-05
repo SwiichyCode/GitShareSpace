@@ -2,6 +2,7 @@
 import React, { type PropsWithChildren, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryStreamedHydration } from "@tanstack/react-query-next-experimental";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 export const TanstackProvider = ({ children }: PropsWithChildren) => {
   const [queryClient] = useState(
@@ -10,8 +11,7 @@ export const TanstackProvider = ({ children }: PropsWithChildren) => {
         defaultOptions: {
           queries: {
             refetchOnWindowFocus: false,
-            staleTime: 1000 * 60 * 5, // 5 minutes
-            refetchOnMount: false,
+            staleTime: 300000,
           },
         },
       }),
@@ -19,7 +19,10 @@ export const TanstackProvider = ({ children }: PropsWithChildren) => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryStreamedHydration>{children}</ReactQueryStreamedHydration>
+      <ReactQueryStreamedHydration>
+        {children}
+        <ReactQueryDevtools initialIsOpen={false} />
+      </ReactQueryStreamedHydration>
     </QueryClientProvider>
   );
 };

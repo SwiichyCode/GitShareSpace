@@ -22,6 +22,7 @@ export const RepositoryCardHeader = ({
           pictureUrl={`${repository.ownerAvatarUrl}?size=40`}
           alt={repository.ownerUsername}
         />
+
         <div className="flex flex-col">
           <Link
             href={repository.url}
