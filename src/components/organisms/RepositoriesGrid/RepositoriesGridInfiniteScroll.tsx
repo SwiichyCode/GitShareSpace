@@ -32,7 +32,7 @@ export const RepositoriesGridInfiniteScroll = ({
   // const { toggleFilter } = useToggleFilter();
 
   const flatRepositories =
-    data?.pages.map((page) => page.data!.repositories).flat() || [];
+    data?.pages.map((page) => page.data!.repositories).flat() ?? [];
 
   // const filteredRepositories = getFilteredRepositories({
   //   query: queryParams,
