@@ -1,20 +1,20 @@
 import Link from "next/link";
+import { useRepositoriesContext } from "@/context/repositoriesContext";
 import { ProfileAvatar } from "@/components/molecules/Avatar";
 import { RepositoryCardHideWithRole } from "./RepositoryCardHide";
 import type { Repository } from "@/types/prisma.type";
 import type { User } from "@/types/prisma.type";
 
 type Props = {
-  user: User | null;
   repository: Repository;
   isComment?: boolean;
 };
 
 export const RepositoryCardHeader = ({
-  user,
   repository,
   isComment = false,
 }: Props) => {
+  const { user } = useRepositoriesContext();
   return (
     <div className="flex justify-between">
       <div className="flex items-center gap-2">

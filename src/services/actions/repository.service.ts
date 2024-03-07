@@ -66,6 +66,7 @@ export const getRepositories = action(getRepositoriesSchema, async () => {
  * @param {Object} data - The filter data to be used.
  * @param {string} data.query - The query string to filter the repositories.
  * @param {string} data.language - The language to filter the repositories.
+ * @param {string} data.params - The parameters to filter the repositories.
  * @param {number} data.offset - The offset to start the query.
  * @param {number} data.limit - The limit of the query.
  * @param {number} data.cursor - The cursor to start the query.
@@ -75,6 +76,7 @@ export const getRepositories = action(getRepositoriesSchema, async () => {
 const getRepositoriesByFilterSchema = z.object({
   queryParams: z.string().optional(),
   languageParams: z.string().optional(),
+  params: z.string().optional(),
   offset: z.coerce.number().optional(),
   limit: z.coerce.number().optional(),
   cursor: z.coerce.number().optional(),
@@ -85,6 +87,7 @@ export const getRepositoriesByFilter = action(
   async (data) => {
     const query = data.queryParams ?? "";
     const language = data.languageParams ?? "";
+    const params = data.params ?? "";
     const offset = data.offset ?? 0;
     const limit = data.limit ?? 20;
     const cursor = data.cursor ?? "";
@@ -96,6 +99,18 @@ export const getRepositoriesByFilter = action(
         mode: "insensitive",
       },
     };
+
+    let orderBy: Prisma.RepositoryOrderByWithRelationInput = {
+      id: "desc",
+    };
+
+    if (params === "latest") {
+      orderBy = { id: "asc" };
+    } else if (params === "starred") {
+      orderBy = { repositoryStargazers: "desc" };
+    } else if (params === "liked") {
+      orderBy = { likes: { _count: "desc" } };
+    }
 
     if (language && language !== "all") {
       where.language = {
@@ -115,9 +130,7 @@ export const getRepositoriesByFilter = action(
           topics: true,
           comments: true,
         },
-        orderBy: {
-          id: "desc",
-        },
+        orderBy,
         skip: cursor === undefined ? offset : 0,
         take: limit,
         cursor: cursor ? { id: cursor } : undefined,

@@ -6,23 +6,20 @@ import { RepositoryCardLanguage } from "./RepositoryCardLanguage";
 import { RepositoryCardComment } from "./RepositoryCardComment";
 import { RepositoryCardSeeMore } from "./RepositoryCardSeeMore";
 import type { Repository } from "@/types/prisma.type";
-import type { User } from "@/types/prisma.type";
 
 type Props = {
-  user: User | null;
   repository: Repository;
   repositoriesAlreadyStarred?: string[];
 };
 
 export const RepositoryCardFooter = ({
-  user,
   repository,
   repositoriesAlreadyStarred,
 }: Props) => {
-  const { likes } = useRepositoriesContext();
+  const { user, likes } = useRepositoriesContext();
 
   return (
-    <div className="text-icon flex justify-between space-x-4 pt-2 text-xs">
+    <div className="flex justify-between space-x-4 pt-2 text-xs text-icon">
       <div className="flex space-x-4">
         <RepositoryCardLanguage repository={repository} />
         <RepositoryCardStars

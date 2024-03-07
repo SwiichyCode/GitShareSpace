@@ -16,14 +16,12 @@ import {
   FormLabel,
 } from "@/components/atoms/form";
 import { updateAgreement } from "@/actions/updateagreement.action";
-import type { User } from "@prisma/client";
+
 import type * as z from "zod";
+import { useRepositoriesContext } from "@/context/repositoriesContext";
 
-type Props = {
-  user: User | null;
-};
-
-export const DataSharingAgreementForm = ({ user }: Props) => {
+export const DataSharingAgreementForm = () => {
+  const { user } = useRepositoriesContext();
   const [isPending, startTransition] = useTransition();
   const [open, setOpen] = useState<boolean | undefined>(undefined);
   const [checked, setChecked] = useState(false);

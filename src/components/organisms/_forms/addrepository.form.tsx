@@ -6,21 +6,18 @@ import { useForm } from "react-hook-form";
 import { Form } from "@/components/atoms/form";
 import { formRepositorySchema } from "./addrepository.schema";
 import { useToast } from "@/components/atoms/use-toast";
+import { useQueryParamsContext } from "@/context/queryParamsContext";
 import { useShareRepositoryModal } from "@/stores/useShareRepositoryModal";
 import { Dialog, DialogContent } from "@/components/atoms/dialog";
 import { InputForm } from "@/components/molecules/InputForm";
 import { RichTextFieldForm } from "@/components/molecules/RichTextFieldForm";
 import { SubmitButton } from "@/components/molecules/SubmitButton";
 import { addRepository } from "@/actions/addrepository.action";
-import type * as z from "zod";
 import { useFetchInfiniteRepositories } from "@/hooks/useFetchInfiniteRepositories";
+import type * as z from "zod";
 
-type Props = {
-  queryParams: string;
-  languageParams: string;
-};
-
-export const AddRepositoryForm = ({ queryParams, languageParams }: Props) => {
+export const AddRepositoryForm = () => {
+  const { queryParams, languageParams, params } = useQueryParamsContext();
   const [isPending, startTransition] = useTransition();
   const { open, setOpen } = useShareRepositoryModal();
   const { toast } = useToast();
@@ -36,6 +33,7 @@ export const AddRepositoryForm = ({ queryParams, languageParams }: Props) => {
   const { refetch } = useFetchInfiniteRepositories({
     queryParams,
     languageParams,
+    params,
   });
 
   function onSubmit(data: z.infer<typeof formRepositorySchema>) {

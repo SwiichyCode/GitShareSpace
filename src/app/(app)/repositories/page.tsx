@@ -1,38 +1,39 @@
-import { parseAsString } from "nuqs/server";
 import { useFetchRepositoriesPage } from "@/hooks/useFetchRepositoriesPage";
 import { RepositoriesProvider } from "@/context/repositoriesContext";
 import { RepositoriesFilter } from "@/components/organisms/RepositoriesFilter/_index";
 import { RepositoriesGridInfiniteScroll } from "@/components/organisms/RepositoriesGrid/RepositoriesGridInfiniteScroll";
 import { DataSharingAgreementForm } from "@/components/organisms/_forms/dataSharingAgreement.form";
 import { AddRepositoryForm } from "@/components/organisms/_forms/addrepository.form";
+import { useQueryParser } from "@/hooks/useQueryParser";
+import { QueryParamsProvider } from "@/context/queryParamsContext";
+import { ParamsType } from "@/types";
 
 type Props = {
   searchParams?: {
     query?: string;
     language?: string;
+    params?: ParamsType;
   };
 };
 
-const queryParser = parseAsString.withDefault("");
-
 export default async function RepositoriesPage({ searchParams }: Props) {
-  const queryParams = queryParser.parseServerSide(searchParams?.query);
-  const languageParams = queryParser.parseServerSide(searchParams?.language);
   const { user, likes, languages } = await useFetchRepositoriesPage();
+  const { queryParams, languageParams, params } = useQueryParser({
+    searchParams,
+  });
 
   return (
-    <RepositoriesProvider user={user} likes={likes}>
-      <RepositoriesFilter languages={languages} />
-      <RepositoriesGridInfiniteScroll
-        user={user}
+    <RepositoriesProvider user={user} likes={likes} languages={languages}>
+      <QueryParamsProvider
         queryParams={queryParams}
         languageParams={languageParams}
-      />
-      <DataSharingAgreementForm user={user} />
-      <AddRepositoryForm
-        queryParams={queryParams}
-        languageParams={languageParams}
-      />
+        params={params}
+      >
+        <RepositoriesFilter />
+        <RepositoriesGridInfiniteScroll />
+        <DataSharingAgreementForm />
+        <AddRepositoryForm />
+      </QueryParamsProvider>
     </RepositoriesProvider>
   );
 }

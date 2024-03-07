@@ -10,7 +10,10 @@ export const PrefetchLink = () => {
   const prefetchRepositories = () => {
     queryClient
       .prefetchInfiniteQuery({
-        queryKey: ["repositories", { query: "", language: "" }],
+        queryKey: [
+          "repositories",
+          { queryParams: "", languageParams: "", params: "" },
+        ],
         queryFn: ({ pageParam }) =>
           getRepositoriesByFilter({ cursor: pageParam }),
         initialPageParam: 0,

@@ -1,5 +1,4 @@
 "use client";
-import { useRepositoriesContext } from "@/context/repositoriesContext";
 import { useQueryParams } from "@/hooks/useQueryParams";
 import {
   Select,
@@ -9,19 +8,17 @@ import {
   SelectValue,
 } from "@/components/atoms/select";
 
-export const SelectLanguages = () => {
-  const { languages } = useRepositoriesContext();
-  const { params: language, setParams: setLanguage } = useQueryParams({
-    key: "language",
+export const SelectParams = () => {
+  const { params, setParams: setParams } = useQueryParams({
+    key: "params",
   });
-
   const handleChange = async (value: string) => {
-    value === "all" ? await setLanguage("") : await setLanguage(value);
+    value === "all" ? await setParams("") : await setParams(value);
   };
 
   return (
     <Select
-      defaultValue={language || "all"}
+      defaultValue={params || "all"}
       onValueChange={(value) => handleChange(value)}
     >
       <SelectTrigger className="w-[180px]">
@@ -29,11 +26,9 @@ export const SelectLanguages = () => {
       </SelectTrigger>
       <SelectContent>
         <SelectItem value="all">All</SelectItem>
-        {languages.map((language) => (
-          <SelectItem key={language.id} value={language.name}>
-            {language.name}
-          </SelectItem>
-        ))}
+        <SelectItem value="latest">First added</SelectItem>
+        <SelectItem value="starred">Most starred</SelectItem>
+        <SelectItem value="liked">Most Liked</SelectItem>
       </SelectContent>
     </Select>
   );

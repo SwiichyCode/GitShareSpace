@@ -1,11 +1,12 @@
 "use client";
 import { type PropsWithChildren, createContext, useContext } from "react";
-import type { Repository, User } from "@/types/prisma.type";
-import type { Like } from "@prisma/client";
+import type { User } from "@/types/prisma.type";
+import type { Language, Like } from "@prisma/client";
 
 interface RepositoriesContext {
   user: User | null;
   likes: Like[];
+  languages: Language[];
   repositoriesAlreadyStarred?: string[];
 }
 
@@ -16,12 +17,13 @@ const RepositoriesContext = createContext<RepositoriesContext | null>(null);
 export const RepositoriesProvider = ({
   user,
   likes,
+  languages,
   repositoriesAlreadyStarred,
   children,
 }: RepositoriesProviderProps) => {
   return (
     <RepositoriesContext.Provider
-      value={{ user, likes, repositoriesAlreadyStarred }}
+      value={{ user, likes, languages, repositoriesAlreadyStarred }}
     >
       {children}
     </RepositoriesContext.Provider>
