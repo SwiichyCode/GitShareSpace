@@ -1,6 +1,6 @@
 "use client";
 import { useTransition } from "react";
-import { syncRepositories } from "@/actions/syncrepositories.action";
+import { syncRepositories } from "@/services/repository.service";
 import { SyncIcon } from "@primer/octicons-react";
 
 export const SidebarSyncRepositories = () => {
@@ -19,7 +19,7 @@ export const SidebarSyncRepositories = () => {
   return (
     <form onSubmit={handleSyncRepositories}>
       <button
-        className="hover:bg-subtle-hover flex w-full cursor-pointer items-center space-x-2 rounded-md px-2 py-1 text-sm transition"
+        className="flex w-full cursor-pointer items-center space-x-2 rounded-md px-2 py-1 text-sm transition hover:bg-subtle-hover"
         type="submit"
       >
         <SyncIcon className="h-4 w-4 text-subtle" />

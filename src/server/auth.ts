@@ -5,7 +5,7 @@ import {
   type NextAuthOptions,
 } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
-import repositoryService from "@/services/repository.service";
+import { syncStarredRepositories } from "@/services/repository.service";
 import { env } from "@/env";
 import { db } from "@/server/db";
 import { URL } from "@/constants";
@@ -62,7 +62,7 @@ export const authOptions: NextAuthOptions = {
 
     async signIn({ user }) {
       if (user.id && !user.firstConnection && user.dataSharingAgreement) {
-        await repositoryService.syncStarredRepositories(user);
+        await syncStarredRepositories(user);
       }
 
       return true;

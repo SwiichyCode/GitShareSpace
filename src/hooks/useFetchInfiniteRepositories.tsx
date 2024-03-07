@@ -1,6 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { getRepositoriesByFilter } from "@/services/actions/repository.service";
-import type { ParamsType } from "@/types";
+import { getRepositoriesByFilter } from "@/services/repository.service";
 
 type Props = {
   queryParams: string;

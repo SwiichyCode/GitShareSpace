@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { ProfileAvatar } from "@/components/molecules/Avatar";
 import { calculateCommentCreatedRange } from "@/lib/utils";
-import type { Comment } from "@/types/prisma.type";
 
 type Props = {
   avatar: string | null;

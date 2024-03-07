@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useQueryClient } from "@tanstack/react-query";
-import { getRepositoriesByFilter } from "@/services/actions/repository.service";
+import { getRepositoriesByFilter } from "@/services/repository.service";
 import { URL } from "@/constants";
 
 export const PrefetchLink = () => {

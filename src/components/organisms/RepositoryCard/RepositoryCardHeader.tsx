@@ -3,7 +3,6 @@ import { useRepositoriesContext } from "@/context/repositoriesContext";
 import { ProfileAvatar } from "@/components/molecules/Avatar";
 import { RepositoryCardHideWithRole } from "./RepositoryCardHide";
 import type { Repository } from "@/types/prisma.type";
-import type { User } from "@/types/prisma.type";
 
 type Props = {
   repository: Repository;

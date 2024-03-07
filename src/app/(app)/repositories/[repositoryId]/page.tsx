@@ -9,7 +9,7 @@ export default async function RepositoryCommentPage({
 }: {
   params: { repositoryId: number };
 }) {
-  const { repository, comments, session, user } = await useFetchCommentsPage(
+  const { repository, comments, session } = await useFetchCommentsPage(
     Number(params.repositoryId),
   );
 
@@ -21,31 +21,27 @@ export default async function RepositoryCommentPage({
     <div className="space-y-12">
       <div className="flex items-center space-x-4">
         <ProfileAvatar
-          pictureUrl={repository.ownerAvatarUrl}
-          alt={repository.repositoryName}
+          pictureUrl={repository.data?.ownerAvatarUrl}
+          alt={repository.data?.repositoryName}
         />
         <div className="flex flex-col">
           <Link
-            href={repository.url}
+            href={repository.data?.url ?? "/"}
             className="text-xl font-semibold hover:underline"
             target="_blank"
           >
-            {repository?.repositoryName}
+            {repository.data?.repositoryName}
           </Link>
           <span className="text-sm">
             Published by{" "}
-            {repository.createdBy.username ?? repository.createdBy.name}
+            {repository.data?.createdBy.username ??
+              repository.data?.createdBy.name}
           </span>
         </div>
       </div>
 
-      <CommentList comments={comments} />
-      {session && (
-        <AddCommentForm
-          user={user}
-          repositoryId={Number(params.repositoryId)}
-        />
-      )}
+      <CommentList comments={comments.data} />
+      {session && <AddCommentForm repositoryId={Number(params.repositoryId)} />}
     </div>
   );
 }

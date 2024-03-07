@@ -1,11 +1,10 @@
-import { ParamsType } from "@/types";
 import { parseAsString } from "nuqs/server";
 
 type Props = {
   searchParams?: {
     query?: string;
     language?: string;
-    params?: ParamsType;
+    params?: string;
   };
 };
 

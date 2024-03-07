@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
-import repositoryService from "@/services/repository.service";
-import { env } from "@/env";
+import { syncRepositories } from "@/services/repository.service";
 import adminService from "@/services/admin.service";
+import { env } from "@/env";
 
 export async function GET(request: NextRequest) {
   const authHeader = request.headers.get("authorization");
@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
     return new Response("Unauthorized", { status: 401 });
   }
 
-  await repositoryService.syncRepositories();
+  await syncRepositories();
   await adminService.updateCronLastRun();
 
   return NextResponse.json({ ok: "Cron OK" });

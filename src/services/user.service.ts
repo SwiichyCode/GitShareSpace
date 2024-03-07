@@ -1,6 +1,6 @@
 import { db } from "@/server/db";
 import octokitService from "./octokit.service";
-import repositoryService from "./repository.service";
+import { syncStarredRepositories } from "./repository.service";
 import { extractUserIdFromAvatarUrl } from "@/lib/utils";
 import type { User } from "next-auth";
 
@@ -28,7 +28,7 @@ class UserService {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const username = githubUser.data.login;
 
-    await repositoryService.syncStarredRepositories(user);
+    await syncStarredRepositories(user);
 
     return await db.user.update({
       where: {

@@ -12,7 +12,7 @@ import { Dialog, DialogContent } from "@/components/atoms/dialog";
 import { InputForm } from "@/components/molecules/InputForm";
 import { RichTextFieldForm } from "@/components/molecules/RichTextFieldForm";
 import { SubmitButton } from "@/components/molecules/SubmitButton";
-import { addRepository } from "@/actions/addrepository.action";
+import { postRepository } from "@/services/repository.service";
 import { useFetchInfiniteRepositories } from "@/hooks/useFetchInfiniteRepositories";
 import type * as z from "zod";
 
@@ -38,7 +38,10 @@ export const AddRepositoryForm = () => {
 
   function onSubmit(data: z.infer<typeof formRepositorySchema>) {
     startTransition(async () => {
-      const response = await addRepository(data);
+      const response = await postRepository({
+        url: data.url,
+        description: data.description,
+      });
 
       if (!response.data?.error) {
         toast({

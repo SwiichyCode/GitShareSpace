@@ -6,17 +6,15 @@ import { useForm } from "react-hook-form";
 import { Form } from "@/components/atoms/form";
 import { SubmitButton } from "@/components/molecules/SubmitButton";
 import { TextAreaForm } from "@/components/molecules/TextAreaForm";
-import { addComment } from "@/actions/addcomment.action";
+import { postRepositoryComment } from "@/services/repository.service";
 import { formAddCommentSchema } from "./addcomment.schema";
-import type { User } from "@/types/prisma.type";
 import type * as z from "zod";
 
 type Props = {
-  user: User | null;
   repositoryId: number;
 };
 
-export const AddCommentForm = ({ user, repositoryId }: Props) => {
+export const AddCommentForm = ({ repositoryId }: Props) => {
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof formAddCommentSchema>>({
@@ -28,23 +26,10 @@ export const AddCommentForm = ({ user, repositoryId }: Props) => {
 
   function onSubmit(data: z.infer<typeof formAddCommentSchema>) {
     startTransition(async () => {
-      const payload = {
-        // repositoryId,
-        // picture: user?.image,
-        // name: user?.name,
-        // username: user?.username,
-        // content: data.content,
+      await postRepositoryComment({
         repositoryId,
         content: data.content,
-        createdBy: {
-          image: user?.image,
-          name: user?.name,
-          username: user?.username,
-        },
-        createdAt: new Date(),
-      };
-
-      await addComment(payload);
+      });
 
       form.reset();
     });

@@ -1,20 +1,170 @@
+"use server";
+
 import { db } from "@/server/db";
-import octokitService from "./octokit.service";
-import { extractUserIdFromAvatarUrl } from "@/lib/utils";
+import { action, adminAction, userAction } from "@/lib/next-safe-action";
 import { Prisma } from "@prisma/client";
 import { PrismaError } from "@/lib/exceptions";
 import { ERROR_MESSAGE } from "@/constants";
+import octokitService from "@/services/octokit.service";
+import { extractUserIdFromAvatarUrl } from "@/lib/utils";
+import { revalidatePath } from "next/cache";
 import type { User } from "next-auth";
+import * as z from "zod";
 
-export type postRepositoryData = {
-  url: string;
-  description?: string;
-  createdBy: string;
-  createdByUsername?: string;
+/**
+ * Action to get a repository entry from the database.
+ * @param {Object} data - The repository data to be retrieved.
+ * @param {number} data.repositoryId - The ID of the repository to be retrieved.
+ * @throws {Error} - Throws an error if the repository doesn't exist or if there's an error accessing the database.
+ */
+
+const getRepositorySchema = z.object({
+  repositoryId: z.coerce.number(),
+});
+
+export const getRepository = action(getRepositorySchema, async (data) => {
+  try {
+    return await db.repository.findUniqueOrThrow({
+      where: {
+        id: data.repositoryId,
+      },
+      include: {
+        language: true,
+        topics: true,
+        createdBy: true,
+      },
+    });
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      throw new PrismaError(error);
+    }
+  }
+});
+
+/**
+ * Action to get all repository entries from the database.
+ * @throws {Error} - Throws an error if there's an error accessing the database.
+ */
+
+export const getRepositories = async () => {
+  try {
+    return await db.repository.findMany({
+      include: {
+        language: true,
+        topics: true,
+        createdBy: true,
+      },
+    });
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      throw new PrismaError(error);
+    }
+  }
 };
 
-class RepositoryService {
-  async postRepository(data: postRepositoryData) {
+/**
+ * Action to get all repository entries from the database by filter.
+ * @param {Object} data - The filter data to be used.
+ * @param {string} data.query - The query string to filter the repositories.
+ * @param {string} data.language - The language to filter the repositories.
+ * @param {string} data.params - The parameters to filter the repositories.
+ * @param {number} data.offset - The offset to start the query.
+ * @param {number} data.limit - The limit of the query.
+ * @param {number} data.cursor - The cursor to start the query.
+ * @throws {Error} - Throws an error if there's an error accessing the database.
+ */
+
+const getRepositoriesByFilterSchema = z.object({
+  queryParams: z.string().optional(),
+  languageParams: z.string().optional(),
+  params: z.string().optional(),
+  offset: z.coerce.number().optional(),
+  limit: z.coerce.number().optional(),
+  cursor: z.coerce.number().optional(),
+});
+
+export const getRepositoriesByFilter = action(
+  getRepositoriesByFilterSchema,
+  async (data) => {
+    const query = data.queryParams ?? "";
+    const language = data.languageParams ?? "";
+    const params = data.params ?? "";
+    const offset = data.offset ?? 0;
+    const limit = data.limit ?? 20;
+    const cursor = data.cursor ?? "";
+
+    const where: Prisma.RepositoryWhereInput = {
+      is_visible: true,
+      repositoryName: {
+        contains: query,
+        mode: "insensitive",
+      },
+    };
+
+    let orderBy: Prisma.RepositoryOrderByWithRelationInput = {
+      id: "desc",
+    };
+
+    if (params === "latest") {
+      orderBy = { id: "asc" };
+    } else if (params === "starred") {
+      orderBy = { repositoryStargazers: "desc" };
+    } else if (params === "liked") {
+      orderBy = { likes: { _count: "desc" } };
+    }
+
+    if (language && language !== "all") {
+      where.language = {
+        name: {
+          equals: language,
+          mode: "insensitive",
+        },
+      };
+    }
+
+    const [repositories, count] = await db.$transaction([
+      db.repository.findMany({
+        where,
+        include: {
+          createdBy: true,
+          language: true,
+          topics: true,
+          comments: true,
+        },
+        orderBy,
+        skip: cursor === undefined ? offset : 0,
+        take: limit,
+        cursor: cursor ? { id: cursor } : undefined,
+      }),
+      db.repository.count({
+        where,
+      }),
+    ]);
+
+    const nextCursor =
+      repositories.length === limit ? repositories[limit - 1]!.id : undefined;
+
+    return { repositories, nextCursor };
+  },
+);
+
+/**
+ * User action to create a new repository entry in the database.
+ * @param {Object} data - The repository data to be saved.
+ * @param {string} data.url - The URL of the repository.
+ * @param {string} data.description - The description of the repository.
+ * @param {string} data.createdBy - The ID of the user who created the repository.
+ * @throws {Error} - Throws an error if the repository doesn't exist or if there's an error accessing the database.
+ */
+
+const postRepositorySchema = z.object({
+  url: z.string().url(),
+  description: z.string(),
+});
+
+export const postRepository = userAction(
+  postRepositorySchema,
+  async (data, ctx) => {
     const octokitResponse = await octokitService.getRepository(data.url);
 
     if (!octokitResponse) {
@@ -47,18 +197,16 @@ class RepositoryService {
             },
           },
           topics: {
-            connectOrCreate: octokitResponse.data.topics?.map(
-              (topic: string) => {
-                return {
-                  where: {
-                    name: topic,
-                  },
-                  create: {
-                    name: topic,
-                  },
-                };
-              },
-            ),
+            connectOrCreate: octokitResponse.data.topics?.map((topic) => {
+              return {
+                where: {
+                  name: topic,
+                },
+                create: {
+                  name: topic,
+                },
+              };
+            }),
           },
           is_template: octokitResponse.data.is_template,
           createdAt: octokitResponse.data.created_at,
@@ -68,7 +216,7 @@ class RepositoryService {
           ownerAvatarUrl: octokitResponse.data.owner.avatar_url,
           createdBy: {
             connect: {
-              id: data.createdBy,
+              id: ctx.session.user.id,
             },
           },
         },
@@ -77,210 +225,152 @@ class RepositoryService {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         throw new PrismaError(error);
       }
+      if (error instanceof Error) return { error: error.message };
     }
-  }
+  },
+);
 
-  async getRepository(repositoryId: number) {
-    return await db.repository.findFirst({
-      where: {
-        id: repositoryId,
-      },
-      include: {
-        createdBy: true,
-        language: true,
-        topics: true,
-      },
-    });
-  }
+/**
+ * Query to update the repository already starred by the user.
+ * @param {string} data.userId - The ID of the user.
+ * @param {string[]} data.repositoryUrl - The URL of the repository.
+ * @throws {Error} - Throws an error if there's an error accessing the database.
+ */
 
-  async getRepositories() {
-    return await db.repository.findMany({
-      where: {
-        is_visible: true,
-      },
-      include: {
-        createdBy: true,
-        language: true,
-        topics: true,
-        comments: true,
-      },
-      orderBy: {
-        id: "desc",
-      },
-    });
-  }
+const updateRepositoryAlreadyStarredSchema = z.object({
+  userId: z.string(),
+  repositoryUrl: z.string().array(),
+});
 
-  async getRepositoriesOnScroll({
-    query,
-    language,
-    offset = 0,
-    limit = 20,
-    cursor,
-  }: {
-    query?: string;
-    language?: string;
-    offset?: number;
-    limit?: number;
-    cursor?: number;
-  }) {
-    const whereCondition: Prisma.RepositoryWhereInput = {
-      is_visible: true,
-      repositoryName: {
-        contains: query,
-        mode: "insensitive",
-      },
-    };
-
-    if (language && language !== "all") {
-      whereCondition.language = {
-        name: {
-          equals: language,
-          mode: "insensitive",
-        },
-      };
-    }
-
-    const [data, totalCount] = await db.$transaction([
-      db.repository.findMany({
-        where: whereCondition,
-        include: {
-          createdBy: true,
-          language: true,
-          topics: true,
-          comments: true,
-        },
-        orderBy: {
-          id: "desc",
-        },
-        skip: cursor === undefined ? offset : 0,
-        take: limit,
-        cursor: cursor ? { id: cursor } : undefined,
-      }),
-
-      db.repository.count({
-        where: {
-          is_visible: true,
-          repositoryName: {
-            contains: query,
-          },
-        },
-      }),
-    ]);
-
-    const nextCursor = data.length === limit ? data[limit - 1]!.id : undefined;
-
-    return {
-      data,
-      totalCount,
-      nextCursor,
-    };
-  }
-
-  async hideRepository(id: number) {
-    await db.repository.update({
-      where: {
-        id,
-      },
-      data: {
-        is_visible: false,
-      },
-    });
-  }
-
-  async updateRepositoryAlreadyStarred(
-    userId: string,
-    repositoryUrl: string[],
-  ) {
+export const updateRepositoryAlreadyStarred = action(
+  updateRepositoryAlreadyStarredSchema,
+  async (data) => {
     await db.user.update({
       where: {
-        id: userId,
+        id: data.userId,
       },
       data: {
         repositoryAlreadyStarred: {
-          set: repositoryUrl,
+          set: data.repositoryUrl,
         },
       },
     });
+  },
+);
+
+export const syncRepositories = async () => {
+  const repositories = await getRepositories();
+
+  if (!repositories) {
+    throw new Error(ERROR_MESSAGE.REPOSITORY_NOT_EXIST);
   }
 
-  async syncStarredRepositories(user: User) {
-    if (!user) {
-      throw new Error(ERROR_MESSAGE.USER_NOT_FOUND);
-    }
-
-    const githubUser = await octokitService.getUser(
-      extractUserIdFromAvatarUrl(user.image!),
+  for (const repository of repositories) {
+    const octokitResponse = await octokitService.getRepositoryById(
+      repository.repositoryId,
     );
 
-    if (!githubUser) {
-      throw new Error(ERROR_MESSAGE.GITHUB_USER_NOT_FOUND);
+    if (!octokitResponse) {
+      throw new Error(ERROR_MESSAGE.REPOSITORY_NOT_EXIST);
     }
 
-    const starredRepositories =
+    await db.repository.update({
+      where: {
+        id: repository.id,
+      },
+      data: {
+        repositoryStargazers: octokitResponse.data.stargazers_count,
+        repositoryLicenseName: octokitResponse.data.license?.key,
+        repositoryLicenseUrl: octokitResponse.data.license?.url ?? "",
+        repositoryUpdatedAt: octokitResponse.data.updated_at,
+      },
+    });
+  }
+};
+
+/**
+ * Action to sync the starred repositories of the user with the database.
+ * @param {Object} user - The user to be synced.
+ * @throws {Error} - Throws an error if the user doesn't exist or if there's an error accessing the database.
+ */
+
+export const syncStarredRepositories = async (user: User) => {
+  if (!user) {
+    throw new Error(ERROR_MESSAGE.USER_NOT_FOUND);
+  }
+
+  const githubUser = await octokitService.getUser(
+    extractUserIdFromAvatarUrl(user.image!),
+  );
+
+  if (!githubUser) {
+    throw new Error(ERROR_MESSAGE.GITHUB_USER_NOT_FOUND);
+  }
+
+  const starredRepositories =
+    //eslint-disable-next-line
+    await octokitService.getStaredRepositoriesByUser(githubUser.data.login);
+
+  if (starredRepositories) {
+    await updateRepositoryAlreadyStarred({
+      userId: user.id,
       //eslint-disable-next-line
-      await octokitService.getStaredRepositoriesByUser(githubUser.data.login);
-
-    if (starredRepositories) {
-      await this.updateRepositoryAlreadyStarred(
-        user.id,
-        //eslint-disable-next-line
-        starredRepositories.data.map((repo: any) => repo.html_url),
-      );
-    }
+      repositoryUrl: starredRepositories.data.map((repo: any) => repo.html_url),
+    });
   }
+};
 
-  async syncRepositories() {
-    const repositories = await this.getRepositories();
+/**
+ * User action to create a new comment for a repository in the database.
+ * @param {Object} data - The comment data to be saved.
+ * @param {number} data.repositoryId - The ID of the repository.
+ * @param {string} data.content - The content of the comment.
+ * @throws {Error} - Throws an error if there's an error accessing the database.
+ */
 
-    for (const repository of repositories) {
-      const octokitResponse = await octokitService.getRepositoryById(
-        repository.repositoryId,
-      );
+const postRepositoryCommentSchema = z.object({
+  repositoryId: z.coerce.number(),
+  content: z.string(),
+});
 
-      if (!octokitResponse) {
-        throw new Error(ERROR_MESSAGE.REPOSITORY_NOT_EXIST);
-      }
-
-      await db.repository.update({
-        where: {
-          id: repository.id,
-        },
-        data: {
-          repositoryStargazers: octokitResponse.data.stargazers_count,
-          repositoryLicenseName: octokitResponse.data.license?.key,
-          repositoryLicenseUrl: octokitResponse.data.license?.url ?? "",
-          repositoryUpdatedAt: octokitResponse.data.updated_at,
-        },
-      });
-    }
-  }
-
-  async addCommentToRepository(
-    repositoryId: number,
-    content: string,
-    createdBy: string,
-  ) {
+export const postRepositoryComment = userAction(
+  postRepositoryCommentSchema,
+  async (data, ctx) => {
     return await db.comment.create({
       data: {
-        content,
+        content: data.content,
         createdBy: {
           connect: {
-            id: createdBy,
+            id: ctx.session.user.id,
           },
         },
         repository: {
           connect: {
-            id: repositoryId,
+            id: data.repositoryId,
           },
         },
       },
     });
-  }
+  },
+);
 
-  async getCommentsByRepositoryId(repositoryId: number) {
+/**
+ * Action to get all comments for a repository from the database.
+ * @param {Object} data - The repository data to be retrieved.
+ * @param {number} data.repositoryId - The ID of the repository to be retrieved.
+ * @throws {Error} - Throws an error if there's an error accessing the database.
+ */
+
+const getCommentsByRepositoryIdSchema = z.object({
+  repositoryId: z.coerce.number(),
+});
+
+export const getCommentsByRepositoryId = action(
+  getCommentsByRepositoryIdSchema,
+  async (data) => {
     return await db.comment.findMany({
       where: {
-        repositoryId,
+        repositoryId: data.repositoryId,
       },
       include: {
         createdBy: true,
@@ -289,9 +379,36 @@ class RepositoryService {
         id: "asc",
       },
     });
-  }
-}
+  },
+);
 
-const repositoryService = new RepositoryService();
+/**
+ * Action to hide a repository from the database.
+ * @param {Object} data - The repository data to be hidden.
+ * @param {number} data.repositoryId - The ID of the repository to be hidden.
+ * @throws {Error} - Throws an error if there's an error accessing the database.
+ */
 
-export default repositoryService;
+const hideRepositorySchema = z.object({
+  repositoryId: z.coerce.number(),
+});
+
+export const hideRepository = adminAction(
+  hideRepositorySchema,
+  async (data) => {
+    try {
+      await db.repository.update({
+        where: {
+          id: data.repositoryId,
+        },
+        data: {
+          is_visible: false,
+        },
+      });
+    } catch (error) {
+      if (error instanceof Error) return { error: error.message };
+    }
+
+    revalidatePath("/");
+  },
+);

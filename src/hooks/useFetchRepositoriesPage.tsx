@@ -1,10 +1,5 @@
 import { getServerAuthSession } from "@/server/auth";
-import {
-  getRepositoriesOnScroll,
-  getUser,
-  getLikes,
-  getLanguages,
-} from "@/actions/test.action";
+import { getUser, getLikes, getLanguages } from "@/actions/test.action";
 
 export const useFetchRepositoriesPage = async () => {
   const session = await getServerAuthSession();

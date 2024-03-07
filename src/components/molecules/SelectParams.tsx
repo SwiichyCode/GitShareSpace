@@ -12,6 +12,7 @@ export const SelectParams = () => {
   const { params, setParams: setParams } = useQueryParams({
     key: "params",
   });
+
   const handleChange = async (value: string) => {
     value === "all" ? await setParams("") : await setParams(value);
   };

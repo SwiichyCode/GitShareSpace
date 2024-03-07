@@ -6,13 +6,12 @@ import { DataSharingAgreementForm } from "@/components/organisms/_forms/dataShar
 import { AddRepositoryForm } from "@/components/organisms/_forms/addrepository.form";
 import { useQueryParser } from "@/hooks/useQueryParser";
 import { QueryParamsProvider } from "@/context/queryParamsContext";
-import { ParamsType } from "@/types";
 
 type Props = {
   searchParams?: {
     query?: string;
     language?: string;
-    params?: ParamsType;
+    params?: string;
   };
 };
 
