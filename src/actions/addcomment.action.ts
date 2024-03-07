@@ -15,10 +15,18 @@ const schema = z.object({
 export const addComment = userAction(schema, async (data, ctx) => {
   try {
     await pusherServer.trigger(`repo-${data.repositoryId}`, "new-comment", {
+      // content: data.content,
+      // picture: data.picture,
+      // name: data.name,
+      // username: data.username,
+      // userId: ctx.session.user.id,
       content: data.content,
-      picture: data.picture,
-      name: data.name,
-      username: data.username,
+      createdBy: {
+        image: data.picture,
+        name: data.name,
+        username: data.username,
+      },
+      createdAt: new Date(),
       userId: ctx.session.user.id,
     });
 

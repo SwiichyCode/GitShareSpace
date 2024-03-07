@@ -5,7 +5,6 @@ import type { Like } from "@prisma/client";
 
 interface RepositoriesContext {
   user: User | null;
-  data: Repository[];
   likes: Like[];
   repositoriesAlreadyStarred?: string[];
 }
@@ -16,14 +15,13 @@ const RepositoriesContext = createContext<RepositoriesContext | null>(null);
 
 export const RepositoriesProvider = ({
   user,
-  data,
   likes,
   repositoriesAlreadyStarred,
   children,
 }: RepositoriesProviderProps) => {
   return (
     <RepositoriesContext.Provider
-      value={{ user, data, likes, repositoriesAlreadyStarred }}
+      value={{ user, likes, repositoriesAlreadyStarred }}
     >
       {children}
     </RepositoriesContext.Provider>

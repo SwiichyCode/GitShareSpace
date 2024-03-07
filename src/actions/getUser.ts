@@ -1,8 +1,6 @@
 "use server";
-
 import userService from "@/services/user.service";
-import { cache } from "react";
 
-export const getUser = cache(async (userId: string) => {
+export const getUser = async (userId: string) => {
   return await userService.getUser(userId);
-});
+};

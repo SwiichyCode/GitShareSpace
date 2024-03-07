@@ -4,7 +4,7 @@ export const getRepositoriesAlreadyStarred = (
   repositories: Repository[],
   user: User | null,
 ): Repository[] => {
-  if (!user || !user.repositoryAlreadyStarred) {
+  if (!user || !repositories) {
     return [];
   }
 

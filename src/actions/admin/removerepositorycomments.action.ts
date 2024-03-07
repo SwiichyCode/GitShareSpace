@@ -1,7 +1,7 @@
 "use server";
 
-import { adminAction } from "@/lib/next-safe-action";
 import adminService from "@/services/admin.service";
+import { adminAction } from "@/lib/next-safe-action";
 import { revalidatePath } from "next/cache";
 import { URL } from "@/constants";
 import * as z from "zod";
@@ -17,5 +17,6 @@ export const removeRepositoryComments = adminAction(schema, async (data) => {
     if (error instanceof Error) return { error: error.message };
   }
 
+  revalidatePath(`${URL.REPOSITORIES}`);
   revalidatePath(`${URL.REPOSITORIES}/${data.repositoryId}`);
 });

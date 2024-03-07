@@ -1,6 +1,6 @@
 import type { User, Repository } from "@/types/prisma.type";
 
-export const getRepositoryAlreadyStarredURL = (
+export const getRepositoriesAlreadyStarredURL = (
   repositories: Repository[],
   user: User | null,
 ) => {

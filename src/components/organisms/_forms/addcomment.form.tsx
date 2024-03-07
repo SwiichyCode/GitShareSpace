@@ -29,11 +29,19 @@ export const AddCommentForm = ({ user, repositoryId }: Props) => {
   function onSubmit(data: z.infer<typeof formAddCommentSchema>) {
     startTransition(async () => {
       const payload = {
+        // repositoryId,
+        // picture: user?.image,
+        // name: user?.name,
+        // username: user?.username,
+        // content: data.content,
         repositoryId,
-        picture: user?.image,
-        name: user?.name,
-        username: user?.username,
         content: data.content,
+        createdBy: {
+          image: user?.image,
+          name: user?.name,
+          username: user?.username,
+        },
+        createdAt: new Date(),
       };
 
       await addComment(payload);

@@ -5,7 +5,7 @@ import { getRepositoriesAlreadyLiked } from "./getRepositoriesAlreadyLiked";
 type Props = {
   query: string;
   language: string;
-  initialRepositories: Repository[];
+  initialRepositories?: Repository[];
   repositories: Repository[];
   user: User | null;
   toggleFilter: "starred" | "liked" | "all";
@@ -40,7 +40,7 @@ export const getFilteredRepositories = ({
   }
 
   if (language) {
-    filteredRepositories = filteredRepositories.filter(
+    filteredRepositories = filteredRepositories?.filter(
       (repository) => repository.language.name === language,
     );
   }

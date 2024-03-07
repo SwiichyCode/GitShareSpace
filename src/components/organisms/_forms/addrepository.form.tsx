@@ -13,8 +13,14 @@ import { RichTextFieldForm } from "@/components/molecules/RichTextFieldForm";
 import { SubmitButton } from "@/components/molecules/SubmitButton";
 import { addRepository } from "@/actions/addrepository.action";
 import type * as z from "zod";
+import { useFetchInfiniteRepositories } from "@/hooks/useFetchInfiniteRepositories";
 
-export const AddRepositoryForm = () => {
+type Props = {
+  queryParams: string;
+  languageParams: string;
+};
+
+export const AddRepositoryForm = ({ queryParams, languageParams }: Props) => {
   const [isPending, startTransition] = useTransition();
   const { open, setOpen } = useShareRepositoryModal();
   const { toast } = useToast();
@@ -25,6 +31,11 @@ export const AddRepositoryForm = () => {
       url: "",
       description: "",
     },
+  });
+
+  const { refetch } = useFetchInfiniteRepositories({
+    queryParams,
+    languageParams,
   });
 
   function onSubmit(data: z.infer<typeof formRepositorySchema>) {
@@ -48,6 +59,7 @@ export const AddRepositoryForm = () => {
       }
 
       form.reset();
+      await refetch();
     });
   }
 

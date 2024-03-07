@@ -11,7 +11,7 @@ export const RepositoriesFilter = ({ languages }: Props) => {
   return (
     <div className="flex space-x-4">
       <DirectionListToggle />
-      <AlreadyStarredToggle />
+      {/* <AlreadyStarredToggle /> */}
       <SelectLanguages languages={languages} />
     </div>
   );

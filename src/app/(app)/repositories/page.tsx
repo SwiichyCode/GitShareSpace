@@ -1,5 +1,5 @@
 import { parseAsString } from "nuqs/server";
-import { fetchRepositoryRelatedData } from "@/context/fetchRepositoryRelatedData";
+import { useFetchRepositoriesPage } from "@/hooks/useFetchRepositoriesPage";
 import { RepositoriesProvider } from "@/context/repositoriesContext";
 import { RepositoriesFilter } from "@/components/organisms/RepositoriesFilter/_index";
 import { RepositoriesGridInfiniteScroll } from "@/components/organisms/RepositoriesGrid/RepositoriesGridInfiniteScroll";
@@ -16,25 +16,23 @@ type Props = {
 const queryParser = parseAsString.withDefault("");
 
 export default async function RepositoriesPage({ searchParams }: Props) {
-  const query = queryParser.parseServerSide(searchParams?.query);
-  const language = queryParser.parseServerSide(searchParams?.language);
-  const { user, data, likes, languages } = await fetchRepositoryRelatedData({
-    query,
-    language,
-  });
+  const queryParams = queryParser.parseServerSide(searchParams?.query);
+  const languageParams = queryParser.parseServerSide(searchParams?.language);
+  const { user, likes, languages } = await useFetchRepositoriesPage();
 
   return (
-    <RepositoriesProvider user={user} data={data} likes={likes}>
+    <RepositoriesProvider user={user} likes={likes}>
       <RepositoriesFilter languages={languages} />
-
       <RepositoriesGridInfiniteScroll
         user={user}
-        query={query}
-        language={language}
+        queryParams={queryParams}
+        languageParams={languageParams}
       />
-
       <DataSharingAgreementForm user={user} />
-      <AddRepositoryForm />
+      <AddRepositoryForm
+        queryParams={queryParams}
+        languageParams={languageParams}
+      />
     </RepositoriesProvider>
   );
 }

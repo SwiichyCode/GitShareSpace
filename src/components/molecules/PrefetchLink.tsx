@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useQueryClient } from "@tanstack/react-query";
-import { getRepositoriesOnScroll } from "@/actions/getRepositories.action";
+import { getRepositoriesByFilter } from "@/services/actions/repository.service";
 import { URL } from "@/constants";
 
 export const PrefetchLink = () => {
@@ -12,9 +12,9 @@ export const PrefetchLink = () => {
       .prefetchInfiniteQuery({
         queryKey: ["repositories", { query: "", language: "" }],
         queryFn: ({ pageParam }) =>
-          getRepositoriesOnScroll({ cursor: pageParam }),
+          getRepositoriesByFilter({ cursor: pageParam }),
         initialPageParam: 0,
-        getNextPageParam: (lastPage) => lastPage.nextCursor,
+        getNextPageParam: (lastPage) => lastPage.data?.nextCursor,
         pages: 1,
         staleTime: 1000 * 60 * 5,
       })

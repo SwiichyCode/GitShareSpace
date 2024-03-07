@@ -80,17 +80,6 @@ class RepositoryService {
     }
   }
 
-  async getRepositoryByGithubId(repositoryId: number) {
-    return await db.repository.findFirst({
-      where: {
-        repositoryId,
-      },
-      include: {
-        topics: true,
-      },
-    });
-  }
-
   async getRepository(repositoryId: number) {
     return await db.repository.findFirst({
       where: {
@@ -119,52 +108,6 @@ class RepositoryService {
         id: "desc",
       },
     });
-  }
-
-  async getRepositoriesByPage({
-    search,
-    offset = 0,
-    limit = 15,
-  }: {
-    search?: string | undefined;
-    offset?: number;
-    limit?: number;
-  }) {
-    const data = await db.repository.findMany({
-      where: {
-        is_visible: true,
-        repositoryName: {
-          contains: search,
-        },
-      },
-      include: {
-        createdBy: true,
-        language: true,
-        topics: true,
-      },
-      orderBy: {
-        id: "desc",
-      },
-      skip: offset,
-      take: limit,
-    });
-
-    const totalCount = await db.repository.count({
-      where: {
-        is_visible: true,
-        repositoryName: {
-          contains: search,
-        },
-      },
-    });
-
-    const totalPages = Math.ceil(totalCount / limit);
-
-    return {
-      data,
-      totalCount,
-      totalPages,
-    };
   }
 
   async getRepositoriesOnScroll({

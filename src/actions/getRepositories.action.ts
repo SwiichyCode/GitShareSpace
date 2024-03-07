@@ -1,6 +1,5 @@
 "use server";
 import repositoryService from "@/services/repository.service";
-import { revalidatePath } from "next/cache";
 
 type Props = {
   query?: string;

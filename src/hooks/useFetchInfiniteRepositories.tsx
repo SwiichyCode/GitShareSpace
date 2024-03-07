@@ -1,20 +1,40 @@
-import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
-import { getRepositoriesOnScroll } from "@/actions/getRepositories.action";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { getRepositoriesByFilter } from "@/services/actions/repository.service";
 
 type Props = {
-  query: string;
-  language: string;
+  queryParams: string;
+  languageParams: string;
 };
 
-export const useFetchInfiniteRepositories = ({ query, language }: Props) => {
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
-    useSuspenseInfiniteQuery({
-      queryKey: ["repositories", { query, language }],
-      queryFn: ({ pageParam }) =>
-        getRepositoriesOnScroll({ cursor: pageParam }),
-      initialPageParam: 0,
-      getNextPageParam: (lastPage) => lastPage.nextCursor,
-    });
+export const useFetchInfiniteRepositories = ({
+  queryParams,
+  languageParams,
+}: Props) => {
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    refetch,
+  } = useInfiniteQuery({
+    queryKey: ["repositories", { queryParams, languageParams }],
+    queryFn: ({ pageParam }) =>
+      getRepositoriesByFilter({
+        cursor: pageParam,
+        queryParams,
+        languageParams,
+      }),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => lastPage.data?.nextCursor,
+  });
 
-  return { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading };
+  return {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    refetch,
+  };
 };

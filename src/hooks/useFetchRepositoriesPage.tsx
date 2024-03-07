@@ -6,23 +6,11 @@ import {
   getLanguages,
 } from "@/actions/test.action";
 
-type Props = {
-  query?: string;
-  language?: string;
-};
-
-export const fetchRepositoryRelatedData = async ({
-  query,
-  language,
-}: Props) => {
+export const useFetchRepositoriesPage = async () => {
   const session = await getServerAuthSession();
-  const { data } = await getRepositoriesOnScroll({
-    query,
-    language,
-  });
 
   const user = await getUser(session?.user.id ?? "");
   const likes = await getLikes();
   const languages = await getLanguages();
-  return { user, data, likes, languages };
+  return { user, likes, languages };
 };

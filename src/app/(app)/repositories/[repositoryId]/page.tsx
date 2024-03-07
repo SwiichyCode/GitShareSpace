@@ -1,7 +1,5 @@
 import Link from "next/link";
-import { getServerAuthSession } from "@/server/auth";
-import { getUser } from "@/actions/getUser";
-import repositoryService from "@/services/repository.service";
+import { useFetchCommentsPage } from "@/hooks/useFetchCommentsPage";
 import { ProfileAvatar } from "@/components/molecules/Avatar";
 import { CommentList } from "@/components/organisms/Comment/CommentList";
 import { AddCommentForm } from "@/components/organisms/_forms/addcomment.form";
@@ -11,12 +9,9 @@ export default async function RepositoryCommentPage({
 }: {
   params: { repositoryId: number };
 }) {
-  const repositoryId = Number(params.repositoryId);
-  const repository = await repositoryService.getRepository(repositoryId);
-  const initialComments =
-    await repositoryService.getCommentsByRepositoryId(repositoryId);
-  const session = await getServerAuthSession();
-  const user = session && (await getUser(session.user.id));
+  const { repository, comments, session, user } = await useFetchCommentsPage(
+    Number(params.repositoryId),
+  );
 
   if (!repository) {
     return <div>Repository not found</div>;
@@ -44,11 +39,13 @@ export default async function RepositoryCommentPage({
         </div>
       </div>
 
-      <CommentList
-        initialComments={initialComments}
-        repositoryId={params.repositoryId}
-      />
-      {session && <AddCommentForm user={user} repositoryId={repositoryId} />}
+      <CommentList comments={comments} />
+      {session && (
+        <AddCommentForm
+          user={user}
+          repositoryId={Number(params.repositoryId)}
+        />
+      )}
     </div>
   );
 }
