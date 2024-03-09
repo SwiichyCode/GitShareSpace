@@ -26,7 +26,7 @@ export const SelectParams = () => {
         <SelectValue placeholder="Languages" />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="all">All</SelectItem>
+        <SelectItem value="all">{params ? "All" : "Select params"}</SelectItem>
         <SelectItem value="latest">First added</SelectItem>
         <SelectItem value="starred">Most starred</SelectItem>
         <SelectItem value="liked">Most Liked</SelectItem>

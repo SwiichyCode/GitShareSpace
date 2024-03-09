@@ -25,10 +25,12 @@ export const SelectLanguages = () => {
       onValueChange={(value) => handleChange(value)}
     >
       <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="Languages" />
+        <SelectValue />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="all">All</SelectItem>
+        <SelectItem value="all">
+          {language ? "All" : "Select language"}
+        </SelectItem>
         {languages.map((language) => (
           <SelectItem key={language.id} value={language.name}>
             {language.name}
