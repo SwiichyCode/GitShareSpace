@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { PersonIcon, RepoIcon, StarIcon } from "@primer/octicons-react";
 import { Separator } from "@/components/ui/separator";
-import { useShareRepositoryModal } from "@/modules/repositories/stores/useShareRepositoryModal";
 import { useSidebar } from "@/components/layouts/Sidebar/useSidebar";
 import { SidebarSignout } from "./SidebarSignout";
 import { SidebarAdministration } from "./SidebarAdministration";
@@ -15,38 +14,33 @@ type Props = {
 };
 
 export const SidebarNavigation = ({ session }: Props) => {
-  const { open: openRepositoryModal, setOpen: setOpenRepositoryModal } =
-    useShareRepositoryModal();
-  const { open: openSidebar, setOpen: setOpenSidebar } = useSidebar();
-
-  const handleRepositoryModal = () => {
-    setOpenRepositoryModal(!openRepositoryModal);
-    setOpenSidebar(!openSidebar);
-  };
+  const { toggle } = useSidebar();
 
   return (
     <nav className="space-y-2">
       <Link
         href={URL.PROFILE}
-        className="hover:bg-subtle-hover flex items-center space-x-2 rounded-md px-2 py-1 transition"
+        className="flex w-full items-center space-x-2 rounded-md px-2 py-1 transition hover:bg-subtle-hover"
+        onClick={() => toggle()}
       >
-        <PersonIcon className="text-subtle h-4 w-4" />
+        <PersonIcon className="h-4 w-4 text-subtle" />
         <span className="text-sm">Your Profile</span>
       </Link>
 
-      <button
-        onClick={handleRepositoryModal}
-        className="hover:bg-subtle-hover flex w-full items-center space-x-2 rounded-md px-2 py-1 transition"
+      <Link
+        className="flex w-full items-center space-x-2 rounded-md px-2 py-1 transition hover:bg-subtle-hover"
+        href={URL.REPOSITORIES}
+        onClick={() => toggle()}
       >
-        <RepoIcon className="text-subtle h-4 w-4" />
-        <span className="text-sm">Share repository</span>
-      </button>
+        <RepoIcon className="h-4 w-4 text-subtle" />
+        <span className="text-sm">Repositories</span>
+      </Link>
       <Separator />
       <Link
         href={URL.STARS}
-        className="hover:bg-subtle-hover flex items-center space-x-2 rounded-md px-2 py-1 transition"
+        className="flex items-center space-x-2 rounded-md px-2 py-1 transition hover:bg-subtle-hover"
       >
-        <StarIcon className="text-subtle h-4 w-4" />
+        <StarIcon className="h-4 w-4 text-subtle" />
         <span className="text-sm">Your stars</span>
       </Link>
       <Separator />
