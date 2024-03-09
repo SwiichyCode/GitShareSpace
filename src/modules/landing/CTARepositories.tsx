@@ -1,5 +1,5 @@
 "use client";
-import { usePrefetchRepositories } from "@/modules/repositories/hooks/usePrefetchRepositories";
+import { usePrefetchRepositories } from "@/modules/repositories/hooks/use-prefetch-repositories";
 import { CTALink } from "@/components/ui/cta-link";
 import { URL } from "@/config/constants";
 

@@ -24,7 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`font-sans ${inter.variable} bg-background scroll-smooth text-[#E6EDF3]`}
+        className={`font-sans ${inter.variable} scroll-smooth bg-background text-[#E6EDF3]`}
       >
         <TanstackProvider>{children}</TanstackProvider>
         <SpeedInsights />

@@ -14,7 +14,9 @@ type Props = {
 };
 
 export const useFetchNextPage = ({ action, hasNextPage }: Props) => {
-  const { ref, inView } = useInView();
+  const { ref, inView } = useInView({
+    rootMargin: "200px",
+  });
 
   useEffect(() => {
     if (inView && hasNextPage) {
