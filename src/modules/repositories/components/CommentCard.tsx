@@ -13,18 +13,18 @@ type Props = {
 export const CommentCard = (props: Props) => {
   const { avatar, username, name, createdAt, content } = props;
   return (
-    <div className="border-card bg-default flex flex-col space-y-4 overflow-hidden rounded-md border px-4 py-2 shadow">
+    <div className="flex flex-col space-y-4 overflow-hidden rounded-md border border-card bg-default px-4 py-2 shadow">
       <div className="flex items-center gap-2">
         <ProfileAvatar pictureUrl={avatar ?? "/avatar.png"} />
         <div className="flex space-x-2">
           <Link
             href="#"
-            className="text-sm font-semibold hover:text-[#2F81F7] hover:underline"
+            className="hover:text-blue text-sm font-semibold hover:underline"
             target="_blank"
           >
             {username ?? name}
           </Link>
-          <span className="cursor-pointer text-sm text-[#848D86] hover:text-[#2F81F7] hover:underline">
+          <span className="hover:text-blue cursor-pointer text-sm text-[#848D86] hover:underline">
             {calculateCommentCreatedRange(createdAt)} ago
           </span>
         </div>

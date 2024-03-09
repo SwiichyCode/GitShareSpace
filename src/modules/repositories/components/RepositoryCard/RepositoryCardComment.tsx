@@ -10,7 +10,7 @@ export const RepositoryCardComment = ({ repository }: Props) => {
   return (
     <Link
       href={`repositories/${repository.id}`}
-      className="flex items-center space-x-1 hover:text-[#2F81F7]"
+      className="hover:text-blue flex items-center space-x-1"
     >
       <CommentDiscussionIcon className="h-4 w-4" />
       <span>{repository.comments.length}</span>

@@ -25,6 +25,7 @@ const config = {
         ring: "hsl(var(--ring))",
         skeleton: "hsl(var(--skeleton))",
         icon: "hsl(var(--icon))",
+        blue: "hsl(var(--blue))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
