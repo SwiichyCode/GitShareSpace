@@ -1,4 +1,3 @@
-"use client";
 import Image from "next/image";
 import { CTARepositories } from "@/modules/landing/CTARepositories";
 
@@ -39,7 +38,7 @@ export const Hero = () => {
             </div>
           </div>
           <Image
-            src="/hero-screenshot.png"
+            src="/hero-screenshot.webp"
             alt="App screenshot"
             width={2432}
             height={1442}

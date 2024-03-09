@@ -3,7 +3,9 @@ export const URL = {
   REPOSITORIES: "/repositories",
   PROFILE: "/profile",
   STARS: "/stars",
-  REPO: "https://github.com/SwiichyCode/GitShareSpace",
+  LINKEDIN: "https://www.linkedin.com/in/swapnil-singh-1a1b3b1b3/",
+  GITHUB: "https://www.linkedin.com/in/dylan-jansana-65b912269/",
+  TWITTER: "https://twitter.com/SwiichyCode_",
 };
 
 export const ERROR_MESSAGE = {

@@ -10,7 +10,7 @@ import type { PropsWithChildren } from "react";
 
 export const HeaderLayout = ({ children }: PropsWithChildren) => {
   return (
-    <div className="border-card bg-inset m-auto flex w-full max-w-[1920px] items-center justify-between border-b px-6 py-4">
+    <div className="m-auto flex w-full max-w-[1920px] items-center justify-between border-b border-card bg-inset px-6 py-4">
       {children}
     </div>
   );
@@ -24,7 +24,7 @@ export const Header = async () => {
       <Logo />
 
       <div className="flex items-center justify-end space-x-4">
-        <GithubLink url={URL.REPO} />
+        <GithubLink url={URL.GITHUB} />
         <RepositoryInputSearch />
         <div className="hidden h-6 w-[1px] bg-[#30363D] lg:block" />
         <RepositoryShareBtn session={session} />
