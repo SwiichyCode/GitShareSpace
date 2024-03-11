@@ -4,7 +4,7 @@ import { RepositoryCardLicense } from "./RepositoryCardLicense";
 import { RepositoryCardStars } from "./RepositoryCardStars";
 import { RepositoryCardLanguage } from "./RepositoryCardLanguage";
 import { RepositoryCardComment } from "./RepositoryCardComment";
-import { RepositoryCardSeeMore } from "./RepositoryCardSeeMore";
+// import { RepositoryCardSeeMore } from "./RepositoryCardSeeMore";
 import type { Repository } from "@/config/types/prisma.type";
 
 type Props = {
@@ -29,7 +29,7 @@ export const RepositoryCardFooter = ({
         <RepositoryCardLicense repository={repository} />
       </div>
       <div className="flex space-x-4">
-        <RepositoryCardSeeMore />
+        {/* <RepositoryCardSeeMore /> */}
         <RepositoryCardComment repository={repository} />
         <RepositoryCardLike user={user} repository={repository} likes={likes} />
       </div>

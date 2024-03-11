@@ -76,7 +76,10 @@
     "usehooks-ts": "^2.15.1",
     "vaul": "^0.9.0",
     "zod": "^3.22.4",
-    "zustand": "^4.5.0"
+    "zustand": "^4.5.0",
+    "@trigger.dev/sdk": "^2.3.18",
+    "@trigger.dev/nextjs": "^2.3.18",
+    "@trigger.dev/react": "^2.3.18"
   },
   "devDependencies": {
     "@belkross/commitlint-config": "^1.0.3",
@@ -110,5 +113,8 @@
   "ct3aMetadata": {
     "initVersion": "7.26.0"
   },
-  "packageManager": "npm@10.2.4"
+  "packageManager": "npm@10.2.4",
+  "trigger.dev": {
+    "endpointId": "gitsharespace-ZvGI"
+  }
 }
