@@ -8,6 +8,7 @@ client.defineJob({
   id: "example-job",
   name: "Example Job: a joke with a delay",
   version: "0.0.1",
+  enabled: false,
   // This is triggered by an event using eventTrigger. You can also trigger Jobs with webhooks, on schedules, and more: https://trigger.dev/docs/documentation/concepts/triggers/introduction
   trigger: intervalTrigger({ seconds: 60 }),
   run: async (payload, io, ctx) => {
