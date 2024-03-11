@@ -15,3 +15,11 @@ export const createOctokitWithUserToken = (userAccessToken: string) => {
 export type OctokitRepositoryResponse = GetResponseTypeFromEndpointMethod<
   typeof octokit.rest.repos.get
 >;
+
+export type OctokitUserResponse = GetResponseTypeFromEndpointMethod<
+  typeof octokit.rest.users.getByUsername
+>;
+
+export type OctokitSocialAccountsResponse = GetResponseTypeFromEndpointMethod<
+  typeof octokit.rest.users.listSocialAccountsForUser
+>;

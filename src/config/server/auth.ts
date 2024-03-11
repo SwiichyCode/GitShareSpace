@@ -20,6 +20,7 @@ declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;
+      githubUserID: number;
       username: string;
       role: "USER" | "ADMIN" | "DEVELOPER";
       firstConnection: boolean;
@@ -28,6 +29,8 @@ declare module "next-auth" {
   }
 
   interface User {
+    id: string;
+    githubUserID: number;
     username: string;
     role: "USER" | "ADMIN" | "DEVELOPER";
     firstConnection: boolean;
@@ -48,6 +51,7 @@ export const authOptions: NextAuthOptions = {
         user: {
           ...session.user,
           id: user.id,
+          githubUserID: user.githubUserID,
           username: user.username,
           role: user.role,
           firstConnection: user.firstConnection,

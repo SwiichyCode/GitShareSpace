@@ -18,6 +18,8 @@ import {
 import { updateAgreementAction } from "@/services/actions/upgrade-agreement";
 import { useRepositoriesContext } from "@/modules/repositories/context/repositoriesContext";
 import type * as z from "zod";
+import { Button } from "@/components/ui/button";
+import { signOut } from "next-auth/react";
 
 export const DataSharingAgreementForm = () => {
   const { user } = useRepositoriesContext();
@@ -56,7 +58,7 @@ export const DataSharingAgreementForm = () => {
               control={form.control}
               name="agreement"
               render={({ field }) => (
-                <FormItem className="border-card flex flex-row items-center  space-x-3 space-y-0 rounded-md border p-4 shadow">
+                <FormItem className="flex flex-row items-center space-x-3  space-y-0 rounded-md border border-card p-4 shadow">
                   <FormControl>
                     <Checkbox
                       checked={field.value}
@@ -77,7 +79,9 @@ export const DataSharingAgreementForm = () => {
                 Confirmation
               </SubmitButton>
               {!checked && (
-                <SubmitButton variant={"destructive"}>Refuse</SubmitButton>
+                <Button variant={"destructive"} onClick={() => signOut()}>
+                  Cancel
+                </Button>
               )}
             </div>
           </form>

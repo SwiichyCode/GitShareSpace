@@ -16,7 +16,7 @@ export const ExampleForm = ({}) => {
   });
 
   function onSubmit(data: z.infer<typeof formExampleSchema>) {
-    startTransition(async () => {
+    startTransition(() => {
       console.log(data);
     });
 

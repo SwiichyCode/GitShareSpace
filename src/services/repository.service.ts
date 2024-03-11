@@ -258,7 +258,7 @@ class RepositoryService {
       throw new Error(ERROR_MESSAGE.USER_NOT_FOUND);
     }
 
-    const githubUser = await octokitService.getUser(
+    const githubUser = await octokitService.getUserById(
       extractUserIdFromAvatarUrl(user.image!),
     );
 

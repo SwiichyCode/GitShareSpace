@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useRepositoriesContext } from "@/modules/repositories/context/repositoriesContext";
 import { ProfileAvatar } from "@/components/layouts/ProfileAvatar";
 import { RepositoryCardHideWithRole } from "./RepositoryCardHide";
+import { URL } from "@/config/constants";
 import type { Repository } from "@/config/types/prisma.type";
 
 type Props = {
@@ -32,7 +33,12 @@ export const RepositoryCardHeader = ({
           </Link>
           <span className="text-xs">
             Published by{" "}
-            {repository.createdBy.username ?? repository.createdBy.name}
+            <Link
+              href={`${URL.PROFILE}/${repository.createdBy.id}?username=${repository.createdBy.username}`}
+              className="text-blue underline"
+            >
+              {repository.createdBy.username ?? repository.createdBy.name}
+            </Link>
           </span>
         </div>
       </div>

@@ -29,6 +29,27 @@ class UserService {
   }
 
   /**
+   * Query to get the GitHub user id of the user.
+   * @param {string} userId - The user id.
+   * @throws {Error} - Throws an error if there's an error accessing the database.
+   */
+
+  async getGithubUserId({ userId }: GetUserType) {
+    const response = await db.user.findFirst({
+      where: {
+        id: userId,
+      },
+      select: {
+        githubUserID: true,
+      },
+    });
+
+    if (!response) throw new Error("User not found");
+
+    return response.githubUserID;
+  }
+
+  /**
    * Query to add a starred repository to the user.
    * @param {string} userId - The user id.
    * @param {string} repositoryId - The repository id.
@@ -158,16 +179,14 @@ class UserService {
    */
 
   async updateAgreement({ user, agreement }: UpdateAgreementType) {
-    const githubUser = await octokitService.getUser(
-      extractUserIdFromAvatarUrl(user.image ?? ""),
+    const userId = extractUserIdFromAvatarUrl(user.image ?? "")!;
+    const githubUser = await octokitService.getUserById(
+      extractUserIdFromAvatarUrl(userId),
     );
 
     if (!githubUser) {
       throw new Error("User not found");
     }
-
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    const username = githubUser.data.login;
 
     await repositoryService.syncStarredRepositories(user);
 
@@ -176,9 +195,14 @@ class UserService {
         id: user.id,
       },
       data: {
-        username,
+        githubUserID: githubUser.data.id,
+        username: githubUser.data.login,
+        bio: githubUser.data.bio,
+        company: githubUser.data.company,
+        location: githubUser.data.location,
+        blog: githubUser.data.blog,
         dataSharingAgreement: agreement,
-        firstConnection: false,
+        firstConnection: agreement ? false : true,
       },
     });
   }

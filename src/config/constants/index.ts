@@ -19,12 +19,15 @@ export const ERROR_MESSAGE = {
 };
 
 export const OCTOKIT_ENDPOINT = {
-  GET_USER: "GET /user/{userId}",
+  GET_USER: "GET /users/{username}",
+  GET_USER_BY_ID: "GET /user/{userId}",
   GET_REPOSITORY: "GET /repos/{owner}/{repo}",
   GET_REPOSITORY_BY_ID: "GET /repositories/{id}",
   GET_STARRED_REPOSITORIES: "GET /users/{username}/starred",
+  GET_USER_REPOSITORIES: "GET /users/{userId}/repos",
   PUT_STAR_REPOSITORY: "PUT /user/starred/{owner}/{repo}",
   DELETE_STAR_REPOSITORY: "DELETE /user/starred/{owner}/{repo}",
+  GET_USER_SOCIAL_ACCOUNTS: "GET /users/{username}/social_accounts",
 };
 
 export const DIRECTION_LIST = {

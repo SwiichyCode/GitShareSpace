@@ -57,6 +57,10 @@ model User {
     id                       String       @id @default(cuid())
     name                     String?
     username                 String?      @unique
+    bio                      String?
+    company                  String?
+    location                 String?
+    blog                     String?
     email                    String?      @unique
     emailVerified            DateTime?
     repositoryAlreadyStarred Int[]
@@ -64,6 +68,7 @@ model User {
     firstConnection          Boolean      @default(true)
     dataSharingAgreement     Boolean      @default(false)
     personalAccessToken      String?
+    githubUserID             Int?
     role                     Role         @default(USER)
     accounts                 Account[]
     sessions                 Session[]

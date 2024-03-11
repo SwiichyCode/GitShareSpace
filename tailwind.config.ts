@@ -26,6 +26,7 @@ const config = {
         skeleton: "hsl(var(--skeleton))",
         icon: "hsl(var(--icon))",
         blue: "hsl(var(--blue))",
+        grey: "hsl(var(--grey))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
