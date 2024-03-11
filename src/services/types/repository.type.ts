@@ -19,7 +19,7 @@ type GetRepositoriesByFilterType = {
 
 type UpdateRepositoryAlreadyStarredType = {
   userId: string;
-  repositoryUrl: string[];
+  repositoryId: number[];
 };
 
 type PostRepositoryCommentType = {
@@ -28,10 +28,16 @@ type PostRepositoryCommentType = {
   createdBy: string;
 };
 
+type HasStarredRepositoryType = {
+  userId: string;
+  repositoryId: number;
+};
+
 export type {
   GetRepositoriesByFilterType,
   UpdateRepositoryAlreadyStarredType,
   PostRepositoryType,
   PostRepositoryCommentType,
+  HasStarredRepositoryType,
   RepositoryEntry,
 };

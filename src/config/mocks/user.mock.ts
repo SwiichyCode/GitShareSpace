@@ -12,6 +12,7 @@ export const fakerMockUser: User = {
   image: faker.image.avatarGitHub(),
   firstConnection: faker.datatype.boolean(0),
   dataSharingAgreement: faker.datatype.boolean(0.9),
+  personalAccessToken: faker.internet.password(),
   role: "USER",
   likes: [fakerMockLike],
 };

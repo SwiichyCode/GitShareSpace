@@ -4,12 +4,32 @@ type UserEntry = {
   userId: string;
 };
 
-type QueryType<T> = object & T;
+type QueryType<T> = {
+  userId: string;
+} & T;
 
-export type GetUserType = QueryType<UserEntry>;
-export type UpdateAgreementType = QueryType<{
-  user: User;
-  agreement: boolean;
+type GetUserType = QueryType<object>;
+
+type AddStarredRepositoryType = QueryType<{
+  repositoryId: number;
 }>;
 
-export type { UserEntry };
+type AddPersonalAccessTokenType = QueryType<{
+  personalAccessToken: string;
+}>;
+
+type ResetPersonalAccessTokenType = QueryType<object>;
+
+type UpdateAgreementType = {
+  user: User;
+  agreement: boolean;
+};
+
+export type {
+  GetUserType,
+  AddStarredRepositoryType,
+  AddPersonalAccessTokenType,
+  ResetPersonalAccessTokenType,
+  UpdateAgreementType,
+  UserEntry,
+};

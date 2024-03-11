@@ -59,10 +59,11 @@ model User {
     username                 String?      @unique
     email                    String?      @unique
     emailVerified            DateTime?
-    repositoryAlreadyStarred String[]
+    repositoryAlreadyStarred Int[]
     image                    String?
     firstConnection          Boolean      @default(true)
     dataSharingAgreement     Boolean      @default(false)
+    personalAccessToken      String?
     role                     Role         @default(USER)
     accounts                 Account[]
     sessions                 Session[]

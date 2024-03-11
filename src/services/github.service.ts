@@ -1,13 +1,16 @@
-import { octokit } from "@/config/lib/octokit";
+import { createOctokitWithUserToken, octokit } from "@/config/lib/octokit";
 import { OCTOKIT_ENDPOINT, ERROR_MESSAGE } from "@/config/constants";
 import type { Octokit } from "octokit";
+import type { StarRepositoryType } from "@/services/types/github.type";
 import type { OctokitRepositoryResponse } from "@/config/lib/octokit";
 
-class OctokitService {
+export class OctokitService {
   private octokit: Octokit;
 
-  constructor(octokit: Octokit) {
-    this.octokit = octokit;
+  constructor(userAccessToken?: string) {
+    this.octokit = userAccessToken
+      ? createOctokitWithUserToken(userAccessToken)
+      : octokit;
   }
 
   async getUser(userId: string | undefined) {
@@ -70,8 +73,47 @@ class OctokitService {
       if (error instanceof Error) return console.log(error.message);
     }
   }
+
+  /**
+   * Query to star a repository.
+   * @param {string} owner - The owner of the repository.
+   * @param {string} repo - The name of the repository.
+   * @throws {Error} - Throws an error if there's an error accessing the database.
+   */
+
+  async starRepository({ owner, repo }: StarRepositoryType) {
+    try {
+      return await this.octokit.request(OCTOKIT_ENDPOINT.PUT_STAR_REPOSITORY, {
+        owner,
+        repo,
+      });
+    } catch (error) {
+      if (error instanceof Error) return console.log(error.message);
+    }
+  }
+
+  /**
+   * Query to unstar a repository.
+   * @param {string} owner - The owner of the repository.
+   * @param {string} repo - The name of the repository.
+   * @throws {Error} - Throws an error if there's an error accessing the database.
+   */
+
+  async unstarRepository({ owner, repo }: StarRepositoryType) {
+    try {
+      return await this.octokit.request(
+        OCTOKIT_ENDPOINT.DELETE_STAR_REPOSITORY,
+        {
+          owner,
+          repo,
+        },
+      );
+    } catch (error) {
+      if (error instanceof Error) return console.log(error.message);
+    }
+  }
 }
 
-const octokitService = new OctokitService(octokit);
+const octokitService = new OctokitService();
 
 export default octokitService;

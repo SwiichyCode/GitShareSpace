@@ -25,7 +25,7 @@ export const RepositoryCardHeader = ({
         <div className="flex flex-col">
           <Link
             href={repository.url}
-            className="hover:text-blue w-48 truncate text-sm font-semibold hover:underline"
+            className="w-48 truncate text-sm font-semibold hover:text-blue hover:underline"
             target="_blank"
           >
             {repository.ownerUsername}/{repository.repositoryName}

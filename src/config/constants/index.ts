@@ -2,9 +2,9 @@ export const URL = {
   HOME: "/",
   REPOSITORIES: "/repositories",
   PROFILE: "/profile",
-  STARS: "/stars",
+  SETTINGS: "/settings",
   LINKEDIN: "https://www.linkedin.com/in/swapnil-singh-1a1b3b1b3/",
-  GITHUB: "https://www.linkedin.com/in/dylan-jansana-65b912269/",
+  GITHUB: "https://github.com/SwiichyCode/GitShareSpace",
   TWITTER: "https://twitter.com/SwiichyCode_",
 };
 
@@ -23,6 +23,8 @@ export const OCTOKIT_ENDPOINT = {
   GET_REPOSITORY: "GET /repos/{owner}/{repo}",
   GET_REPOSITORY_BY_ID: "GET /repositories/{id}",
   GET_STARRED_REPOSITORIES: "GET /users/{username}/starred",
+  PUT_STAR_REPOSITORY: "PUT /user/starred/{owner}/{repo}",
+  DELETE_STAR_REPOSITORY: "DELETE /user/starred/{owner}/{repo}",
 };
 
 export const DIRECTION_LIST = {

@@ -8,6 +8,7 @@ import { constructRepositoryOrderBy } from "./utils/construct-repository-orderBy
 import { extractUserIdFromAvatarUrl } from "./utils/extract-user-id-from-avatar-url";
 import type {
   GetRepositoriesByFilterType,
+  HasStarredRepositoryType,
   PostRepositoryCommentType,
   PostRepositoryType,
   RepositoryEntry,
@@ -152,13 +153,13 @@ class RepositoryService {
   /**
    * Query to update the repository already starred by the user.
    * @param {string} data.userId - The ID of the user.
-   * @param {string[]} data.repositoryUrl - The URL of the repository.
+   * @param {number[]} data.repositoryUrl - The ID of the repository.
    * @throws {Error} - Throws an error if there's an error accessing the database.
    */
 
   async updateRepositoryAlreadyStarred({
     userId,
-    repositoryUrl,
+    repositoryId,
   }: UpdateRepositoryAlreadyStarredType) {
     await db.user.update({
       where: {
@@ -166,7 +167,7 @@ class RepositoryService {
       },
       data: {
         repositoryAlreadyStarred: {
-          set: repositoryUrl,
+          set: repositoryId,
         },
       },
     });
@@ -273,9 +274,9 @@ class RepositoryService {
       await this.updateRepositoryAlreadyStarred({
         userId: user.id,
         //eslint-disable-next-line
-        repositoryUrl: starredRepositories.data.map(
+        repositoryId: starredRepositories.data.map(
           //eslint-disable-next-line
-          (repo: any) => repo.html_url,
+          (repo: any) => repo.id,
         ),
       });
     }
@@ -332,6 +333,28 @@ class RepositoryService {
           connect: {
             id: repositoryId,
           },
+        },
+      },
+    });
+  }
+
+  /**
+   * Query to check if the user has starred a repository.
+   * @param {Object} data - The data to be checked.
+   * @param {string} data.userId - The ID of the user.
+   * @param {number} data.repositoryId - The ID of the repository.
+   * @throws {Error} - Throws an error if there's an error accessing the database.
+   */
+
+  async hasStarredRepository({
+    userId,
+    repositoryId,
+  }: HasStarredRepositoryType) {
+    return await db.user.findFirst({
+      where: {
+        id: userId,
+        repositoryAlreadyStarred: {
+          has: repositoryId,
         },
       },
     });

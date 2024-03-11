@@ -2,6 +2,7 @@
 import { revalidatePath } from "next/cache";
 import { userAction } from "@/config/lib/next-safe-action";
 import likeService from "@/services/like.service";
+import { URL } from "@/config/constants";
 import * as z from "zod";
 
 const schema = z.object({
@@ -30,5 +31,5 @@ export const likeOrUnlikeRepository = userAction(schema, async (data, ctx) => {
     if (error instanceof Error) return { error: error.message };
   }
 
-  revalidatePath("/");
+  revalidatePath(URL.REPOSITORIES);
 });

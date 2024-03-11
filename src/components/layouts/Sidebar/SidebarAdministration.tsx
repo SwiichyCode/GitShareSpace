@@ -19,6 +19,7 @@ const AdminSidebar = () => (
     <SidebarRemoveRepositoryComments />
   </>
 );
+
 const AdminSidebarWithRole = withAdminRole(AdminSidebar);
 
 export const SidebarAdministration = ({ session }: Props) => {

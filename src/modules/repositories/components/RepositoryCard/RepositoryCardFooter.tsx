@@ -9,7 +9,7 @@ import type { Repository } from "@/config/types/prisma.type";
 
 type Props = {
   repository: Repository;
-  repositoriesAlreadyStarred?: string[];
+  repositoriesAlreadyStarred?: number[];
 };
 
 export const RepositoryCardFooter = ({

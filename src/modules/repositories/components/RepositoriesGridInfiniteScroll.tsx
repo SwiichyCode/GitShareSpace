@@ -6,7 +6,7 @@ import { useFetchNextPage } from "@/modules/repositories/hooks/use-fetch-next-pa
 import { RepositoryCard } from "@/modules/repositories/components/RepositoryCard/_index";
 import { RepositoriesLoader } from "@/modules/repositories/components/RepositoriesLoader";
 import { RepositoriesGridLayout } from "@/modules/repositories/components/RepositoriesGridLayout";
-import { getRepositoriesAlreadyStarredURL } from "@/modules/repositories/utils/getRepositoriesAlreadyStarredURL";
+import { getRepositoriesAlreadyStarredID } from "@/modules/repositories/utils/getRepositoriesAlreadyStarredID";
 
 export const RepositoriesGridInfiniteScroll = () => {
   const { user } = useRepositoriesContext();
@@ -29,7 +29,7 @@ export const RepositoriesGridInfiniteScroll = () => {
             <RepositoryCard
               key={index}
               repository={repository}
-              repositoriesAlreadyStarred={getRepositoriesAlreadyStarredURL(
+              repositoriesAlreadyStarred={getRepositoriesAlreadyStarredID(
                 flatRepositories,
                 user,
               )}

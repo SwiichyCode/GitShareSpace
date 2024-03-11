@@ -2,6 +2,7 @@
 import { useTransition } from "react";
 import { syncRepositoriesAction } from "@/services/actions/sync-repositories";
 import { SyncIcon } from "@primer/octicons-react";
+import { SidebarNavigationButton } from "./SidebarNavigationButton";
 
 export const SidebarSyncRepositories = () => {
   const [isPending, startTransition] = useTransition();
@@ -18,13 +19,10 @@ export const SidebarSyncRepositories = () => {
 
   return (
     <form onSubmit={handleSyncRepositories}>
-      <button
-        className="hover:bg-subtle-hover flex w-full cursor-pointer items-center space-x-2 rounded-md px-2 py-1 text-sm transition"
-        type="submit"
-      >
-        <SyncIcon className="text-subtle h-4 w-4" />
+      <SidebarNavigationButton type="submit">
+        <SyncIcon className="h-4 w-4 text-subtle" />
         <span>{isPending ? "Syncing..." : "Sync repositories"}</span>
-      </button>
+      </SidebarNavigationButton>
     </form>
   );
 };

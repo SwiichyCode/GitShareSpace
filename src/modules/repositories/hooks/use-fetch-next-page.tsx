@@ -22,7 +22,7 @@ export const useFetchNextPage = ({ action, hasNextPage }: Props) => {
     if (inView && hasNextPage) {
       void action();
     }
-  }, [inView]);
+  }, [inView, hasNextPage, action]);
 
   return { ref, inView };
 };

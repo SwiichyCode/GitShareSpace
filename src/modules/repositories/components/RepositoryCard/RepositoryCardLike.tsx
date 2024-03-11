@@ -1,6 +1,4 @@
-import Fireworks from "react-canvas-confetti/dist/presets/fireworks";
 import { useOptimisticLike } from "@/modules/repositories/hooks/use-optimistic-like";
-import { useLikeConfetti } from "@/modules/repositories/hooks/use-like-confetti";
 import { HeartIcon, HeartFillIcon } from "@primer/octicons-react";
 import { likeCount } from "@/modules/repositories/utils/likeCount";
 
@@ -15,31 +13,30 @@ type Props = {
 };
 
 export const RepositoryCardLike = ({ user, repository, likes }: Props) => {
-  const { optimisticLikes, handleLikeRepository, isLiked, isUpdating } =
-    useOptimisticLike({ user, repository, likes });
-
-  const { onInitHandler, handleShoot } = useLikeConfetti({
-    isLiked,
-    isUpdating,
+  const { optimisticLikes, handleLikeRepository, isLiked } = useOptimisticLike({
+    user,
+    repository,
+    likes,
   });
 
   return (
-    <form
-      onSubmit={handleLikeRepository}
-      className={cn(
-        "flex items-center space-x-1 hover:text-[#FF3E6C]",
-        isLiked && "text-[#FF3E6C]",
-      )}
-    >
-      <Fireworks onInit={onInitHandler} />
-      <button type="submit" onClick={handleShoot}>
-        {isLiked ? (
-          <HeartFillIcon className={cn("h-4 w-4 hover:cursor-pointer ")} />
-        ) : (
-          <HeartIcon className={cn("h-4 w-4 hover:cursor-pointer ")} />
+    <form onSubmit={handleLikeRepository}>
+      <button
+        type="submit"
+        className={cn(
+          "flex items-center space-x-1",
+          isLiked && "text-[#FF3E6C]",
+          user ? "cursor-pointer hover:text-[#FF3E6C]" : "cursor-default",
         )}
+      >
+        {isLiked ? (
+          <HeartFillIcon className={cn("h-4 w-4")} />
+        ) : (
+          <HeartIcon className={cn("h-4 w-4")} />
+        )}
+
+        <span>{likeCount(optimisticLikes, repository)}</span>
       </button>
-      <span>{likeCount(optimisticLikes, repository)}</span>
     </form>
   );
 };

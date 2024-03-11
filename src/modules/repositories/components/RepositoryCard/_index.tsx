@@ -7,7 +7,7 @@ import type { Repository } from "@/config/types/prisma.type";
 
 type Props = {
   repository: Repository;
-  repositoriesAlreadyStarred?: string[];
+  repositoriesAlreadyStarred?: number[];
 };
 
 export const RepositoryCard = ({
@@ -17,7 +17,7 @@ export const RepositoryCard = ({
   return (
     <RepositoryCardLayout>
       <RepositoryCardHeader repository={repository} />
-      <div className="bg-overlay space-y-2 rounded-sm p-3">
+      <div className="space-y-2 rounded-sm bg-overlay p-3">
         <RepositoryCardDescription repository={repository} />
 
         <RepositoryCardTopics repository={repository} />

@@ -5,7 +5,7 @@ import {
   type NextAuthOptions,
 } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
-// import repositoryService from "@/services/repository.service";
+import repositoryService from "@/services/repository.service";
 import { env } from "@/config/env";
 import { db } from "@/config/server/db";
 import { URL } from "@/config/constants";
@@ -60,13 +60,13 @@ export const authOptions: NextAuthOptions = {
       return Promise.resolve(baseUrl + URL.REPOSITORIES);
     },
 
-    // async signIn({ user }) {
-    //   if (user.id && !user.firstConnection && user.dataSharingAgreement) {
-    //     await repositoryService.syncStarredRepositories(user);
-    //   }
+    async signIn({ user }) {
+      if (user.id && !user.firstConnection && user.dataSharingAgreement) {
+        await repositoryService.syncStarredRepositories(user);
+      }
 
-    //   return true;
-    // },
+      return true;
+    },
   },
 
   adapter: PrismaAdapter(db),

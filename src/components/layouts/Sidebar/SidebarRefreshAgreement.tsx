@@ -2,6 +2,7 @@
 import { useTransition } from "react";
 import { FileSymlinkFileIcon } from "@primer/octicons-react";
 import { refreshAgreementAction } from "@/services/actions/refresh-agreement";
+import { SidebarNavigationButton } from "./SidebarNavigationButton";
 
 export const SidebarRefreshAgreement = () => {
   const [isPending, startTransition] = useTransition();
@@ -18,13 +19,10 @@ export const SidebarRefreshAgreement = () => {
 
   return (
     <form onSubmit={handleRefreshAgreement}>
-      <button
-        className="hover:bg-subtle-hover flex w-full cursor-pointer items-center space-x-2 rounded-md px-2 py-1 text-sm transition"
-        type="submit"
-      >
-        <FileSymlinkFileIcon className="text-subtle h-4 w-4" />
+      <SidebarNavigationButton type="submit">
+        <FileSymlinkFileIcon className="h-4 w-4 text-subtle" />
         <span>{isPending ? "Refreshing..." : "Refresh agreement"}</span>
-      </button>
+      </SidebarNavigationButton>
     </form>
   );
 };

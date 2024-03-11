@@ -6,7 +6,7 @@ import type {
 
 class AdminService {
   /**
-   * Action to update the data sharing agreement of all users who have already connected to the app.
+   * Query to update the data sharing agreement of all users who have already connected to the app.
    * @throws {Error} - Throws an error if there's an error accessing the database.
    */
 

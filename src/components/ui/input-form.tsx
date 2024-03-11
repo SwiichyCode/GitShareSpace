@@ -14,7 +14,7 @@ export interface InputProps
   control: any;
   name: string;
   label?: string;
-  description?: string;
+  description?: React.HTMLAttributes<HTMLParagraphElement>["children"];
 }
 
 const InputForm = React.forwardRef<HTMLInputElement, InputProps>(

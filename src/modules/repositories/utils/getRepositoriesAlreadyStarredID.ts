@@ -1,11 +1,11 @@
 import type { User, Repository } from "@/config/types/prisma.type";
 
-export const getRepositoriesAlreadyStarredURL = (
+export const getRepositoriesAlreadyStarredID = (
   repositories: Repository[],
   user: User | null,
 ) => {
   const repositoriesFromDatabase = repositories.map(
-    (repository) => repository.url,
+    (repository) => repository.repositoryId,
   );
   const repositoriesFromUser = user?.repositoryAlreadyStarred.map(
     (repository) => repository,

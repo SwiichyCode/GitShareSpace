@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useOptimistic, useTransition } from "react";
+import { useCallback, useOptimistic, useTransition } from "react";
 import { likeOrUnlikeRepository } from "@/services/actions/like-or-unlike-repository";
 import { hasLikedRepository } from "@/modules/repositories/utils/hasLikedRepository";
 import type { Repository, User } from "@/config/types/prisma.type";
@@ -18,7 +18,6 @@ export const useOptimisticLike = ({
   likes,
 }: UseOptimisticLikeProps) => {
   const [isPending, startTransition] = useTransition();
-  const [isUpdating, setIsUpdating] = useState(false);
   const [optimisticLikes, setOptimisticLikes] = useOptimistic(
     likes,
     (state, newLike: Like) => {
@@ -43,9 +42,7 @@ export const useOptimisticLike = ({
       e.preventDefault();
 
       startTransition(async () => {
-        if (!user || isUpdating) return;
-
-        setIsUpdating(true);
+        if (!user || isPending) return;
 
         try {
           setOptimisticLikes({
@@ -61,13 +58,11 @@ export const useOptimisticLike = ({
           });
         } catch (error) {
           console.error(error);
-        } finally {
-          setIsUpdating(false);
         }
       });
     },
-    [user, isUpdating, repository.id, setOptimisticLikes],
+    [user, repository.id, setOptimisticLikes],
   );
 
-  return { isUpdating, optimisticLikes, isLiked, handleLikeRepository };
+  return { optimisticLikes, isLiked, handleLikeRepository, isPending };
 };

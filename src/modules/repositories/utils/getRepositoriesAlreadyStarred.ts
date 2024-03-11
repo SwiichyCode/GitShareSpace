@@ -12,7 +12,7 @@ export const getRepositoriesAlreadyStarred = (
     (repository) => repository,
   );
   const alreadyStarredRepositories = repositories.filter((repository) =>
-    starredRepositoryUrls.includes(repository.url),
+    starredRepositoryUrls.includes(repository.id),
   );
 
   return alreadyStarredRepositories;
