@@ -37,6 +37,8 @@ export const env = createEnv({
     PUSHER_APP_SECRET: z.string(),
     PUSHER_APP_CLUSTER: z.string(),
     CRON_SECRET: z.string(),
+    TRIGGER_API_KEY: z.string(),
+    TRIGGER_API_URL: z.string(),
   },
 
   /**
@@ -47,6 +49,7 @@ export const env = createEnv({
   client: {
     // NEXT_PUBLIC_CLIENTVAR: z.string(),
     NEXT_PUBLIC_PUSHER_APP_KEY: z.string(),
+    NEXT_PUBLIC_TRIGGER_PUBLIC_API_KEY: z.string(),
   },
 
   /**
@@ -64,10 +67,14 @@ export const env = createEnv({
     GOOGLE_ANALYTICS_ID: process.env.GOOGLE_ANALYTICS_ID,
     PUSHER_APP_ID: process.env.PUSHER_APP_ID,
     PUSHER_APP_KEY: process.env.PUSHER_APP_KEY,
-    NEXT_PUBLIC_PUSHER_APP_KEY: process.env.NEXT_PUBLIC_PUSHER_APP_KEY,
     PUSHER_APP_SECRET: process.env.PUSHER_APP_SECRET,
     PUSHER_APP_CLUSTER: process.env.PUSHER_APP_CLUSTER,
     CRON_SECRET: process.env.CRON_SECRET,
+    TRIGGER_API_KEY: process.env.TRIGGER_API_KEY,
+    TRIGGER_API_URL: process.env.TRIGGER_API_URL,
+    NEXT_PUBLIC_PUSHER_APP_KEY: process.env.NEXT_PUBLIC_PUSHER_APP_KEY,
+    NEXT_PUBLIC_TRIGGER_PUBLIC_API_KEY:
+      process.env.NEXT_PUBLIC_TRIGGER_PUBLIC_API_KEY,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

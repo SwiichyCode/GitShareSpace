@@ -1,7 +1,8 @@
 import { TriggerClient } from "@trigger.dev/sdk";
+import { env } from "@/config/env";
 
 export const client = new TriggerClient({
   id: "gitsharespace-ZvGI",
-  apiKey: process.env.TRIGGER_API_KEY,
-  apiUrl: process.env.TRIGGER_API_URL,
+  apiKey: env.TRIGGER_API_KEY,
+  apiUrl: env.TRIGGER_API_URL,
 });
