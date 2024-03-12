@@ -1,8 +1,8 @@
 "use client";
-
 import { useEffect, useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { signOut } from "next-auth/react";
 import { Form } from "@/components/ui/form";
 import { dataSharingAgreementSchema } from "./data-sharing-agreement-schema";
 import { DataSharingContent } from "@/modules/repositories/components/DataSharingContent";
@@ -17,9 +17,9 @@ import {
 } from "@/components/ui/form";
 import { updateAgreementAction } from "@/services/actions/upgrade-agreement";
 import { useRepositoriesContext } from "@/modules/repositories/context/repositoriesContext";
-import type * as z from "zod";
 import { Button } from "@/components/ui/button";
-import { signOut } from "next-auth/react";
+
+import type * as z from "zod";
 
 export const DataSharingAgreementForm = () => {
   const { user } = useRepositoriesContext();
