@@ -2,11 +2,8 @@ import { createOctokitWithUserToken, octokit } from "@/config/lib/octokit";
 import { OCTOKIT_ENDPOINT, ERROR_MESSAGE } from "@/config/constants";
 import type { Octokit } from "octokit";
 import type { StarRepositoryType } from "@/services/types/github.type";
-import type {
-  OctokitRepositoryResponse,
-  OctokitSocialAccountsResponse,
-  OctokitUserResponse,
-} from "@/config/lib/octokit";
+import type { ExtendedEndpoints } from "@/services/types/octokit.type";
+import type { Endpoints } from "@octokit/types";
 
 export class OctokitService {
   private octokit: Octokit;
@@ -18,36 +15,45 @@ export class OctokitService {
   }
 
   /**
-   * Query to get the user.
-   * @param {number} userId - The id of the user.
+   * Query to get the user by username.
+   * @param {number} username - The id of the user.
    * @throws {Error} - Throws an error if there's an error accessing the database.
    */
 
-  async getUser(username: string) {
-    try {
-      const response = await this.octokit.request(OCTOKIT_ENDPOINT.GET_USER, {
+  async getUserByUsername(username: string) {
+    const response: Endpoints[typeof OCTOKIT_ENDPOINT.GET_USER_BY_USERNAME]["response"] =
+      await this.octokit.request(OCTOKIT_ENDPOINT.GET_USER_BY_USERNAME, {
         username,
       });
 
-      return response as OctokitUserResponse;
-    } catch (error) {
-      if (error instanceof Error) return console.log(error.message);
-    }
+    return response;
   }
 
-  async getUserById(userId: string | undefined) {
-    try {
-      const response = await this.octokit.request(
-        OCTOKIT_ENDPOINT.GET_USER_BY_ID,
-        {
-          userId,
-        },
-      );
+  /**
+   * Query to get the user by its id.
+   * @param {string} userId - The id of the user.
+   * @throws {Error} - Throws an error if there's an error accessing the database.
+   */
 
-      return response as OctokitUserResponse;
-    } catch (error) {
-      if (error instanceof Error) return console.log(error.message);
-    }
+  async getUserById(userId: string | undefined) {
+    const response: ExtendedEndpoints[typeof OCTOKIT_ENDPOINT.GET_USER_BY_ID]["response"] =
+      await this.octokit.request(OCTOKIT_ENDPOINT.GET_USER_BY_ID, {
+        username: userId,
+      });
+
+    return response;
+  }
+
+  /**
+   * Query to get the user by its authentication.
+   * @throws {Error} - Throws an error if there's an error accessing the database.
+   */
+
+  async getUserByAuth() {
+    const response: Endpoints[typeof OCTOKIT_ENDPOINT.GET_USER_BY_AUTH]["response"] =
+      await this.octokit.request(OCTOKIT_ENDPOINT.GET_USER_BY_AUTH);
+
+    return response;
   }
 
   /**
@@ -73,18 +79,12 @@ export class OctokitService {
    */
 
   async getUserSocialAccounts(username: string) {
-    try {
-      const response = await this.octokit.request(
-        OCTOKIT_ENDPOINT.GET_USER_SOCIAL_ACCOUNTS,
-        {
-          username,
-        },
-      );
+    const response: Endpoints[typeof OCTOKIT_ENDPOINT.GET_USER_SOCIAL_ACCOUNTS]["response"] =
+      await this.octokit.request(OCTOKIT_ENDPOINT.GET_USER_SOCIAL_ACCOUNTS, {
+        username,
+      });
 
-      return response as OctokitSocialAccountsResponse;
-    } catch (error) {
-      if (error instanceof Error) return console.log(error.message);
-    }
+    return response;
   }
 
   /**
@@ -94,46 +94,19 @@ export class OctokitService {
    */
 
   async getRepository(url: string) {
-    try {
-      const [owner, repo] = url.split("/").slice(-2);
+    const [owner, repo] = url.split("/").slice(-2);
 
-      if (!owner || !repo) {
-        throw new Error(ERROR_MESSAGE.GITHUB_INVALID_URL);
-      }
-
-      const response = await this.octokit.request(
-        OCTOKIT_ENDPOINT.GET_REPOSITORY,
-        {
-          owner,
-          repo,
-        },
-      );
-
-      return response as OctokitRepositoryResponse;
-    } catch (error) {
-      if (error instanceof Error) return console.log(error.message);
+    if (!owner || !repo) {
+      throw new Error(ERROR_MESSAGE.GITHUB_INVALID_URL);
     }
-  }
 
-  /**
-   * Query to get a repository by its id.
-   * @param {number} id - The id of the repository.
-   * @throws {Error} - Throws an error if there's an error accessing the database.
-   */
+    const response: Endpoints[typeof OCTOKIT_ENDPOINT.GET_REPOSITORY]["response"] =
+      await this.octokit.request(OCTOKIT_ENDPOINT.GET_REPOSITORY, {
+        owner,
+        repo,
+      });
 
-  async getRepositoryById(id: number) {
-    try {
-      const response = await this.octokit.request(
-        OCTOKIT_ENDPOINT.GET_REPOSITORY_BY_ID,
-        {
-          id,
-        },
-      );
-
-      return response as OctokitRepositoryResponse;
-    } catch (error) {
-      if (error instanceof Error) return console.log(error.message);
-    }
+    return response;
   }
 
   /**
@@ -143,17 +116,13 @@ export class OctokitService {
    */
 
   async getStaredRepositoriesByUser(username: string) {
-    try {
-      return await this.octokit.request(
-        OCTOKIT_ENDPOINT.GET_STARRED_REPOSITORIES,
-        {
-          username,
-          per_page: 100,
-        },
-      );
-    } catch (error) {
-      if (error instanceof Error) return console.log(error.message);
-    }
+    const response: Endpoints[typeof OCTOKIT_ENDPOINT.GET_STARRED_REPOSITORIES]["response"] =
+      await this.octokit.request(OCTOKIT_ENDPOINT.GET_STARRED_REPOSITORIES, {
+        username,
+        per_page: 100,
+      });
+
+    return response;
   }
 
   /**

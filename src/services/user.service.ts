@@ -2,7 +2,6 @@ import repositoryService from "./repository.service";
 import octokitService from "./github.service";
 
 import { db } from "@/config/server/db";
-import { extractUserIdFromAvatarUrl } from "@/services/utils/extract-user-id-from-avatar-url";
 import type {
   AddPersonalAccessTokenType,
   AddStarredRepositoryType,
@@ -10,6 +9,7 @@ import type {
   ResetPersonalAccessTokenType,
   UpdateAgreementType,
 } from "./types/user.type";
+import { ERROR_MESSAGE } from "@/config/constants";
 
 class UserService {
   /**
@@ -179,13 +179,18 @@ class UserService {
    */
 
   async updateAgreement({ user, agreement }: UpdateAgreementType) {
-    const userId = extractUserIdFromAvatarUrl(user.image ?? "")!;
-    const githubUser = await octokitService.getUserById(
-      extractUserIdFromAvatarUrl(userId),
-    );
+    const providerAccountID = await this.getProviderAccountId({
+      userId: user.id,
+    });
+
+    if (!providerAccountID) {
+      throw new Error(ERROR_MESSAGE.PROVIDER_ACCOUNT_ID_NOT_FOUND);
+    }
+
+    const githubUser = await octokitService.getUserById(providerAccountID);
 
     if (!githubUser) {
-      throw new Error("User not found");
+      throw new Error(ERROR_MESSAGE.GITHUB_USER_NOT_FOUND);
     }
 
     await repositoryService.syncStarredRepositories(user);
@@ -205,6 +210,25 @@ class UserService {
         firstConnection: agreement ? false : true,
       },
     });
+  }
+
+  /**
+   * Query to get the provider account id of the user.
+   * @param {string} userId - The user id.
+   * @throws {Error} - Throws an error if there's an error accessing the database.
+   */
+
+  async getProviderAccountId({ userId }: GetUserType) {
+    const response = await db.account.findFirst({
+      where: {
+        userId: userId,
+      },
+      select: {
+        providerAccountId: true,
+      },
+    });
+
+    return response?.providerAccountId;
   }
 }
 
