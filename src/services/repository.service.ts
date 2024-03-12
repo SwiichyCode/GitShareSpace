@@ -5,7 +5,6 @@ import { Prisma } from "@prisma/client";
 import { PrismaError } from "@/config/lib/exceptions";
 import { constructRepositoryWhere } from "./utils/construct-repository-where";
 import { constructRepositoryOrderBy } from "./utils/construct-repository-orderBy";
-import { extractUserIdFromAvatarUrl } from "./utils/extract-user-id-from-avatar-url";
 import type {
   GetRepositoriesByFilterType,
   HasStarredRepositoryType,
@@ -15,8 +14,9 @@ import type {
   UpdateRepositoryAlreadyStarredType,
 } from "./types/repository.type";
 import type { User } from "next-auth";
-
+import type { components } from "@octokit/openapi-types";
 import { ERROR_MESSAGE } from "@/config/constants";
+import userService from "./user.service";
 
 class RepositoryService {
   /**
@@ -227,8 +227,8 @@ class RepositoryService {
       throw new Error(ERROR_MESSAGE.REPOSITORY_NOT_EXIST);
     }
     for (const repository of repositories) {
-      const octokitResponse = await octokitService.getRepositoryById(
-        repository.repositoryId,
+      const octokitResponse = await octokitService.getRepository(
+        repository.url,
       );
       if (!octokitResponse) {
         throw new Error(ERROR_MESSAGE.REPOSITORY_NOT_EXIST);
@@ -258,25 +258,31 @@ class RepositoryService {
       throw new Error(ERROR_MESSAGE.USER_NOT_FOUND);
     }
 
-    const githubUser = await octokitService.getUserById(
-      extractUserIdFromAvatarUrl(user.image!),
-    );
+    const providerAccountID = await userService.getProviderAccountId({
+      userId: user.id,
+    });
+
+    if (!providerAccountID) {
+      throw new Error(ERROR_MESSAGE.PROVIDER_ACCOUNT_ID_NOT_FOUND);
+    }
+
+    const githubUser = await octokitService.getUserById(providerAccountID);
 
     if (!githubUser) {
       throw new Error(ERROR_MESSAGE.GITHUB_USER_NOT_FOUND);
     }
 
     const starredRepositories =
-      //eslint-disable-next-line
       await octokitService.getStaredRepositoriesByUser(githubUser.data.login);
 
     if (starredRepositories) {
       await this.updateRepositoryAlreadyStarred({
         userId: user.id,
-        //eslint-disable-next-line
-        repositoryId: starredRepositories.data.map(
-          //eslint-disable-next-line
-          (repo: any) => repo.id,
+
+        repositoryId: starredRepositories.data.map((elem) =>
+          elem.hasOwnProperty("repo")
+            ? (elem as components["schemas"]["starred-repository"]).repo.id
+            : (elem as components["schemas"]["repository"]).id,
         ),
       });
     }

@@ -6,7 +6,7 @@ import {
   LinkIcon,
 } from "@primer/octicons-react";
 import { cn } from "@/lib/utils";
-import type { OctokitSocialAccountsResponse } from "@/config/lib/octokit";
+import type { OctokitSocialAccountsResponse } from "@/services/types/octokit.type";
 import type { User } from "@/config/types/prisma.type";
 
 type Props = {

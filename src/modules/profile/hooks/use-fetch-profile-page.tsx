@@ -1,6 +1,5 @@
 import octokitService from "@/services/github.service";
 import userService from "@/services/user.service";
-import type { OctokitSocialAccountsResponse } from "@/config/lib/octokit";
 
 type Props = {
   userId: string;
@@ -12,9 +11,7 @@ export const useFetchProfilePage = async ({ userId, username }: Props) => {
     userId,
   });
   const githubProfileSocialAccounts =
-    (await octokitService.getUserSocialAccounts(
-      username,
-    )) as OctokitSocialAccountsResponse;
+    await octokitService.getUserSocialAccounts(username);
 
   const repositories = await octokitService.getUserRepository(username);
 

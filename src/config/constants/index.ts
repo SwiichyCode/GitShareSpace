@@ -16,10 +16,12 @@ export const ERROR_MESSAGE = {
   GITHUB_INVALID_URL: "Invalid Github URL",
   GITHUB_USER_NOT_FOUND: "Github user not found",
   GITHUB_STARRED_REPOSITORIES_NOT_FOUND: "Starred repositories not found",
+  PROVIDER_ACCOUNT_ID_NOT_FOUND: "Provider account ID not found",
 };
 
 export const OCTOKIT_ENDPOINT = {
-  GET_USER: "GET /users/{username}",
+  GET_USER_BY_AUTH: "GET /user",
+  GET_USER_BY_USERNAME: "GET /users/{username}",
   GET_USER_BY_ID: "GET /user/{userId}",
   GET_REPOSITORY: "GET /repos/{owner}/{repo}",
   GET_REPOSITORY_BY_ID: "GET /repositories/{id}",
@@ -28,7 +30,7 @@ export const OCTOKIT_ENDPOINT = {
   PUT_STAR_REPOSITORY: "PUT /user/starred/{owner}/{repo}",
   DELETE_STAR_REPOSITORY: "DELETE /user/starred/{owner}/{repo}",
   GET_USER_SOCIAL_ACCOUNTS: "GET /users/{username}/social_accounts",
-};
+} as const;
 
 export const DIRECTION_LIST = {
   COLUMN: "column",
