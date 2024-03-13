@@ -1,5 +1,6 @@
 "use client";
 import { useTransition, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { parseAsString, useQueryState } from "nuqs";
 import { useMediaQuery, useDebounceCallback } from "usehooks-ts";
 import { Drawer, DrawerContent } from "@/components/ui/drawer";
@@ -7,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { SearchIcon } from "@primer/octicons-react";
 import { cn } from "@/lib/utils";
+import { URL } from "@/config/constants";
 
 type Props = {
   placeholder?: string;
@@ -20,7 +22,7 @@ export const RepositoryInputSearch = ({ placeholder }: Props) => {
     "query",
     parseAsString.withDefault("").withOptions({ startTransition }),
   );
-
+  const pathname = usePathname();
   const inputRef = useRef<HTMLInputElement>(null);
   const isDesktop = useMediaQuery("(min-width: 1024px)");
 
@@ -33,10 +35,12 @@ export const RepositoryInputSearch = ({ placeholder }: Props) => {
     300,
   );
 
+  if (pathname !== URL.REPOSITORIES) return null;
+
   return (
     <div
       className={cn(
-        "hover:bg-buttonHover border-input flex h-10 w-full cursor-pointer items-center justify-between rounded-md border bg-transparent px-3 py-2 text-sm ring-offset-[#21262D] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-800 dark:bg-slate-950 dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-slate-300",
+        "hover:bg-buttonHover flex h-10 w-full cursor-pointer items-center justify-between rounded-md border border-input bg-transparent px-3 py-2 text-sm ring-offset-[#21262D] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-800 dark:bg-slate-950 dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-slate-300",
         "lg:min-w-96 lg:cursor-default lg:space-x-2",
         isEditing && "ring-1 ring-slate-950",
       )}
