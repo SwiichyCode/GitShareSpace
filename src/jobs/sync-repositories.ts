@@ -7,12 +7,8 @@ client.defineJob({
   name: "Sync Repositories Job",
   version: "0.0.1",
 
-  // trigger: cronTrigger({
-  //   cron: "30 02 * * *",
-  // }),
-
-  trigger: intervalTrigger({
-    seconds: 60,
+  trigger: cronTrigger({
+    cron: "30 02 * * *",
   }),
 
   run: async (payload, io, ctx) => {
