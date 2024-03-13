@@ -1,10 +1,10 @@
 "use client";
 import { useTransition } from "react";
 import { FileSymlinkFileIcon } from "@primer/octicons-react";
-import { refreshAgreementAction } from "@/services/actions/refresh-agreement";
+import { refreshUsersAgreementAction } from "@/services/actions/refresh-users-agreement";
 import { SidebarNavigationButton } from "./SidebarNavigationButton";
 
-export const SidebarRefreshAgreement = () => {
+export const SidebarRefreshUsersAgreement = () => {
   const [isPending, startTransition] = useTransition();
 
   const handleRefreshAgreement = async (
@@ -13,7 +13,7 @@ export const SidebarRefreshAgreement = () => {
     e.preventDefault();
 
     startTransition(async () => {
-      await refreshAgreementAction();
+      await refreshUsersAgreementAction({});
     });
   };
 
@@ -21,7 +21,7 @@ export const SidebarRefreshAgreement = () => {
     <form onSubmit={handleRefreshAgreement}>
       <SidebarNavigationButton type="submit">
         <FileSymlinkFileIcon className="h-4 w-4 text-subtle" />
-        <span>{isPending ? "Refreshing..." : "Refresh agreement"}</span>
+        <span>{isPending ? "Refreshing..." : "Refresh users agreement"}</span>
       </SidebarNavigationButton>
     </form>
   );

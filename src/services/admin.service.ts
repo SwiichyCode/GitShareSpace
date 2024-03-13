@@ -10,9 +10,28 @@ class AdminService {
    * @throws {Error} - Throws an error if there's an error accessing the database.
    */
 
-  async refreshAgreement() {
+  async refreshUsersAgreement() {
     await db.user.updateMany({
       where: {
+        firstConnection: false,
+      },
+      data: {
+        dataSharingAgreement: false,
+        firstConnection: true,
+      },
+    });
+  }
+
+  /**
+   * Query to update the data sharing agreement of a user.
+   * @param {string} userId - The user ID to update the data sharing agreement.
+   * @throws {Error} - Throws an error if there's an error accessing the database.
+   */
+
+  async refreshUserAgreement({ userId }: UserEntry) {
+    await db.user.update({
+      where: {
+        id: userId,
         firstConnection: false,
       },
       data: {

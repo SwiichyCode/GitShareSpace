@@ -1,6 +1,7 @@
 import { withAdminRole } from "@/components/withAdminRole";
 import { SidebarSyncRepositories } from "./SidebarSyncRepositories";
-import { SidebarRefreshAgreement } from "./SidebarRefreshAgreement";
+import { SidebarRefreshUserAgreement } from "./SidebarRefreshUserAgreement";
+import { SidebarRefreshUsersAgreement } from "./SidebarRefreshUsersAgreement";
 import { SidebarRemoveStarredRepositories } from "./SidebarRemoveStarredRepositories";
 import { SidebarUpdateUserRole } from "./SidebarUpdateUserRole";
 import { SidebarRemoveRepositoryComments } from "./SidebarRemoveRepositoryComments";
@@ -14,7 +15,8 @@ const AdminSidebar = () => (
   <>
     <SidebarSyncRepositories />
     <SidebarRemoveStarredRepositories />
-    <SidebarRefreshAgreement />
+    <SidebarRefreshUserAgreement />
+    <SidebarRefreshUsersAgreement />
     <SidebarUpdateUserRole />
     <SidebarRemoveRepositoryComments />
   </>
