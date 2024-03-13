@@ -14,6 +14,7 @@ export const ERROR_MESSAGE = {
   REPOSITORY_ALREADY_EXIST: "Repository already exists",
   REPOSITORY_CREATE_FAILED: "Repository create failed",
   GITHUB_INVALID_URL: "Invalid Github URL",
+  GITHUB_REPOSITORY_NOT_EXIST: "Github repository does not exist",
   GITHUB_USER_NOT_FOUND: "Github user not found",
   GITHUB_STARRED_REPOSITORIES_NOT_FOUND: "Starred repositories not found",
   PROVIDER_ACCOUNT_ID_NOT_FOUND: "Provider account ID not found",

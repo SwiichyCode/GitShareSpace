@@ -263,16 +263,20 @@ class RepositoryService {
 
   async syncRepositories() {
     const repositories = await this.getRepositories();
+
     if (!repositories) {
       throw new Error(ERROR_MESSAGE.REPOSITORY_NOT_EXIST);
     }
+
     for (const repository of repositories) {
       const octokitResponse = await octokitService.getRepository(
         repository.url,
       );
+
       if (!octokitResponse) {
-        throw new Error(ERROR_MESSAGE.REPOSITORY_NOT_EXIST);
+        throw new Error(ERROR_MESSAGE.GITHUB_REPOSITORY_NOT_EXIST);
       }
+
       await db.repository.update({
         where: {
           id: repository.id,
