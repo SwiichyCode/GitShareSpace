@@ -15,11 +15,12 @@ export const RepositoryCardStars = ({
   repositoriesAlreadyStarred,
 }: Props) => {
   const { user } = useRepositoriesContext();
-  const { handleStarRepository, optimisticStar } = useOptimisticStar({
-    user,
-    repository,
-    repositoriesAlreadyStarred: repositoriesAlreadyStarred ?? [],
-  });
+  const { handleStarRepository, optimisticStar, optimisticStargazers } =
+    useOptimisticStar({
+      user,
+      repository,
+      repositoriesAlreadyStarred: repositoriesAlreadyStarred ?? [],
+    });
 
   return (
     <form onSubmit={handleStarRepository}>
@@ -35,7 +36,7 @@ export const RepositoryCardStars = ({
         ) : (
           <StarIcon className="h-4 w-4" />
         )}
-        <span>{formatStarsCount(repository.repositoryStargazers)}</span>
+        <span>{formatStarsCount(optimisticStargazers)}</span>
       </button>
     </form>
   );

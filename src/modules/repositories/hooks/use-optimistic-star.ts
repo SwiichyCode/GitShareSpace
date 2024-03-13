@@ -1,5 +1,4 @@
-"use client";
-import { useCallback, useOptimistic, useTransition } from "react";
+import { useCallback, useOptimistic, useTransition, useState } from "react";
 import { starRepositoryAction } from "@/services/actions/star-repository";
 import type { Repository, User } from "@/config/types/prisma.type";
 
@@ -15,7 +14,6 @@ export const useOptimisticStar = ({
   repositoriesAlreadyStarred,
 }: Props) => {
   const [isPending, startTransition] = useTransition();
-
   const [optimisticStar, setOptimisticStar] = useOptimistic(
     repositoriesAlreadyStarred,
     (state, repositoryId: number) => {
@@ -26,6 +24,10 @@ export const useOptimisticStar = ({
     },
   );
 
+  const [optimisticStargazers, setOptimisticStargazers] = useState(
+    repository.repositoryStargazers,
+  );
+
   const handleStarRepository = useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
@@ -34,6 +36,13 @@ export const useOptimisticStar = ({
         if (!user || isPending) return;
         setOptimisticStar(repository.repositoryId);
 
+        // Toggle optimisticStargazers based on optimisticStar
+        setOptimisticStargazers((prevStargazers) =>
+          optimisticStar?.includes(repository.repositoryId)
+            ? prevStargazers - 1
+            : prevStargazers + 1,
+        );
+
         await starRepositoryAction({
           owner: repository.ownerUsername,
           repositoryName: repository.repositoryName,
@@ -41,12 +50,20 @@ export const useOptimisticStar = ({
         });
       });
     },
-    [isPending, repository.repositoryId, setOptimisticStar, startTransition],
+    [
+      isPending,
+      repository.repositoryId,
+      setOptimisticStar,
+      setOptimisticStargazers,
+      startTransition,
+      user,
+    ],
   );
 
   return {
     isPending,
     handleStarRepository,
+    optimisticStargazers,
     optimisticStar,
   };
 };
