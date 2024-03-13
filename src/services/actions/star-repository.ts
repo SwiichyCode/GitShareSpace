@@ -38,12 +38,14 @@ export const starRepositoryAction = userAction(
         userId: ctx.session.user.id,
         repositoryId: repositoryId,
       });
+      await repositoryService.decrementStargazersCount({ repositoryId });
     } else {
       await octokitService.starRepository({ owner, repo: repositoryName });
       await userService.addStarredRepository({
         userId: ctx.session.user.id,
         repositoryId: repositoryId,
       });
+      await repositoryService.incrementStargazersCount({ repositoryId });
     }
 
     revalidatePath(URL.REPOSITORIES);

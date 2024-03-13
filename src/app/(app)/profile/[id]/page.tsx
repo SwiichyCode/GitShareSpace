@@ -8,7 +8,7 @@ export default async function ProfilePage({
   params: { id: string };
   searchParams: { username: string };
 }) {
-  const { githubProfile, githubProfileSocialAccounts, repositories } =
+  const { githubProfile, githubProfileSocialAccounts } =
     await useFetchProfilePage({
       userId: params.id,
       username: searchParams.username,

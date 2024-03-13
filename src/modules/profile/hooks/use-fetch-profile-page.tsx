@@ -7,9 +7,10 @@ type Props = {
 };
 
 export const useFetchProfilePage = async ({ userId, username }: Props) => {
-  const githubProfile = await userService.getUser({
+  const githubProfile = await userService.getGithubProfile({
     userId,
   });
+
   const githubProfileSocialAccounts =
     await octokitService.getUserSocialAccounts(username);
 

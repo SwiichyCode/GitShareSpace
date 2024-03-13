@@ -44,5 +44,9 @@ export const useOptimisticStar = ({
     [isPending, repository.repositoryId, setOptimisticStar, startTransition],
   );
 
-  return { isPending, handleStarRepository, optimisticStar };
+  return {
+    isPending,
+    handleStarRepository,
+    optimisticStar,
+  };
 };

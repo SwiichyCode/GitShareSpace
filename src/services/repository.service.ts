@@ -174,6 +174,46 @@ class RepositoryService {
   }
 
   /**
+   * Query to increment the stargazers count of a repository.
+   * @param {Object} data - The repository data to be incremented.
+   * @param {number} data.repositoryId - The ID of the repository to be incremented.
+   * @throws {Error} - Throws an error if there's an error accessing the database.
+   */
+
+  async incrementStargazersCount({ repositoryId }: RepositoryEntry) {
+    await db.repository.update({
+      where: {
+        repositoryId,
+      },
+      data: {
+        repositoryStargazers: {
+          increment: 1,
+        },
+      },
+    });
+  }
+
+  /**
+   * Query to decrement the stargazers count of a repository.
+   * @param {Object} data - The repository data to be decremented.
+   * @param {number} data.repositoryId - The ID of the repository to be decremented.
+   * @throws {Error} - Throws an error if there's an error accessing the database.
+   */
+
+  async decrementStargazersCount({ repositoryId }: RepositoryEntry) {
+    await db.repository.update({
+      where: {
+        repositoryId,
+      },
+      data: {
+        repositoryStargazers: {
+          decrement: 1,
+        },
+      },
+    });
+  }
+
+  /**
    * Query to get all repository entries from the database by filter.
    * @param {Object} data - The filter data to be used.
    * @param {string} data.query - The query string to filter the repositories.

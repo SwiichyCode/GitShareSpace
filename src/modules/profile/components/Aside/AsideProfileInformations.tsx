@@ -7,10 +7,10 @@ import {
 } from "@primer/octicons-react";
 import { cn } from "@/lib/utils";
 import type { OctokitSocialAccountsResponse } from "@/services/types/octokit.type";
-import type { User } from "@/config/types/prisma.type";
+import type { GithubProfile } from "@prisma/client";
 
 type Props = {
-  githubProfile: User;
+  githubProfile: GithubProfile;
   githubProfileSocialAccounts: OctokitSocialAccountsResponse;
 };
 
@@ -18,7 +18,7 @@ type Props = {
 // - Parse social url to display only necessary information
 // - Parse social url to display icon based on the social url
 
-const profileInformationsItems = (githubProfile: User) => [
+const profileInformationsItems = (githubProfile: GithubProfile) => [
   {
     name: githubProfile.company,
     icon: <OrganizationIcon className="text-grey h-4 w-4" />,

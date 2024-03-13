@@ -29,6 +29,20 @@ class UserService {
   }
 
   /**
+   * Query to get the GitHub profile of the user.
+   * @param {string} userId - The user id.
+   * @throws {Error} - Throws an error if there's an error accessing the database.
+   */
+
+  async getGithubProfile({ userId }: GetUserType) {
+    return await db.githubProfile.findFirst({
+      where: {
+        userId,
+      },
+    });
+  }
+
+  /**
    * Query to get the GitHub user id of the user.
    * @param {string} userId - The user id.
    * @throws {Error} - Throws an error if there's an error accessing the database.
@@ -195,21 +209,68 @@ class UserService {
 
     await repositoryService.syncStarredRepositories(user);
 
-    return await db.user.update({
-      where: {
-        id: user.id,
-      },
-      data: {
-        githubUserID: githubUser.data.id,
-        username: githubUser.data.login,
-        bio: githubUser.data.bio,
-        company: githubUser.data.company,
-        location: githubUser.data.location,
-        blog: githubUser.data.blog,
-        dataSharingAgreement: agreement,
-        firstConnection: agreement ? false : true,
-      },
-    });
+    // return await db.user.update({
+    //   where: {
+    //     id: user.id,
+    //   },
+    //   data: {
+    //     githubUserID: githubUser.data.id,
+    //     username: githubUser.data.login,
+    //     bio: githubUser.data.bio,
+    //     company: githubUser.data.company,
+    //     location: githubUser.data.location,
+    //     blog: githubUser.data.blog,
+    //     dataSharingAgreement: agreement,
+    //     firstConnection: agreement ? false : true,
+    //   },
+    // });
+
+    await db.$transaction([
+      db.user.update({
+        where: {
+          id: user.id,
+        },
+        data: {
+          githubUserID: githubUser.data.id,
+          username: githubUser.data.login,
+          bio: githubUser.data.bio,
+          company: githubUser.data.company,
+          location: githubUser.data.location,
+          blog: githubUser.data.blog,
+          dataSharingAgreement: agreement,
+          firstConnection: agreement ? false : true,
+        },
+      }),
+      db.githubProfile.upsert({
+        where: {
+          userId: user.id,
+        },
+
+        create: {
+          userId: user.id,
+          avatarUrl: githubUser.data.avatar_url,
+          email: githubUser.data.email,
+          name: githubUser.data.name,
+          username: githubUser.data.login,
+          bio: githubUser.data.bio,
+          company: githubUser.data.company,
+          location: githubUser.data.location,
+          blog: githubUser.data.blog,
+        },
+
+        update: {
+          userId: user.id,
+          avatarUrl: githubUser.data.avatar_url,
+          email: githubUser.data.email,
+          name: githubUser.data.name,
+          username: githubUser.data.login,
+          bio: githubUser.data.bio,
+          company: githubUser.data.company,
+          location: githubUser.data.location,
+          blog: githubUser.data.blog,
+        },
+      }),
+    ]);
   }
 
   /**
