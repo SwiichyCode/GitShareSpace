@@ -17,7 +17,7 @@ client.defineJob({
 
   run: async (payload, io, ctx) => {
     await io.runTask("sync-repositories", async () => {
-      return repositoryService.syncRepositories();
+      return await repositoryService.syncRepositories();
     });
 
     await io.logger.info("✨ Sync Repositories Job");
