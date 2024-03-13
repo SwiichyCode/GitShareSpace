@@ -1,6 +1,7 @@
 export const URL = {
   HOME: "/",
   REPOSITORIES: "/repositories",
+  RESOURCES: "/resources",
   PROFILE: "/profile",
   SETTINGS: "/settings",
   LINKEDIN: "https://www.linkedin.com/in/swapnil-singh-1a1b3b1b3/",

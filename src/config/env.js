@@ -39,6 +39,7 @@ export const env = createEnv({
     CRON_SECRET: z.string(),
     TRIGGER_API_KEY: z.string(),
     TRIGGER_API_URL: z.string(),
+    SESSION_TOKEN_NAME: z.string().default("next-auth.session-token"),
   },
 
   /**
@@ -72,6 +73,7 @@ export const env = createEnv({
     CRON_SECRET: process.env.CRON_SECRET,
     TRIGGER_API_KEY: process.env.TRIGGER_API_KEY,
     TRIGGER_API_URL: process.env.TRIGGER_API_URL,
+    SESSION_TOKEN_NAME: process.env.SESSION_TOKEN_NAME,
     NEXT_PUBLIC_PUSHER_APP_KEY: process.env.NEXT_PUBLIC_PUSHER_APP_KEY,
     NEXT_PUBLIC_TRIGGER_PUBLIC_API_KEY:
       process.env.NEXT_PUBLIC_TRIGGER_PUBLIC_API_KEY,

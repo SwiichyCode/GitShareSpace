@@ -1,4 +1,9 @@
-import { GearIcon, PersonIcon, RepoIcon } from "@primer/octicons-react";
+import {
+  GearIcon,
+  PersonIcon,
+  RepoIcon,
+  FileDirectoryIcon,
+} from "@primer/octicons-react";
 import { Separator } from "@/components/ui/separator";
 import { SidebarNavigationLink } from "./SidebarNavigationLink";
 import { SidebarSignout } from "./SidebarSignout";
@@ -20,6 +25,11 @@ const SidebarNavigationItems = [
     name: "Repositories",
     href: URL.REPOSITORIES,
     icon: RepoIcon,
+  },
+  {
+    name: "Resources",
+    href: URL.RESOURCES,
+    icon: FileDirectoryIcon,
   },
   {
     name: "Settings",

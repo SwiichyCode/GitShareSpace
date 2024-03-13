@@ -1,12 +1,11 @@
+import type { PropsWithChildren } from "react";
 import { getServerAuthSession } from "@/config/server/auth";
 import { Logo } from "@/components/layouts/Logo";
 import { GithubLink } from "@/components/ui/github-link";
 import { RepositoryInputSearch } from "@/modules/repositories/components/RepositoryInputSearch";
-import { RepositoryShareBtn } from "@/modules/repositories/components/RepositoryShareBtn";
+import { SharingBtn } from "@/components/layouts/SharingBtn";
 import { AuthNavigation } from "@/components/layouts/AuthNavigation";
-
 import { URL } from "@/config/constants";
-import type { PropsWithChildren } from "react";
 
 export const HeaderLayout = ({ children }: PropsWithChildren) => {
   return (
@@ -27,7 +26,7 @@ export const Header = async () => {
         <GithubLink url={URL.GITHUB} />
         <RepositoryInputSearch />
         <div className="hidden h-6 w-[1px] bg-[#30363D] lg:block" />
-        <RepositoryShareBtn session={session} />
+        <SharingBtn session={session} />
         <AuthNavigation session={session} />
       </div>
     </HeaderLayout>
