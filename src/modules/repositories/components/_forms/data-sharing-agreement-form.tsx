@@ -20,12 +20,15 @@ import { useRepositoriesContext } from "@/modules/repositories/context/repositor
 import { Button } from "@/components/ui/button";
 
 import type * as z from "zod";
+import { usePersonalAccessTokenModal } from "../../stores/usePersonalAccessTokenModal";
 
 export const DataSharingAgreementForm = () => {
   const { user } = useRepositoriesContext();
   const [isPending, startTransition] = useTransition();
   const [open, setOpen] = useState<boolean | undefined>(undefined);
   const [checked, setChecked] = useState(false);
+  const { setOpen: setOpenPersonalAccessTokenModal } =
+    usePersonalAccessTokenModal();
 
   useEffect(() => {
     setOpen(user?.firstConnection);
@@ -43,6 +46,7 @@ export const DataSharingAgreementForm = () => {
       await updateAgreementAction(data);
 
       setOpen(false);
+      setOpenPersonalAccessTokenModal(true);
     });
   }
 
@@ -58,7 +62,7 @@ export const DataSharingAgreementForm = () => {
               control={form.control}
               name="agreement"
               render={({ field }) => (
-                <FormItem className="flex flex-row items-center space-x-3  space-y-0 rounded-md border border-card p-4 shadow">
+                <FormItem className="flex flex-row items-center space-x-3 space-y-0 rounded-md border border-card p-4 shadow">
                   <FormControl>
                     <Checkbox
                       checked={field.value}

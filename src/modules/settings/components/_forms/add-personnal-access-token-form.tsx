@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { usePersonalAccessTokenModal } from "@/modules/repositories/stores/usePersonalAccessTokenModal";
 import { addPersonalAccessTokenSchema } from "./add-personnal-access-token-schema";
 import { Form } from "@/components/ui/form";
 import { InputForm } from "@/components/ui/input-form";
@@ -13,11 +14,13 @@ import { resetPersonalAccessTokenAction } from "@/services/actions/reset-persona
 import type * as z from "zod";
 
 type Props = {
-  personalAccessToken: string | null;
+  personalAccessToken?: string | null;
 };
 
 export const AddPersonalAccessTokenForm = ({ personalAccessToken }: Props) => {
   const [isPending, startTransition] = useTransition();
+  const { open: isOpenPersonalAccessModal, setOpen } =
+    usePersonalAccessTokenModal();
 
   const form = useForm<z.infer<typeof addPersonalAccessTokenSchema>>({
     defaultValues: personalAccessToken ? { personalAccessToken } : undefined,
@@ -50,26 +53,46 @@ export const AddPersonalAccessTokenForm = ({ personalAccessToken }: Props) => {
           type="password"
           readOnly={!!personalAccessToken}
           description={
-            <p className="space-y-4">
-              {!personalAccessToken
-                ? "This token will be used to authenticate with the API. It will be stored securely and will not be visible to anyone."
-                : "Your personal access token has been saved. You can reset it at any time."}
-
-              <br />
+            <div className="space-y-4">
+              <p>
+                {!personalAccessToken
+                  ? "This token will be used to authenticate with the API. It will be stored securely and will not be visible to anyone."
+                  : "Your personal access token has been saved. You can reset it at any time."}
+              </p>
+              {isOpenPersonalAccessModal && (
+                <p>
+                  It is advisable to provide the token for maximum user
+                  experience. You can always provide this token later by going
+                  to the settings!
+                </p>
+              )}
               {!personalAccessToken && (
                 <Link
-                  className="block text-blue underline"
+                  className="block max-w-fit text-blue underline"
                   href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens"
                   target="_blank"
                 >
                   Learn how to create a personal access token
                 </Link>
               )}
-            </p>
+            </div>
           }
         />
         {!personalAccessToken ? (
-          <SubmitButton isPending={isPending}>Submit</SubmitButton>
+          isOpenPersonalAccessModal ? (
+            <div className="flex space-x-4">
+              <SubmitButton isPending={isPending}>Submit</SubmitButton>
+              <Button
+                type="button"
+                variant={"link"}
+                onClick={() => setOpen(false)}
+              >
+                Provide later
+              </Button>
+            </div>
+          ) : (
+            <SubmitButton isPending={isPending}>Submit</SubmitButton>
+          )
         ) : (
           <Button
             type="button"

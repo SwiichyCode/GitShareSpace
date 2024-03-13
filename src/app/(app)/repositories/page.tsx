@@ -6,6 +6,7 @@ import { RepositoriesFilter } from "@/modules/repositories/components/Repositori
 import { RepositoriesGridInfiniteScroll } from "@/modules/repositories/components/RepositoriesGridInfiniteScroll";
 import { DataSharingAgreementForm } from "@/modules/repositories/components/_forms/data-sharing-agreement-form";
 import { AddRepositoryForm } from "@/modules/repositories/components/_forms/add-repository-form";
+import { PersonalAccessTokenModal } from "@/modules/repositories/components/PersonalAccessTokenModal";
 
 type PageProps = {
   searchParams?: {
@@ -32,6 +33,7 @@ export default async function RepositoriesPage({ searchParams }: PageProps) {
         <RepositoriesGridInfiniteScroll />
         <AddRepositoryForm />
         <DataSharingAgreementForm />
+        <PersonalAccessTokenModal />
       </QueryParamsProvider>
     </RepositoriesProvider>
   );
