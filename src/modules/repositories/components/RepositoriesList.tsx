@@ -4,11 +4,11 @@ import { useQueryParamsContext } from "@/modules/repositories/context/queryParam
 import { useFetchInfiniteRepositories } from "@/modules/repositories/hooks/use-fetch-infinite-repositories";
 import { useFetchNextPage } from "@/modules/repositories/hooks/use-fetch-next-page";
 import { RepositoryCard } from "@/modules/repositories/components/RepositoryCard/_index";
-import { RepositoriesLoader } from "@/modules/repositories/components/RepositoriesLoader";
+import { InfinitelistObserver } from "@/components/layouts/InfinitelistObserver";
 import { RepositoriesGridLayout } from "@/modules/repositories/components/RepositoriesGridLayout";
 import { getRepositoriesAlreadyStarredID } from "@/modules/repositories/utils/getRepositoriesAlreadyStarredID";
 
-export const RepositoriesGridInfiniteScroll = () => {
+export const RepositoriesList = () => {
   const { user } = useRepositoriesContext();
   const { queryParams, languageParams, params } = useQueryParamsContext();
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
@@ -39,7 +39,8 @@ export const RepositoriesGridInfiniteScroll = () => {
           ),
         )}
       </RepositoriesGridLayout>
-      <RepositoriesLoader
+      <InfinitelistObserver
+        text="Loading more repositories..."
         isLoading={isLoading}
         isDisabled={isFetchingNextPage}
         ref={ref}

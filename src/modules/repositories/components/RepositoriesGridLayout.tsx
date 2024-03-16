@@ -6,16 +6,16 @@ export const RepositoriesGridLayout = ({ children }: PropsWithChildren) => {
   const { direction } = useListDirection();
 
   const gridDirectionClass =
-    "m-auto grid max-w-[1920px] grid-cols-1 place-items-center gap-4 md:w-full md:grid-cols-2 md:place-items-stretch xl:grid-cols-3 2xl:grid-cols-4";
-  const columnDirectionClass = "m-auto flex flex-col max-w-xl gap-8";
+    "grid grid-cols-1 place-items-center gap-4 md:w-full md:grid-cols-2 md:place-items-stretch xl:grid-cols-3 2xl:grid-cols-4";
+  const columnDirectionClass = "flex flex-col max-w-xl gap-8";
 
   return (
-    <div
+    <section
       className={cn(
         direction === "grid" ? gridDirectionClass : columnDirectionClass,
       )}
     >
       {children}
-    </div>
+    </section>
   );
 };

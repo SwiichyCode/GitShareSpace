@@ -3,7 +3,8 @@ import { type PropsWithChildren, createContext, useContext } from "react";
 
 interface QueryParamsContext {
   queryParams: string;
-  languageParams: string;
+  languageParams?: string;
+  typeParams?: string;
   params: string;
 }
 
@@ -14,12 +15,13 @@ const QueryParamsContext = createContext<QueryParamsContext | null>(null);
 export const QueryParamsProvider = ({
   queryParams,
   languageParams,
+  typeParams,
   params,
   children,
 }: QueryParamsProviderProps) => {
   return (
     <QueryParamsContext.Provider
-      value={{ queryParams, languageParams, params }}
+      value={{ queryParams, languageParams, typeParams, params }}
     >
       {children}
     </QueryParamsContext.Provider>

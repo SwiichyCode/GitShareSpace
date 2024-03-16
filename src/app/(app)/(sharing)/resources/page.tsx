@@ -1,15 +1,30 @@
+import { SharingFilter } from "@/components/filtering/SharingFilter";
+import { QueryParamsProvider } from "@/modules/repositories/context/queryParamsContext";
+import { useQueryParser } from "@/modules/repositories/hooks/use-query-parser";
+import { ResourceList } from "@/modules/resources/components/ResourceList/_index";
 import { AddResourceForm } from "@/modules/resources/components/_forms/add-resource-form";
-import resourceService from "@/services/resource.service";
 
-export default async function ResourcesPage() {
-  const resources = await resourceService.getResources();
+type PageProps = {
+  searchParams?: {
+    query?: string;
+    params?: string;
+  };
+};
+
+export default async function ResourcesPage({ searchParams }: PageProps) {
+  const { queryParams, typeParams, params } = useQueryParser({
+    searchParams,
+  });
 
   return (
-    <>
-      {resources.map((resource) => (
-        <p key={resource.id}>{resource.url}</p>
-      ))}
+    <QueryParamsProvider
+      queryParams={queryParams}
+      typeParams={typeParams}
+      params={params}
+    >
+      <SharingFilter />
+      <ResourceList />
       <AddResourceForm />
-    </>
+    </QueryParamsProvider>
   );
 }

@@ -7,6 +7,10 @@ export const URL = {
   LINKEDIN: "https://www.linkedin.com/in/swapnil-singh-1a1b3b1b3/",
   GITHUB: "https://github.com/SwiichyCode/GitShareSpace",
   TWITTER: "https://twitter.com/SwiichyCode_",
+} as const;
+
+export const AUTH_PROVIDER = {
+  GITHUB: "github",
 };
 
 export const ERROR_MESSAGE = {
@@ -44,3 +48,5 @@ export const TOGGLE_FILTER = {
   LIKED: "liked",
   ALL: "all",
 };
+
+export const RESOURCE_TYPE = ["article", "video", "book", "podcast"];

@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export const SelectLanguages = () => {
+export const SelectLanguage = () => {
   const { languages } = useRepositoriesContext();
   const { params: language, setParams: setLanguage } = useQueryParams({
     key: "language",

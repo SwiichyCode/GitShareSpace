@@ -2,8 +2,8 @@ import { QueryParamsProvider } from "@/modules/repositories/context/queryParamsC
 import { RepositoriesProvider } from "@/modules/repositories/context/repositoriesContext";
 import { useFetchRepositoriesPage } from "@/modules/repositories/hooks/use-fetch-repositories-page";
 import { useQueryParser } from "@/modules/repositories/hooks/use-query-parser";
-import { RepositoriesFilter } from "@/modules/repositories/components/RepositoriesFilter";
-import { RepositoriesGridInfiniteScroll } from "@/modules/repositories/components/RepositoriesGridInfiniteScroll";
+import { SharingFilter } from "@/components/filtering/SharingFilter";
+import { RepositoriesList } from "@/modules/repositories/components/RepositoriesList";
 import { DataSharingAgreementForm } from "@/modules/repositories/components/_forms/data-sharing-agreement-form";
 import { AddRepositoryForm } from "@/modules/repositories/components/_forms/add-repository-form";
 import { PersonalAccessTokenModal } from "@/modules/repositories/components/PersonalAccessTokenModal";
@@ -29,8 +29,8 @@ export default async function RepositoriesPage({ searchParams }: PageProps) {
         languageParams={languageParams}
         params={params}
       >
-        <RepositoriesFilter />
-        <RepositoriesGridInfiniteScroll />
+        <SharingFilter />
+        <RepositoriesList />
         <AddRepositoryForm />
         <DataSharingAgreementForm />
         <PersonalAccessTokenModal />

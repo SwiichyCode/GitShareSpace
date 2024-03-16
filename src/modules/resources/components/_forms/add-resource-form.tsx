@@ -12,6 +12,7 @@ import { SelectForm } from "@/components/ui/select-form";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { TextAreaForm } from "@/components/ui/text-area-form";
 import { postResourceAction } from "@/services/actions/post-resource";
+import { RESOURCE_TYPE } from "@/config/constants";
 import type * as z from "zod";
 
 export const AddResourceForm = () => {
@@ -75,7 +76,7 @@ export const AddResourceForm = () => {
 
             <SelectForm
               control={form.control}
-              items={["article", "video", "podcast", "book"]}
+              items={RESOURCE_TYPE}
               name="type"
               label="Type of resource *"
               placeholder="Select a type"

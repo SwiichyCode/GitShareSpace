@@ -1,13 +1,14 @@
 import { forwardRef } from "react";
 
 type Props = {
+  text: string;
   isDisabled?: boolean;
   isLoading?: boolean;
 };
 
-const RepositoriesLoader = forwardRef(
+const InfinitelistObserver = forwardRef(
   (props: Props, ref: React.ForwardedRef<HTMLDivElement | null>) => {
-    const { isDisabled, isLoading } = props;
+    const { text, isDisabled, isLoading } = props;
 
     return (
       <div
@@ -15,12 +16,12 @@ const RepositoriesLoader = forwardRef(
         className="mt-6 flex flex-col items-center justify-center"
         style={{ visibility: !isDisabled && !isLoading ? "hidden" : "initial" }}
       >
-        <p className="text-sm text-gray-400">Loading more repositories...</p>
+        <p className="text-sm text-gray-400">{text}</p>
       </div>
     );
   },
 );
 
-RepositoriesLoader.displayName = "RepositoriesLoader";
+InfinitelistObserver.displayName = "InfinitelistObserver";
 
-export { RepositoriesLoader };
+export { InfinitelistObserver };
