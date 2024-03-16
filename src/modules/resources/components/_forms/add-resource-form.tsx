@@ -2,20 +2,22 @@
 import { useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useToast } from "@/components/ui/use-toast";
 import { useShareResourceModal } from "@/modules/resources/stores/useShareResourcesModal";
 import { formAddResourceSchema } from "./add-resource-schema";
 import { Form } from "@/components/ui/form";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { InputForm } from "@/components/ui/input-form";
-import { RichTextFieldForm } from "@/components/ui/rich-textfield-form";
 import { SelectForm } from "@/components/ui/select-form";
 import { SubmitButton } from "@/components/ui/submit-button";
-import type * as z from "zod";
 import { TextAreaForm } from "@/components/ui/text-area-form";
+import { postResourceAction } from "@/services/actions/post-resource";
+import type * as z from "zod";
 
 export const AddResourceForm = () => {
   const [isPending, startTransition] = useTransition();
   const { open, setOpen } = useShareResourceModal();
+  const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formAddResourceSchema>>({
     resolver: zodResolver(formAddResourceSchema),
@@ -28,10 +30,29 @@ export const AddResourceForm = () => {
 
   function onSubmit(data: z.infer<typeof formAddResourceSchema>) {
     startTransition(async () => {
-      console.log(data);
-    });
+      const response = await postResourceAction(data);
 
-    form.reset();
+      if (!response.data?.error) {
+        toast({
+          title: "Resource shared",
+          description: "The resource has been shared successfully",
+        });
+
+        form.reset();
+        setOpen(false);
+      }
+
+      if (response.data?.error) {
+        form.reset({
+          url: "",
+        });
+
+        toast({
+          title: "Error",
+          description: response.data.error,
+        });
+      }
+    });
   }
 
   return (

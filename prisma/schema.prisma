@@ -76,6 +76,7 @@ model User {
     repositories             Repository[]
     likes                    Like[]
     Comment                  Comment[]
+    Resource                 Resource[]
     githubProfile            GithubProfile?
 }
 
@@ -131,6 +132,17 @@ model Repository {
     @@index([url])
 }
 
+model Resource {
+    id          Int      @id @default(autoincrement())
+    url         String   @unique
+    description String?
+    type        String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    createdBy   User     @relation(fields: [createdById], references: [id])
+    createdById String
+}
+
 model Comment {
     id           Int        @id @default(autoincrement())
     content      String
@@ -177,4 +189,11 @@ enum Role {
     USER
     ADMIN
     DEVELOPER
+}
+
+enum ResourceType {
+    ARTICLE
+    VIDEO
+    COURSE
+    BOOK
 }

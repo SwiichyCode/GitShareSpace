@@ -48,6 +48,8 @@ export const AddRepositoryForm = () => {
         });
 
         setOpen(false);
+        form.reset();
+        await refetch();
       }
 
       if (response.data?.error) {
@@ -56,9 +58,6 @@ export const AddRepositoryForm = () => {
           description: response.data.error,
         });
       }
-
-      form.reset();
-      await refetch();
     });
   }
 
