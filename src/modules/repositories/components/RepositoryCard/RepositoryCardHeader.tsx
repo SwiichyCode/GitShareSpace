@@ -10,13 +10,10 @@ type Props = {
   isComment?: boolean;
 };
 
-export const RepositoryCardHeader = ({
-  repository,
-  isComment = false,
-}: Props) => {
+export const RepositoryCardHeader = ({ repository }: Props) => {
   const { user } = useRepositoriesContext();
   return (
-    <div className="flex justify-between">
+    <>
       <div className="flex items-center gap-2">
         <ProfileAvatar
           pictureUrl={`${repository.ownerAvatarUrl}?size=40`}
@@ -42,9 +39,8 @@ export const RepositoryCardHeader = ({
           </span>
         </div>
       </div>
-      {!isComment && (
-        <RepositoryCardHideWithRole role={user?.role} repository={repository} />
-      )}
-    </div>
+
+      <RepositoryCardHideWithRole role={user?.role} repository={repository} />
+    </>
   );
 };

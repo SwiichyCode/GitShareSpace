@@ -1,4 +1,4 @@
-import { RepositoryCardLayout } from "./_layout";
+import { SharingCard } from "@/components/layouts/SharingCard/_index";
 import { RepositoryCardHeader } from "./RepositoryCardHeader";
 import { RepositoryCardDescription } from "./RepositoryCardDescription";
 import { RepositoryCardTopics } from "./RepositoryCardTopics";
@@ -15,17 +15,18 @@ export const RepositoryCard = ({
   repositoriesAlreadyStarred,
 }: Props) => {
   return (
-    <RepositoryCardLayout>
-      <RepositoryCardHeader repository={repository} />
-      <div className="space-y-2 rounded-sm bg-overlay p-3">
-        <RepositoryCardDescription repository={repository} />
-
-        <RepositoryCardTopics repository={repository} />
-        <RepositoryCardFooter
-          repository={repository}
-          repositoriesAlreadyStarred={repositoriesAlreadyStarred}
-        />
-      </div>
-    </RepositoryCardLayout>
+    <SharingCard
+      header={<RepositoryCardHeader repository={repository} />}
+      content={
+        <>
+          <RepositoryCardDescription repository={repository} />
+          <RepositoryCardTopics repository={repository} />
+          <RepositoryCardFooter
+            repository={repository}
+            repositoriesAlreadyStarred={repositoriesAlreadyStarred}
+          />
+        </>
+      }
+    />
   );
 };

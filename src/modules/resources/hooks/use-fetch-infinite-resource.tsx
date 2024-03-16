@@ -1,15 +1,15 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { getRepositoriesByFilterAction } from "@/services/actions/get-repositories-by-filter";
+import { getResourceByFilterAction } from "@/services/actions/get-resource-by-filter";
 
 type Props = {
   queryParams: string;
-  languageParams?: string;
+  typeParams?: string;
   params: string;
 };
 
-export const useFetchInfiniteRepositories = ({
+export const useFetchResourceRepositories = ({
   queryParams,
-  languageParams,
+  typeParams,
   params,
 }: Props) => {
   const {
@@ -20,12 +20,12 @@ export const useFetchInfiniteRepositories = ({
     isLoading,
     refetch,
   } = useInfiniteQuery({
-    queryKey: ["repositories", { queryParams, languageParams, params }],
+    queryKey: ["resources", { queryParams, typeParams, params }],
     queryFn: ({ pageParam }) =>
-      getRepositoriesByFilterAction({
+      getResourceByFilterAction({
         cursor: pageParam,
         queryParams,
-        languageParams,
+        typeParams,
         params,
       }),
     initialPageParam: 0,

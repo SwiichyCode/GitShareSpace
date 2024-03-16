@@ -7,8 +7,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import type { PathnameType } from "@/components/filtering/SharingFilter";
 
-export const SelectParams = () => {
+type Props = {
+  pathname: PathnameType;
+};
+
+export const SelectParam = ({ pathname }: Props) => {
   const { params, setParams: setParams } = useQueryParams({
     key: "params",
   });
@@ -28,7 +33,9 @@ export const SelectParams = () => {
       <SelectContent>
         <SelectItem value="all">{params ? "All" : "Select params"}</SelectItem>
         <SelectItem value="latest">First added</SelectItem>
-        <SelectItem value="starred">Most starred</SelectItem>
+        {pathname === "/repositories" && (
+          <SelectItem value="starred">Most starred</SelectItem>
+        )}
         <SelectItem value="liked">Most Liked</SelectItem>
       </SelectContent>
     </Select>

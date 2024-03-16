@@ -1,7 +1,7 @@
 import type { Prisma } from "@prisma/client";
 
 const ERROR_MESSAGES: Record<string, string> = {
-  P2002: "Repository already exists",
+  P2002: "Item already exists",
   // ... other error messages
 };
 
