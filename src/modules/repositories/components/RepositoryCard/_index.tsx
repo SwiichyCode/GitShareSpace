@@ -17,15 +17,17 @@ export const RepositoryCard = ({
   return (
     <SharingCard
       header={<RepositoryCardHeader repository={repository} />}
-      content={
+      body={
         <>
           <RepositoryCardDescription repository={repository} />
           <RepositoryCardTopics repository={repository} />
-          <RepositoryCardFooter
-            repository={repository}
-            repositoriesAlreadyStarred={repositoriesAlreadyStarred}
-          />
         </>
+      }
+      footer={
+        <RepositoryCardFooter
+          repository={repository}
+          repositoriesAlreadyStarred={repositoriesAlreadyStarred}
+        />
       }
     />
   );

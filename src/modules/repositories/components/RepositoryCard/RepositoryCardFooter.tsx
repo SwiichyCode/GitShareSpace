@@ -19,7 +19,7 @@ export const RepositoryCardFooter = ({
   const { user, likes } = useRepositoriesContext();
 
   return (
-    <div className="flex justify-between space-x-4 pt-2 text-xs text-icon">
+    <>
       <div className="flex space-x-4">
         <RepositoryCardLanguage repository={repository} />
         <RepositoryCardStars
@@ -33,6 +33,6 @@ export const RepositoryCardFooter = ({
         <RepositoryCardComment repository={repository} />
         <RepositoryCardLike user={user} repository={repository} likes={likes} />
       </div>
-    </div>
+    </>
   );
 };

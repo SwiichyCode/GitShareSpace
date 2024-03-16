@@ -71,7 +71,9 @@ export class RessourceService {
     const resources = await db.resource.findMany({
       where,
       orderBy,
-
+      include: {
+        createdBy: true,
+      },
       take: limit,
       skip: offset,
       cursor: cursor ? { id: cursor } : undefined,
