@@ -14,8 +14,10 @@ export const SharingCard = ({ header, body, footer, className }: Props) => {
   return (
     <SharingCardLayout className={className}>
       <SharingCardHeader>{header}</SharingCardHeader>
-      <SharingCardBody>{body}</SharingCardBody>
-      <SharingCardFooter>{footer}</SharingCardFooter>
+      <div className="space-y-2 rounded-sm bg-overlay p-3">
+        <SharingCardBody>{body}</SharingCardBody>
+        <SharingCardFooter>{footer}</SharingCardFooter>
+      </div>
     </SharingCardLayout>
   );
 };
