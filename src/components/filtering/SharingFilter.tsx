@@ -16,6 +16,7 @@ export const SharingFilter = () => {
       case URL.REPOSITORIES:
         return (
           <>
+            <DirectionListToggle />
             <SelectLanguage />
             <SelectParam pathname={pathname} />
           </>
@@ -35,7 +36,6 @@ export const SharingFilter = () => {
 
   return (
     <div className="sticky top-6 z-50 flex space-x-4 rounded-md border border-card bg-background p-4">
-      <DirectionListToggle />
       {handleFilterContent(pathname as PathnameType)}
     </div>
   );

@@ -19,7 +19,6 @@ import { ERROR_MESSAGE } from "@/config/constants";
 import userService from "./user.service";
 import { client } from "@/config/lib/appolo-client";
 import { GET_MULTIPLE_REPOSITORIES } from "./graphql/repository.graphql";
-import { Repository } from "@prisma/client";
 
 interface RepositoryData {
   name: string;

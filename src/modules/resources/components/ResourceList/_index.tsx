@@ -17,7 +17,6 @@ export const ResourceList = () => {
   const flatResources =
     data?.pages.map((page) => page?.data?.resources ?? []).flat() ?? [];
 
-  console.log(typeParams);
   return (
     <>
       <ResourceListLayout>

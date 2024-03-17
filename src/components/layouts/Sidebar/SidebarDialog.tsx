@@ -14,7 +14,7 @@ export const SidebarDialog = ({ dialogHeader, children }: Props) => {
 
   return (
     <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={setOpen}>
+      <Dialog as="div" className="relative z-[999]" onClose={setOpen}>
         <Transition.Child
           as={Fragment}
           enterFrom="opacity-0"
@@ -37,14 +37,14 @@ export const SidebarDialog = ({ dialogHeader, children }: Props) => {
                 leaveTo="translate-x-full"
               >
                 <Dialog.Panel className="pointer-events-auto w-full md:w-screen md:max-w-80">
-                  <div className="bg-overlay shadow-overlay border-card flex h-full flex-col overflow-y-scroll border-l py-6 md:rounded-l-xl">
+                  <div className="flex h-full flex-col overflow-y-scroll border-l border-card bg-overlay py-6 shadow-overlay md:rounded-l-xl">
                     <div className="px-4 sm:px-6">
                       <div className="flex items-start justify-between">
                         {dialogHeader}
                         <div className="ml-3 flex h-7 items-center">
                           <button
                             type="button"
-                            className="hover:text-default relative rounded-md bg-transparent p-2 text-gray-400 transition-colors hover:bg-[#30363D] focus:outline-none"
+                            className="relative rounded-md bg-transparent p-2 text-gray-400 transition-colors hover:bg-[#30363D] hover:text-default focus:outline-none"
                             onClick={() => setOpen(false)}
                           >
                             <span className="absolute -inset-2.5" />
