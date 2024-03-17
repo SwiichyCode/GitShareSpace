@@ -6,7 +6,7 @@ client.defineJob({
   id: "sync-repositories-job",
   name: "Sync Repositories Job",
   version: "0.0.1",
-  enabled: true,
+  enabled: false,
   trigger: intervalTrigger({
     seconds: 60,
   }),
