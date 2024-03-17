@@ -1,4 +1,4 @@
-import { SharingFilter } from "@/components/filtering/SharingFilter";
+import { SharingFilter } from "@/components/layouts/SharingFilter/_index";
 import { QueryParamsProvider } from "@/modules/repositories/context/queryParamsContext";
 import { useQueryParser } from "@/modules/repositories/hooks/use-query-parser";
 import { ResourceList } from "@/modules/resources/components/ResourceList/_index";

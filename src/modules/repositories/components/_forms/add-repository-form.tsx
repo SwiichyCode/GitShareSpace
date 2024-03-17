@@ -47,8 +47,8 @@ export const AddRepositoryForm = () => {
           description: "The repository has been added successfully",
         });
 
-        setOpen(false);
         form.reset();
+        setOpen(false);
         await refetch();
       }
 

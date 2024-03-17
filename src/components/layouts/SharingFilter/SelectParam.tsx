@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { PathnameType } from "@/components/filtering/SharingFilter";
+import type { PathnameType } from "@/components/layouts/SharingFilter/_index";
 
 type Props = {
   pathname: PathnameType;

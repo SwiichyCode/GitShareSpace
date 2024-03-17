@@ -8,7 +8,7 @@ import { URL } from "@/config/constants";
 
 const schema = z.object({
   url: z.string(),
-  description: z.string().optional(),
+  description: z.string(),
   type: z.enum(["article", "video", "book", "course"]),
 });
 

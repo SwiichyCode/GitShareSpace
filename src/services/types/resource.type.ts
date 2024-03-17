@@ -1,6 +1,6 @@
 type PostResourceType = {
   url: string;
-  description?: string;
+  description: string;
   type: string;
   userId: string;
 };

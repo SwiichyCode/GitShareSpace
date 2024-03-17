@@ -4,6 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useToast } from "@/components/ui/use-toast";
 import { useShareResourceModal } from "@/modules/resources/stores/useShareResourcesModal";
+import { useQueryParamsContext } from "@/modules/repositories/context/queryParamsContext";
+import { useFetchResourceRepositories } from "@/modules/resources/hooks/use-fetch-infinite-resource";
 import { formAddResourceSchema } from "./add-resource-schema";
 import { Form } from "@/components/ui/form";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
@@ -16,6 +18,7 @@ import { RESOURCE_TYPE } from "@/config/constants";
 import type * as z from "zod";
 
 export const AddResourceForm = () => {
+  const { queryParams, typeParams, params } = useQueryParamsContext();
   const [isPending, startTransition] = useTransition();
   const { open, setOpen } = useShareResourceModal();
   const { toast } = useToast();
@@ -23,10 +26,14 @@ export const AddResourceForm = () => {
   const form = useForm<z.infer<typeof formAddResourceSchema>>({
     resolver: zodResolver(formAddResourceSchema),
     defaultValues: {
-      url: "",
-      description: "",
       type: "article",
     },
+  });
+
+  const { refetch } = useFetchResourceRepositories({
+    queryParams,
+    typeParams,
+    params,
   });
 
   function onSubmit(data: z.infer<typeof formAddResourceSchema>) {
@@ -41,6 +48,7 @@ export const AddResourceForm = () => {
 
         form.reset();
         setOpen(false);
+        await refetch();
       }
 
       if (response.data?.error) {

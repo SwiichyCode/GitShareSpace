@@ -136,7 +136,7 @@ model Repository {
 model Resource {
     id          Int      @id @default(autoincrement())
     url         String   @unique
-    description String?
+    description String
     type        String
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
