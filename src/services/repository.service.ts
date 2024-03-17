@@ -17,6 +17,16 @@ import type { User } from "next-auth";
 import type { components } from "@octokit/openapi-types";
 import { ERROR_MESSAGE } from "@/config/constants";
 import userService from "./user.service";
+import { client } from "@/config/lib/appolo-client";
+import { GET_MULTIPLE_REPOSITORIES } from "./graphql/repository.graphql";
+import { Repository } from "@prisma/client";
+
+interface RepositoryData {
+  name: string;
+  stargazers: { totalCount: number };
+  licenseInfo?: { name: string; url: string };
+  updatedAt: string;
+}
 
 class RepositoryService {
   /**
@@ -30,6 +40,15 @@ class RepositoryService {
         language: true,
         topics: true,
         createdBy: true,
+      },
+    });
+  }
+
+  async getRepositoryGraphql() {
+    return await db.repository.findMany({
+      select: {
+        ownerUsername: true,
+        repositoryName: true,
       },
     });
   }
@@ -307,6 +326,43 @@ class RepositoryService {
         },
       });
     }
+  }
+
+  async updatedSyncRepositories() {
+    const repositories = await this.getRepositories();
+
+    if (!repositories) {
+      throw new Error(ERROR_MESSAGE.REPOSITORY_NOT_EXIST);
+    }
+
+    const { data } = await client.query({
+      query: GET_MULTIPLE_REPOSITORIES(repositories),
+    });
+
+    const updates = Object.entries(data).map(([key, value]) => {
+      const repositoryData = value as RepositoryData;
+      const repository = repositories.find(
+        (repo) => repo.repositoryName === repositoryData.name,
+      );
+
+      if (!repository) {
+        throw new Error(ERROR_MESSAGE.GITHUB_REPOSITORY_NOT_EXIST);
+      }
+
+      return db.repository.update({
+        where: {
+          id: repository.id,
+        },
+        data: {
+          repositoryStargazers: repositoryData.stargazers.totalCount,
+          repositoryLicenseName: repositoryData.licenseInfo?.name,
+          repositoryLicenseUrl: repositoryData.licenseInfo?.url ?? "",
+          repositoryUpdatedAt: new Date(repositoryData.updatedAt),
+        },
+      });
+    });
+
+    await db.$transaction(updates);
   }
 
   /**
