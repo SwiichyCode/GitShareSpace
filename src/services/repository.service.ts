@@ -279,23 +279,14 @@ class RepositoryService {
    * @throws {Error} - Throws an error if there's an error accessing the database.
    */
 
-  async syncRepositories({ percentage }: { percentage: number }) {
+  async syncRepositories() {
     const repositories = await this.getRepositories();
 
     if (!repositories) {
       throw new Error(ERROR_MESSAGE.REPOSITORY_NOT_EXIST);
     }
 
-    // Calculate the number of repositories to update
-    const updateCount = Math.floor(repositories.length * (percentage / 100));
-
-    for (let i = 0; i < updateCount; i++) {
-      const repository = repositories[i];
-
-      if (!repository) {
-        throw new Error(ERROR_MESSAGE.REPOSITORY_NOT_EXIST);
-      }
-
+    for (const repository of repositories) {
       const octokitResponse = await octokitService.getRepository(
         repository.url,
       );
