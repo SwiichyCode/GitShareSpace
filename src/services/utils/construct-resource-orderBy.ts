@@ -8,7 +8,6 @@ type constructResourceOrderByType = {
 
 const orderByConfigs: OrderByConfig = {
   latest: { id: "asc" },
-  //   liked: { likes: { _count: "desc" } },
 };
 
 export const constructResourceOrderBy = ({
