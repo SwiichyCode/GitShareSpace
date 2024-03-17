@@ -1,4 +1,4 @@
-import { cronTrigger, intervalTrigger } from "@trigger.dev/sdk";
+import { cronTrigger } from "@trigger.dev/sdk";
 import { client } from "@/trigger";
 import repositoryService from "@/services/repository.service";
 
@@ -7,8 +7,9 @@ client.defineJob({
   name: "Sync Repositories Job",
   version: "0.0.1",
   enabled: true,
-  trigger: intervalTrigger({
-    seconds: 60,
+
+  trigger: cronTrigger({
+    cron: "0 0 * * *",
   }),
 
   run: async (payload, io, ctx) => {
