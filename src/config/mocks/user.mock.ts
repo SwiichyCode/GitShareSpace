@@ -15,6 +15,7 @@ export const fakerMockUser: User = {
   emailVerified: faker.date.recent(),
   repositoryAlreadyStarred: [],
   image: faker.image.avatarGitHub(),
+  sharedScore: faker.number.int(),
   firstConnection: faker.datatype.boolean(0),
   dataSharingAgreement: faker.datatype.boolean(0.9),
   personalAccessToken: faker.internet.password(),

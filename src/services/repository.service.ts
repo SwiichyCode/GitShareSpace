@@ -79,13 +79,17 @@ class RepositoryService {
   /**
    * Query to create a new repository entry in the database.
    * @param {Object} data - The repository data to be saved.
-   * @param {string} data.url - The URL of the repository.
-   * @param {string} data.description - The description of the repository.
-   * @param {string} data.createdBy - The ID of the user who created the repository.
+   * @param {PostRepositoryType} - The repository url, description, user id, and score.
    * @throws {Error} - Throws an error if the repository doesn't exist or if there's an error accessing the database.
    */
 
-  async postRepository({ url, description, createdBy }: PostRepositoryType) {
+  async postRepository({
+    url,
+    description,
+    createdBy,
+    userId,
+    score,
+  }: PostRepositoryType) {
     const octokitResponse = await octokitService.getRepository(url);
 
     if (!octokitResponse) {
@@ -93,55 +97,69 @@ class RepositoryService {
     }
 
     try {
-      await db.repository.create({
-        data: {
-          url: url,
-          description: description,
-          repositoryId: octokitResponse.data.id,
-          repositoryName: octokitResponse.data.name,
-          repositoryDescription: octokitResponse.data.description,
-          repositoryStargazers: octokitResponse.data.stargazers_count,
-          repositoryCreatedAt: octokitResponse.data.created_at,
-          repositoryUpdatedAt: octokitResponse.data.updated_at,
-          repositoryLicenseName: octokitResponse.data.license?.key,
-          repositoryLicenseUrl: octokitResponse.data.license?.url ?? "",
-          language: {
-            connectOrCreate: {
-              where: {
-                name: octokitResponse.data.language ?? "",
-              },
-              create: {
-                name: octokitResponse.data.language
-                  ? octokitResponse.data.language
-                  : "markdown",
-              },
-            },
-          },
-          topics: {
-            connectOrCreate: octokitResponse.data.topics?.map((topic) => {
-              return {
+      await db.$transaction([
+        db.repository.create({
+          data: {
+            url: url,
+            description: description,
+            repositoryId: octokitResponse.data.id,
+            repositoryName: octokitResponse.data.name,
+            repositoryDescription: octokitResponse.data.description,
+            repositoryStargazers: octokitResponse.data.stargazers_count,
+            repositoryCreatedAt: octokitResponse.data.created_at,
+            repositoryUpdatedAt: octokitResponse.data.updated_at,
+            repositoryLicenseName: octokitResponse.data.license?.key,
+            repositoryLicenseUrl: octokitResponse.data.license?.url ?? "",
+            language: {
+              connectOrCreate: {
                 where: {
-                  name: topic,
+                  name: octokitResponse.data.language ?? "",
                 },
                 create: {
-                  name: topic,
+                  name: octokitResponse.data.language
+                    ? octokitResponse.data.language
+                    : "markdown",
                 },
-              };
-            }),
-          },
-          is_template: octokitResponse.data.is_template,
-          createdAt: octokitResponse.data.created_at,
-          updatedAt: octokitResponse.data.updated_at,
-          ownerUsername: octokitResponse.data.owner.login,
-          ownerId: octokitResponse.data.owner.id,
-          ownerAvatarUrl: octokitResponse.data.owner.avatar_url,
-          createdBy: {
-            connect: {
-              id: createdBy,
+              },
+            },
+            topics: {
+              connectOrCreate: octokitResponse.data.topics?.map((topic) => {
+                return {
+                  where: {
+                    name: topic,
+                  },
+                  create: {
+                    name: topic,
+                  },
+                };
+              }),
+            },
+            is_template: octokitResponse.data.is_template,
+            createdAt: octokitResponse.data.created_at,
+            updatedAt: octokitResponse.data.updated_at,
+            ownerUsername: octokitResponse.data.owner.login,
+            ownerId: octokitResponse.data.owner.id,
+            ownerAvatarUrl: octokitResponse.data.owner.avatar_url,
+            createdBy: {
+              connect: {
+                id: createdBy,
+              },
             },
           },
-        },
-      });
+        }),
+
+        // Increment the user's shared score
+        db.user.update({
+          where: {
+            id: userId,
+          },
+          data: {
+            sharedScore: {
+              increment: score,
+            },
+          },
+        }),
+      ]);
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         throw new PrismaError(error);
@@ -294,6 +312,7 @@ class RepositoryService {
   /**
    * Query to sync the starred repositories of the user with the database.
    * @param {Object} user - The user to be synced.
+   * @param {User} user - The user to be synced.
    * @throws {Error} - Throws an error if the user doesn't exist or if there's an error accessing the database.
    */
 
@@ -359,10 +378,9 @@ class RepositoryService {
   }
 
   /**
-   * Query to create a new comment for a repository in the database.
+   * Query to create a new comment for a repository and increment the user's shared score.
    * @param {Object} data - The comment data to be saved.
-   * @param {number} data.repositoryId - The ID of the repository.
-   * @param {string} data.content - The content of the comment.
+   * @param {PostRepositoryCommentType} - The repository id, content, user id, and score.
    * @throws {Error} - Throws an error if there's an error accessing the database.
    */
 
@@ -370,29 +388,42 @@ class RepositoryService {
     repositoryId,
     content,
     createdBy,
+    score,
   }: PostRepositoryCommentType) {
-    await db.comment.create({
-      data: {
-        content: content,
-        createdBy: {
-          connect: {
-            id: createdBy,
+    await db.$transaction([
+      db.comment.create({
+        data: {
+          content: content,
+          createdBy: {
+            connect: {
+              id: createdBy,
+            },
+          },
+          repository: {
+            connect: {
+              id: repositoryId,
+            },
           },
         },
-        repository: {
-          connect: {
-            id: repositoryId,
+      }),
+
+      db.user.update({
+        where: {
+          id: createdBy,
+        },
+        data: {
+          sharedScore: {
+            increment: score,
           },
         },
-      },
-    });
+      }),
+    ]);
   }
 
   /**
    * Query to check if the user has starred a repository.
    * @param {Object} data - The data to be checked.
-   * @param {string} data.userId - The ID of the user.
-   * @param {number} data.repositoryId - The ID of the repository.
+   * @param {HasStarredRepositoryType} - The user id and repository id.
    * @throws {Error} - Throws an error if there's an error accessing the database.
    */
 

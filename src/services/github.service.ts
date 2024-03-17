@@ -38,7 +38,7 @@ export class OctokitService {
   async getUserById(userId: string | undefined) {
     const response: ExtendedEndpoints[typeof OCTOKIT_ENDPOINT.GET_USER_BY_ID]["response"] =
       await this.octokit.request(OCTOKIT_ENDPOINT.GET_USER_BY_ID, {
-        username: userId,
+        userId,
       });
 
     return response;

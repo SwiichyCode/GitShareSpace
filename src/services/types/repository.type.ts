@@ -6,6 +6,9 @@ type PostRepositoryType = {
   url: string;
   description: string;
   createdBy: string;
+
+  userId: string;
+  score: number;
 };
 
 type GetRepositoriesByFilterType = {
@@ -26,6 +29,7 @@ type PostRepositoryCommentType = {
   repositoryId: number;
   content: string;
   createdBy: string;
+  score: number;
 };
 
 type HasStarredRepositoryType = {

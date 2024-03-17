@@ -5,7 +5,7 @@ import { useFetchProfilePage } from "@/modules/profile/hooks/use-fetch-profile-p
 export default async function ProfilePage() {
   const session = await getServerAuthSession();
 
-  const { githubProfile, githubProfileSocialAccounts } =
+  const { githubProfile, githubProfileSocialAccounts, sharedScore } =
     await useFetchProfilePage({
       userId: session?.user.id ?? "",
       username: session?.user.username ?? "",
@@ -21,6 +21,7 @@ export default async function ProfilePage() {
         githubProfile={githubProfile}
         githubProfileSocialAccounts={githubProfileSocialAccounts}
       />
+      {sharedScore?.sharedScore}
     </>
   );
 }

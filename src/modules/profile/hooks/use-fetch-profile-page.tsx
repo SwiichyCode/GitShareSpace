@@ -15,6 +15,12 @@ export const useFetchProfilePage = async ({ userId, username }: Props) => {
     await octokitService.getUserSocialAccounts(username);
 
   const repositories = await octokitService.getUserRepository(username);
+  const sharedScore = await userService.getSharedScoreByUserId({ userId });
 
-  return { githubProfile, githubProfileSocialAccounts, repositories };
+  return {
+    githubProfile,
+    githubProfileSocialAccounts,
+    repositories,
+    sharedScore,
+  };
 };

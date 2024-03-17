@@ -8,7 +8,10 @@ type QueryType<T> = {
   repositoryId: number;
 } & T;
 
-export type LikeRepositoryType = QueryType<object>;
+export type LikeRepositoryType = QueryType<{
+  repositorySharedBy: string;
+  score: number;
+}>;
 export type UnlikeRepositoryType = QueryType<object>;
 export type HasLikedRepositoryType = QueryType<object>;
 

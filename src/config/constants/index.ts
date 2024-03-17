@@ -50,3 +50,10 @@ export const TOGGLE_FILTER = {
 };
 
 export const RESOURCE_TYPE = ["article", "video", "book", "podcast"];
+
+export const SHARE_ACTION = {
+  SHARE: "SHARE_CONTENT",
+  LIKE: "LIKE_CONTENT",
+  COMMENT: "COMMENT_CONTENT",
+  POINT: "LIKE_POINTS",
+} as const;

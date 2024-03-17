@@ -209,22 +209,6 @@ class UserService {
 
     await repositoryService.syncStarredRepositories(user);
 
-    // return await db.user.update({
-    //   where: {
-    //     id: user.id,
-    //   },
-    //   data: {
-    //     githubUserID: githubUser.data.id,
-    //     username: githubUser.data.login,
-    //     bio: githubUser.data.bio,
-    //     company: githubUser.data.company,
-    //     location: githubUser.data.location,
-    //     blog: githubUser.data.blog,
-    //     dataSharingAgreement: agreement,
-    //     firstConnection: agreement ? false : true,
-    //   },
-    // });
-
     await db.$transaction([
       db.user.update({
         where: {
@@ -290,6 +274,23 @@ class UserService {
     });
 
     return response?.providerAccountId;
+  }
+
+  /**
+   * Query to get the shared score of the user.
+   * @param {string} userId - The user id.
+   * @throws {Error} - Throws an error if there's an error accessing the database.
+   */
+
+  async getSharedScoreByUserId({ userId }: GetUserType) {
+    return await db.user.findFirst({
+      where: {
+        id: userId,
+      },
+      select: {
+        sharedScore: true,
+      },
+    });
   }
 }
 

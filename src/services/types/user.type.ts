@@ -18,6 +18,10 @@ type AddPersonalAccessTokenType = QueryType<{
   personalAccessToken: string;
 }>;
 
+type AddSharedScoreType = QueryType<{
+  score: number;
+}>;
+
 type ResetPersonalAccessTokenType = QueryType<object>;
 
 type UpdateAgreementType = {
@@ -31,5 +35,6 @@ export type {
   AddPersonalAccessTokenType,
   ResetPersonalAccessTokenType,
   UpdateAgreementType,
+  AddSharedScoreType,
   UserEntry,
 };

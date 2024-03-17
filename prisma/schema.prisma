@@ -56,7 +56,7 @@ model Session {
 model User {
     id                       String         @id @default(cuid())
     name                     String?
-    username                 String?        @unique
+    username                 String?
     bio                      String?
     company                  String?
     location                 String?
@@ -69,6 +69,7 @@ model User {
     dataSharingAgreement     Boolean        @default(false)
     personalAccessToken      String?
     githubUserID             Int?
+    sharedScore              Int            @default(0)
     role                     Role           @default(USER)
     accounts                 Account[]
     sessions                 Session[]
@@ -82,7 +83,7 @@ model User {
 
 model GithubProfile {
     id        Int     @id @default(autoincrement())
-    username  String  @unique
+    username  String
     avatarUrl String?
     email     String?
     name      String?

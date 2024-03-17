@@ -55,6 +55,7 @@ export const useOptimisticLike = ({
 
           await likeOrUnlikeRepository({
             repositoryId: repository.id,
+            repositorySharedBy: repository.createdBy.id,
           });
         } catch (error) {
           console.error(error);
