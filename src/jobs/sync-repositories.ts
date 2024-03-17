@@ -7,13 +7,17 @@ client.defineJob({
   name: "Sync Repositories Job",
   version: "0.0.1",
 
-  trigger: cronTrigger({
-    cron: "30 02 * * *",
+  // trigger: cronTrigger({
+  //   cron: "30 02 * * *",
+  // }),
+
+  trigger: intervalTrigger({
+    seconds: 60,
   }),
 
   run: async (payload, io, ctx) => {
     await io.runTask("sync-repositories", async () => {
-      return await repositoryService.syncRepositories();
+      return await repositoryService.syncRepositories({ percentage: 30 });
     });
 
     await io.logger.info("✨ Sync Repositories Job");
