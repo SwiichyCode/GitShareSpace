@@ -28,6 +28,8 @@ interface RepositoryData {
   updatedAt: string;
 }
 
+type Data = Record<string, RepositoryData>;
+
 class RepositoryService {
   /**
    * Query to get all repository entries from the database.
@@ -339,8 +341,8 @@ class RepositoryService {
       query: GET_MULTIPLE_REPOSITORIES(repositories),
     });
 
-    const updates = Object.entries(data).map(([key, value]) => {
-      const repositoryData = value as RepositoryData;
+    const updates = Object.entries(data as Data).map(([key, value]) => {
+      const repositoryData = value;
       const repository = repositories.find(
         (repo) => repo.repositoryName === repositoryData.name,
       );
