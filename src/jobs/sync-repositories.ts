@@ -17,7 +17,7 @@ client.defineJob({
 
   run: async (payload, io, ctx) => {
     await io.runTask("sync-repositories", async () => {
-      return await repositoryService.syncRepositories({ percentage: 30 });
+      return await repositoryService.syncRepositories({ percentage: 50 });
     });
 
     await io.logger.info("✨ Sync Repositories Job");

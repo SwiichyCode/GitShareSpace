@@ -2,5 +2,5 @@
 import repositoryService from "@/services/repository.service";
 
 export const syncRepositoriesAction = async () => {
-  await repositoryService.syncRepositories({ percentage: 30 });
+  await repositoryService.syncRepositories({ percentage: 50 });
 };
