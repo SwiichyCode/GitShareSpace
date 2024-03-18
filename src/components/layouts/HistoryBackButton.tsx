@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -8,7 +8,7 @@ export const HistoryBackButton = () => {
 
   return (
     <button
-      className="hover:text-blue flex items-center space-x-4"
+      className="flex items-center space-x-4 hover:text-blue"
       onClick={() => router.back()}
     >
       <ArrowLeft className="h-4 w-4" />

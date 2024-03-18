@@ -62,7 +62,7 @@ class RepositoryService {
    */
 
   async getRepository({ repositoryId }: RepositoryEntry) {
-    return await db.repository.findUnique({
+    return await db.repository.findUniqueOrThrow({
       where: {
         id: repositoryId,
       },

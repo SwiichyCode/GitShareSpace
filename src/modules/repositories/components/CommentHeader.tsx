@@ -6,7 +6,7 @@ type Props = {
   repository: Repository;
 };
 
-export const CommentHeader = ({ repository }: Props) => {
+export const CommentHeader = async ({ repository }: Props) => {
   return (
     <div className="flex items-center space-x-4">
       <ProfileAvatar
