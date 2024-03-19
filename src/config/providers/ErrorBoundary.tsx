@@ -27,7 +27,7 @@ export class ErrorBoundary extends Component<Props, State> {
 
   public render() {
     if (this.state.hasError) {
-      return this.props.fallback || null;
+      return this.props.fallback ?? null;
     }
 
     return this.props.children;
