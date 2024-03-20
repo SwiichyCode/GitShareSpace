@@ -12,7 +12,7 @@ client.defineJob({
     cron: "0 0 * * *",
   }),
 
-  run: async (payload, io, ctx) => {
+  run: async (_, io) => {
     await io.runTask("sync-repositories", async () => {
       return await repositoryService.updatedSyncRepositories();
     });

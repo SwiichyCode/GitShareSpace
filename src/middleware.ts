@@ -13,4 +13,4 @@ export default withAuth({
   secret: env.NEXTAUTH_SECRET,
 });
 
-export const config = { matcher: ["/profile", "/settings"] };
+export const config = { matcher: ["/profile", "/settings", "/projects"] };

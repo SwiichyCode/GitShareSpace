@@ -1,14 +1,12 @@
 import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 
 type Props = {
-  state?: boolean;
   triggerChildren: React.ReactNode;
   className?: string;
   children: React.ReactNode;
 };
 
 export const DialogWrapper = ({
-  state,
   triggerChildren,
   className,
   children,

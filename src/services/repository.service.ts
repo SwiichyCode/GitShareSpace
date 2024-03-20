@@ -340,7 +340,7 @@ class RepositoryService {
       query: GET_MULTIPLE_REPOSITORIES(repositories),
     });
 
-    const updates = Object.entries(data as Data).map(([key, value]) => {
+    const updates = Object.entries(data as Data).map(([_, value]) => {
       const repositoryData = value;
       const repository = repositories.find(
         (repo) => repo.repositoryName === repositoryData.name,

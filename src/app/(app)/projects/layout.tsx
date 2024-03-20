@@ -1,5 +1,5 @@
-import React, { PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
 
 export default function ProjectsLayout({ children }: PropsWithChildren) {
-  return <div className="m-auto max-w-3xl py-14">{children}</div>;
+  return <div>{children}</div>;
 }

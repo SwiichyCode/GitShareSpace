@@ -58,3 +58,26 @@ export const SHARE_ACTION = {
   COMMENT: "COMMENT_CONTENT",
   POINT: "LIKE_POINTS",
 } as const;
+
+export const DEFAULT_COLUMN_NAME = {
+  TO_DO: "To Do",
+  IN_PROGRESS: "In Progress",
+  DONE: "Done",
+} as const;
+
+export const DEFAULT_COLUMN_DESCRIPTION = {
+  TO_DO: "This item hasn't been started",
+  IN_PROGRESS: "This is actively being worked on",
+  DONE: "This has been completed",
+} as const;
+
+export const COLUMN_COLOR = {
+  GRAY: "GRAY",
+  BLUE: "BLUE",
+  GREEN: "GREEN",
+  YELLOW: "YELLOW",
+  ORANGE: "ORANGE",
+  RED: "RED",
+  PINK: "PINK",
+  PURPLE: "PURPLE",
+} as const;
