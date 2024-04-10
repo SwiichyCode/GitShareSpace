@@ -1,4 +1,4 @@
-import { eventTrigger, intervalTrigger } from "@trigger.dev/sdk";
+import { intervalTrigger } from "@trigger.dev/sdk";
 import { client } from "@/trigger";
 
 // Your first job
@@ -11,7 +11,7 @@ client.defineJob({
   enabled: false,
   // This is triggered by an event using eventTrigger. You can also trigger Jobs with webhooks, on schedules, and more: https://trigger.dev/docs/documentation/concepts/triggers/introduction
   trigger: intervalTrigger({ seconds: 60 }),
-  run: async (payload, io, ctx) => {
+  run: async (_, io) => {
     // Use a Task to generate a random number. Using a Tasks means it only runs once.
     const result = await io.runTask("generate-random-number", async () => {
       return {

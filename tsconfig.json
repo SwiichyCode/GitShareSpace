@@ -36,8 +36,7 @@
     "**/*.tsx",
     "**/*.cjs",
     "**/*.js",
-    ".next/types/**/*.ts",
-    "src/modules/repositories/components/_forms/update-user-role-formtsx"
+    ".next/types/**/*.ts"
   ],
   "exclude": ["node_modules"]
 }

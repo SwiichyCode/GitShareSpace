@@ -3,6 +3,7 @@ import {
   PersonIcon,
   RepoIcon,
   FileDirectoryIcon,
+  ProjectIcon,
 } from "@primer/octicons-react";
 import { Separator } from "@/components/ui/separator";
 import { SidebarNavigationLink } from "./SidebarNavigationLink";
@@ -30,6 +31,11 @@ const SidebarNavigationItems = [
     name: "Resources",
     href: URL.RESOURCES,
     icon: FileDirectoryIcon,
+  },
+  {
+    name: "Projects",
+    href: URL.PROJECTS,
+    icon: ProjectIcon,
   },
   {
     name: "Settings",

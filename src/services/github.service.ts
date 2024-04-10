@@ -72,6 +72,14 @@ export class OctokitService {
     }
   }
 
+  async getUserRepositories() {
+    return await this.octokit.request("GET /user/repos", {
+      sort: "updated",
+      page: 1,
+      per_page: 10,
+    });
+  }
+
   /**
    * Query to get the social accounts of a user.
    * @param {string} username - The username of the user.

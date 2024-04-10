@@ -78,6 +78,9 @@ model User {
     likes                    Like[]
     Comment                  Comment[]
     Resource                 Resource[]
+    Project                  Project[]
+    Column                   Column[]
+    Task                     Task[]
     githubProfile            GithubProfile?
 }
 
@@ -131,6 +134,46 @@ model Repository {
     comments              Comment[]
 
     @@index([url])
+}
+
+model Project {
+    id          String    @id @default(uuid())
+    name        String
+    description String
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
+    createdBy   User      @relation(fields: [createdById], references: [id])
+    createdById String
+    closed      Boolean   @default(false)
+    closedAt    DateTime?
+    columns     Column[]
+}
+
+model Column {
+    id          String      @id @default(uuid())
+    name        String
+    description String
+    color       ColumnColor
+    maxSize     Int         @default(99)
+    createdAt   DateTime    @default(now())
+    updatedAt   DateTime    @updatedAt
+    createdBy   User        @relation(fields: [createdById], references: [id])
+    createdById String
+    project     Project     @relation(fields: [projectId], references: [id])
+    projectId   String
+    tasks       Task[]
+}
+
+model Task {
+    id          String   @id @default(uuid())
+    name        String
+    description String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    createdBy   User     @relation(fields: [createdById], references: [id])
+    createdById String
+    column      Column   @relation(fields: [columnId], references: [id])
+    columnId    String
 }
 
 model Resource {
@@ -197,4 +240,15 @@ enum ResourceType {
     VIDEO
     COURSE
     BOOK
+}
+
+enum ColumnColor {
+    GRAY
+    BLUE
+    GREEN
+    YELLOW
+    ORANGE
+    RED
+    PINK
+    PURPLE
 }
