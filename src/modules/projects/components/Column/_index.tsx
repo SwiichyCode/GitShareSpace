@@ -1,5 +1,5 @@
 import { ColumnHeader } from "./ColumnHeader/_index";
-import { TasksList } from "@/modules/projects/components/Task/TasksList";
+import { TasksList } from "@/modules/projects/components/Task/_index";
 import { AddTaskDialog } from "@/modules/projects/components/Task/AddTaskDialog";
 
 export const Column = () => {

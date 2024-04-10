@@ -12,7 +12,7 @@ type Props = {
   tasks: Task[];
 };
 
-export const DeleteColumn = ({ columnId, tasks }: Props) => {
+export const DeleteTask = ({ columnId, tasks }: Props) => {
   const { project } = useProjectsContext();
   const [isPending, startTransition] = useTransition();
 
@@ -29,7 +29,7 @@ export const DeleteColumn = ({ columnId, tasks }: Props) => {
       triggerChildren={
         <button className="flex w-full items-center gap-2 rounded-sm p-2 text-destructive hover:bg-destructive/10">
           <TrashIcon size={16} />
-          <span className="text-sm">Delete</span>
+          <span className="text-sm">Delete task</span>
         </button>
       }
     >

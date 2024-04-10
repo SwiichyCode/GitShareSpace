@@ -29,9 +29,9 @@ export const AddTaskForm = () => {
         columnId: column.id,
         projectId: project.id,
       });
-    });
 
-    form.reset();
+      form.reset();
+    });
   }
 
   return (

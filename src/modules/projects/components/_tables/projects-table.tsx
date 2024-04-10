@@ -9,11 +9,6 @@ type Props = {
 
 export const ProjectsTable = ({ projects }: Props) => {
   return (
-    <DataTable
-      columns={projectColumns}
-      data={projects}
-      route={URL.PROJECTS}
-      asRowLink
-    />
+    <DataTable columns={projectColumns} data={projects} route={URL.PROJECTS} />
   );
 };

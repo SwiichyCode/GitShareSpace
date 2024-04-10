@@ -13,6 +13,10 @@ type CreateProject = {
   description: string;
 };
 
+type CloseProjectType = {
+  projectId: string;
+};
+
 type DeleteColumn = {
   columnId: string;
 };
@@ -30,4 +34,5 @@ export type {
   CreateProject,
   DeleteColumn,
   CreateTaskType,
+  CloseProjectType,
 };

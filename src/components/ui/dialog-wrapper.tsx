@@ -13,7 +13,7 @@ export const DialogWrapper = ({
 }: Props) => {
   return (
     <Dialog>
-      <DialogTrigger asChild>{triggerChildren}</DialogTrigger>
+      <DialogTrigger>{triggerChildren}</DialogTrigger>
       <DialogContent className={className}>{children}</DialogContent>
     </Dialog>
   );

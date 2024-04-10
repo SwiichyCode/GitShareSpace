@@ -1,5 +1,6 @@
 import { db } from "@/config/server/db";
 import type {
+  CloseProjectType,
   CreateProject,
   CreateTaskType,
   DeleteColumn,
@@ -106,6 +107,24 @@ class ProjectService {
               id: userId,
             },
           },
+        },
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        console.log(error.message);
+      }
+    }
+  }
+
+  async closeProject({ projectId }: CloseProjectType) {
+    try {
+      await db.project.update({
+        where: {
+          id: projectId,
+        },
+        data: {
+          closed: true,
+          closedAt: new Date(),
         },
       });
     } catch (error) {

@@ -1,32 +1,39 @@
-import { KebabHorizontalIcon } from "@primer/octicons-react";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-import { DeleteColumn } from "./DeleteColumn";
-import type { Task } from "@prisma/client";
+import { PopoverKebabBtn } from "@/components/ui/popover-kebab-btn";
+import { useProjectParams } from "@/modules/projects/hooks/use-projects-params";
+import { useProjectsContext } from "@/modules/projects/context/projectContext";
+import { DeleteActionBtn } from "@/modules/projects/components/DeleteActionBtn";
+import { useActionDialog } from "@/modules/projects/stores/useActionDialog";
 
 type Props = {
   columnId: string;
-  tasks: Task[];
 };
 
-export const ColumnAction = ({ columnId, tasks }: Props) => {
+export const ColumnAction = ({ columnId }: Props) => {
+  const { project } = useProjectsContext();
+  const { params, setParams } = useProjectParams();
+  const { setOpen } = useActionDialog();
+
+  const handleParams = async () => {
+    await setParams({ ...params, columnId, projectId: project.id });
+  };
+
   return (
     <Popover>
-      <PopoverTrigger asChild>
-        <button className="flex items-center justify-center rounded-md px-3 py-2 hover:bg-[#15191E]">
-          <KebabHorizontalIcon size={16} />
-        </button>
+      <PopoverTrigger onClick={handleParams}>
+        <PopoverKebabBtn />
       </PopoverTrigger>
-      <PopoverContent
-        align="end"
-        className="max-w-48 rounded-md border border-card bg-[#161B22] text-default"
-      >
+      <PopoverContent>
         <h3 className="mb-2 text-sm text-[#848d97]">Column</h3>
-        <DeleteColumn columnId={columnId} tasks={tasks} />
+        <DeleteActionBtn
+          text={"Delete column"}
+          onClick={() => setOpen("column", true)}
+        />
       </PopoverContent>
     </Popover>
   );
